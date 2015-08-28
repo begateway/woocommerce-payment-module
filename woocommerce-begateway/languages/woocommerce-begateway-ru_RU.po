@@ -5,264 +5,292 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
+"POT-Creation-Date: 2015-08-28 16:15+0300\n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:166
-msgid "Admin Title"
-msgstr "Заголовок для администратора"
+#: bt-begateway.php:130 bt-begateway.php:160
+msgid "beGateway"
+msgstr "beGateway"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:212
-msgid "Allows admin to send capture/void/refunds"
-msgstr "Разрешить администраторам операции списания/отмена авторизации/возврат"
+#: bt-begateway.php:141
+msgid "Payment"
+msgstr "Платеж"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:623
-msgid "Authorisation error, order status not updated"
-msgstr "Ошибка авторизации. Статус заказа не изменен"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:620
-msgid "Authorisation incomplete, order status not updated."
-msgstr "Авторизация не завершена. Статус заказа не изменен"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:150
+#: bt-begateway.php:141
 msgid "Authorization"
 msgstr "Авторизация"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:599 bt-begateway.php:625
-msgid "Callback error, order status not updated"
-msgstr "Ошибка нотификации. Статус заказа не изменен"
+#: bt-begateway.php:145
+msgid "Enable/Disable"
+msgstr "Включить/Выключить"
 
-#. ('woothemes')
-#: bt-begateway.php:351
+#: bt-begateway.php:147
+msgid "Enable beGateway"
+msgstr "Включить beGateway"
+
+#: bt-begateway.php:151
+msgid "Title"
+msgstr "Заголовок"
+
+#: bt-begateway.php:153
+msgid "This is the title displayed to the user during checkout."
+msgstr "Этот заголовок будет показан покупателю в процессе оплаты"
+
+#: bt-begateway.php:154
+msgid "Credit or debit card"
+msgstr "Банковская карта"
+
+#: bt-begateway.php:157
+msgid "Admin Title"
+msgstr "Заголовок для администратора"
+
+#: bt-begateway.php:159
+msgid "This is the title displayed to the admin user"
+msgstr "Этот заголовок будет показан администраторам"
+
+#: bt-begateway.php:163
+msgid "Description"
+msgstr "Описание"
+
+#: bt-begateway.php:165
+msgid "This is the description which the user sees during checkout."
+msgstr "Это описание будет видеть покупатель в процессе оплаты"
+
+#: bt-begateway.php:166
+msgid "VISA, Mastercard"
+msgstr "VISA, MasterCard"
+
+#: bt-begateway.php:169
+msgid "Shop ID"
+msgstr "Id магазина"
+
+#: bt-begateway.php:171
+msgid "Please enter your Shop Id."
+msgstr "Введите Id магазина"
+
+#: bt-begateway.php:175
+msgid "Secret Key"
+msgstr "Секретный ключ"
+
+#: bt-begateway.php:177
+msgid "Please enter your Shop secret key."
+msgstr "Введите ключ вашего магазина"
+
+#: bt-begateway.php:181
+msgid "Payment gateway domain"
+msgstr "Домен платежного шлюза"
+
+#: bt-begateway.php:183
+msgid "Please enter payment gateway domain of your payment processor."
+msgstr "Введите домен платежного шлюза вашей платежной компании"
+
+#: bt-begateway.php:187
+msgid "Payment page domain"
+msgstr "Домен страницы оплаты"
+
+#: bt-begateway.php:189
+msgid "Please enter payment page domain of your payment processor."
+msgstr "Введите домен платежной страницы вашей платежной компании"
+
+#: bt-begateway.php:193
+msgid "Transaction Type"
+msgstr "Тип транзакции"
+
+#: bt-begateway.php:196
+msgid "Select Payment (Authorization & Capture)  or Authorization."
+msgstr "Выберите Оплата или Авторизация"
+
+#: bt-begateway.php:200
+msgid "Enable admin capture etc."
+msgstr "Включить администратору возможность списания/отмены авторизации/возврат"
+
+#: bt-begateway.php:202
+msgid "Show Transaction Table"
+msgstr "Показывать таблицу транзакций"
+
+#: bt-begateway.php:203
+msgid "Allows admin to send capture/void/refunds"
+msgstr "Разрешить администраторам операции списания/отмена авторизации/возврат"
+
+#: bt-begateway.php:208
+msgid "Debug Log"
+msgstr "Журнал отладки"
+
+#: bt-begateway.php:210
+msgid "Enable logging"
+msgstr "Включить журнал сообщений"
+
+#: bt-begateway.php:212
+msgid "Log events"
+msgstr "Журналировать события"
+
+#: bt-begateway.php:246
+msgid "Order"
+msgstr "Заказ"
+
+#: bt-begateway.php:282
+msgid "Unable to contact the payment server at this time. Please try later."
+msgstr "Невозможно соединиться с платежным сервисом. Попробуйте позже."
+
+#: bt-begateway.php:296
+msgid "Payment error: "
+msgstr "Ошибка оплаты: "
+
+#: bt-begateway.php:305
+msgid "Thank you for your order. We are now redirecting you to make the payment."
+msgstr ""
+"Спасибо за ваш заказ. Сейчас вы будете перенаправлены на безопасную страницу, чтобы "
+"завершить оплату"
+
+#: bt-begateway.php:324
+msgid "Make payment"
+msgstr "Оплатить"
+
+#: bt-begateway.php:324
 msgid "Cancel order &amp; restore cart"
 msgstr "Отменить заказ и восстановить корзину"
 
-#. ('woocommerce-begateway')
+#: bt-begateway.php:374
+msgid "Order currently pending no capture/refund available"
+msgstr "Заказ в статусе ожидания. Списание/возврат средств недоступно"
+
+#: bt-begateway.php:419
+msgid "Please enter amount to capture"
+msgstr "Введите сумму для списания"
+
 #: bt-begateway.php:420
 msgid "Capture"
 msgstr "Списание"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:163
-msgid "Credit or debit card"
-msgstr "Банковская карта"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:217
-msgid "Debug Log"
-msgstr "Журнал отладки"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:172
-msgid "Description"
-msgstr "Описание"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:209
-msgid "Enable admin capture etc."
-msgstr ""
-"Включить администратору возможность списания/отмены авторизации/возврат"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:156
-msgid "Enable beGateway"
-msgstr "Включить beGateway"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:219
-msgid "Enable logging"
-msgstr "Включить журнал сообщений"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:154
-msgid "Enable/Disable"
-msgstr "Включить/Выключить"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:221
-msgid "Log events"
-msgstr "Журналировать события"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:351
-msgid "Make payment"
-msgstr "Оплатить"
-
-#. ('woocommerce')
-#: bt-begateway.php:254
-msgid "Order"
-msgstr "Заказ"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:401
-msgid "Order currently pending no capture/refund available"
-msgstr "Заказ в статусе ожидания. Списание/возврат средств недоступно"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:150
-msgid "Payment"
-msgstr "Платеж"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:597
-msgid "Payment error, order status not updated"
-msgstr "Ошибка оплаты. Статус заказа не изменен"
-
-#. ($error_to_show)
-#: bt-begateway.php:323
-msgid "Payment error: "
-msgstr "Ошибка оплаты: "
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:190
-msgid "Payment gateway domain"
-msgstr "Домен платежного шлюза"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:417
-msgid "Payment has been authorised"
-msgstr "Платеж одобрен"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:594
-msgid "Payment incomplete, order status not updated"
-msgstr "Платеж не завершен. Статус заказа не изменен"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:196
-msgid "Payment page domain"
-msgstr "Домен страницы оплаты"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:587
-msgid "Payment success:"
-msgstr "Оплата успешна:"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:418
-msgid "Please enter amount to capture"
-msgstr "Введите сумму для списания"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:455
-msgid "Please enter amount to refund"
-msgstr "Введите сумму для возврата"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:435
+#: bt-begateway.php:423
 msgid "Please enter amount to void"
 msgstr "Введите сумму для отмены авторизации"
 
-#. ('woocommerce-begateway')
-#: bt-begateway.php:192
-msgid "Please enter payment gateway domain of your payment processor."
-msgstr "Введите домен платежного шлюза вашей платежной компании"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:198
-msgid "Please enter payment page domain of your payment processor."
-msgstr "Введите домен платежной страницы вашей платежной компании"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:180
-msgid "Please enter your Shop Id."
-msgstr "Введите Id магазина"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:186
-msgid "Please enter your Shop secret key."
-msgstr "Введите ключ вашего магазина"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:184
-msgid "Secret Key"
-msgstr "Секретный ключ"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:205
-msgid "Select Payment (Authorization & Capture)  or Authorization."
-msgstr "Выберите Оплата или Авторизация"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:178
-msgid "Shop ID"
-msgstr "Id магазина"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:211
-msgid "Show Transaction Table"
-msgstr "Показывать таблицу транзакций"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:332
-msgid ""
-"Thank you for your order. We are now redirecting you to make the payment."
-msgstr ""
-"Спасибо за ваш заказ. Сейчас вы будете перенаправлены на безопасную "
-"страницу, чтобы завершить оплату"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:174
-msgid "This is the description which the user sees during checkout."
-msgstr "Это описание будет видеть покупатель в процессе оплаты"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:168
-msgid "This is the title displayed to the admin user"
-msgstr "Этот заголовок будет показан администраторам"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:162
-msgid "This is the title displayed to the user during checkout."
-msgstr "Этот заголовок будет показан покупателю в процессе оплаты"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:160
-msgid "Title"
-msgstr "Заголовок"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:202
-msgid "Transaction Type"
-msgstr "Тип транзакции"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:569
-msgid ""
-"Unable to contact the payment server at this time. Please try later - your "
-"items are still in your cart"
-msgstr ""
-"Невозможно соединиться с платежным сервисом. Попробуйте позже - ваши покупки "
-"сохранены в корзине"
-
-#: bt-begateway.php:310
-msgid "Unable to contact the payment server at this time. Please try later."
-msgstr "Невозможно соединиться с платежным сервисом. Попробуйте позже."
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:175
-msgid "VISA, Mastercard"
-msgstr "VISA, MasterCard"
-
-#. ('woocommerce-begateway')
-#: bt-begateway.php:437
+#: bt-begateway.php:424
 msgid "Void"
 msgstr "Отмена авторизации"
 
-#. ($curl_check, 'woocommerce-begateway')
-#. ('woocommerce-begateway')
-#: bt-begateway.php:139 bt-begateway.php:169
-msgid "beGateway"
-msgstr "beGateway"
+#: bt-begateway.php:427
+msgid "Please enter amount to refund"
+msgstr "Введите сумму для возврата"
+
+#: bt-begateway.php:428
+msgid "Refund"
+msgstr "Возврат оплаты"
+
+#: bt-begateway.php:429
+msgid "Refund reason"
+msgstr "Причина возврата"
+
+#: bt-begateway.php:509
+msgid "Payment success."
+msgstr "Оплата успешна."
+
+#: bt-begateway.php:510
+msgid "Payment failed."
+msgstr "Оплата не успешна."
+
+#: bt-begateway.php:511
+msgid "Payment incomplete, order status not updated."
+msgstr "Платеж не завершен. Статус заказа не изменен."
+
+#: bt-begateway.php:512
+msgid "Payment error, order status not updated."
+msgstr "Ошибка оплаты. Статус заказа не изменен."
+
+#: bt-begateway.php:515
+msgid "Payment authorised. No money captured yet."
+msgstr "Платеж авторизирован. Деньги реально еще не списаны."
+
+#: bt-begateway.php:516
+msgid "Authorization failed."
+msgstr "Авторизация не успешна"
+
+#: bt-begateway.php:517
+msgid "Authorisation incomplete, order status not updated."
+msgstr "Авторизация не завершена. Статус заказа не изменен"
+
+#: bt-begateway.php:518
+msgid "Authorisation error, order status not updated"
+msgstr "Ошибка авторизации. Статус заказа не изменен"
+
+#: bt-begateway.php:522
+msgid "Callback error, order status not updated"
+msgstr "Ошибка нотификации. Статус заказа не изменен"
+
+#: bt-begateway.php:555
+msgid "UID is not correct"
+msgstr "UID не верен"
+
+#: bt-begateway.php:560
+msgid "Wrong order status. Void is not possible."
+msgstr "Не верный статус. Отмена авторизации не возможна"
+
+#: bt-begateway.php:561
+msgid "Void status"
+msgstr "Статус отмены авторизации"
+
+#: bt-begateway.php:562
+msgid "Void attempt failed"
+msgstr "Попытка отмены авторизации неуспешна."
+
+#: bt-begateway.php:563
+msgid "Payment voided"
+msgstr "Платеж анулирован"
+
+#: bt-begateway.php:566
+msgid "Wrong order status. Capture is not possible."
+msgstr "Не верный статус. Операция списания не возможна"
+
+#: bt-begateway.php:567
+msgid "Capture status"
+msgstr "Статус списания"
+
+#: bt-begateway.php:568
+msgid "Capture attempt failed"
+msgstr "Попытка списания неуспешна"
+
+#: bt-begateway.php:569
+msgid "Payment captured"
+msgstr "Оплата списана"
+
+#: bt-begateway.php:572
+msgid "Wrong order status. Refund is not possible."
+msgstr "Не верный статус. Возврат платежа не возможен"
+
+#: bt-begateway.php:573
+msgid "Refund status"
+msgstr "Статус возврата платежа"
+
+#: bt-begateway.php:574
+msgid "Refund attempt failed"
+msgstr "Попытка возврата платежа неуспешна"
+
+#: bt-begateway.php:575
+msgid "Payment refunded"
+msgstr "Оплата возвращена"
+
+#: bt-begateway.php:597
+msgid "Refunded from Woocommerce"
+msgstr "Возвращено из WooCommerce"
+
+#~ msgid "Payment has been authorised"
+#~ msgstr "Платеж одобрен"
+
+#~ msgid ""
+#~ "Unable to contact the payment server at this time. Please try later - your items "
+#~ "are still in your cart"
+#~ msgstr ""
+#~ "Невозможно соединиться с платежным сервисом. Попробуйте позже - ваши покупки "
+#~ "сохранены в корзине"
