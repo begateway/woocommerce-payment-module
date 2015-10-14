@@ -500,7 +500,7 @@ function bt_begateway_go()
       $order = new WC_Order( $order_id );
       $type = $webhook->getResponse()->transaction->type;
 
-      if (in_array($type, ['payment','authorization'])) {
+      if (in_array($type, array('payment','authorization'))) {
         $status = $webhook->getStatus();
         update_post_meta(  $order_id, '_uid', $webhook->getUid() );
 
@@ -576,10 +576,10 @@ function bt_begateway_go()
         )
       );
       //check order status is on hold exit if not
-      if (in_array($type,['capture','void']) && $order->status !='on-hold') {
+      if (in_array($type,array('capture','void')) && $order->status !='on-hold') {
         exit($messages[$type]['not_possible']);
       }
-      if (in_array($type,['refund']) && $order->status !='processing') {
+      if (in_array($type,array('refund')) && $order->status !='processing') {
         exit($messages[$type]['not_possible']);
       }
       // now send data to the server
