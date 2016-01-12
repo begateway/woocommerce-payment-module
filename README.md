@@ -5,7 +5,7 @@
 ### Installation
 
   * Backup your webstore and database
-  * Download [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/raw/woocommerce-begateway.zip)
+  * Download [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
   * Start up the administrative panel for Wordpress (www.yourshop.com/wp-admin/)
   * Choose _Plugins -> Add New_
   * Upload the payment module archive via **Upload Plugin**.
@@ -84,7 +84,7 @@ Issue pull requests or send feature requests.
 ### Установка
 
   * Создайте резервную копию вашего магазина и базы данных
-  * Загрузите [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/raw/woocommerce-begateway.zip)
+  * Загрузите [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
   * Зайдите в панель администратора Wordpress (www.yourshop.com/wp-admin/)
   * Выберите _Плагины -> Добавить новый_
   * Загрузите модуль через **Добавить новый**
