@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce beGateway Payment Gateway
 Plugin URI: https://github.com/beGateway/woocommerce-payment-module
 Description: Extends WooCommerce with beGateway payment gateway.
-Version: 1.0.1
+Version: 1.0.2
 Author: beGateway development team
 
 Text Domain: woocommerce-begateway
@@ -48,7 +48,7 @@ if(!function_exists('bt_get_plugins'))
   }
 }
 
-if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugins' )  ) || in_array('woocommerce/woocommerce.php', (array) bt_get_plugins() ) ) 
+if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugins' )  ) || in_array('woocommerce/woocommerce.php', (array) bt_get_plugins() ) )
 {
   load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
   add_action('plugins_loaded', 'bt_begateway_go', 0);
@@ -258,10 +258,10 @@ function bt_begateway_go()
         $token->customer->setState($order->billing_state);
       }
 
-      $token->setSuccessUrl($this->get_return_url($order));
-      $token->setDeclineUrl($order->get_cancel_order_url());
-      $token->setFailUrl($order->get_cancel_order_url());
-      $token->setCancelUrl($order->get_cancel_order_url());
+      $token->setSuccessUrl(esc_url_raw( $this->get_return_url($order) ) );
+      $token->setDeclineUrl( esc_url_raw( $order->get_cancel_order_url_raw() ) );
+      $token->setFailUrl( esc_url_raw( $order->get_cancel_order_url_raw() ) );
+      $token->setCancelUrl( esc_url_raw( $order->get_cancel_order_url_raw() ) );
       $token->setNotificationUrl($this->notify_url);
 
       $token->setLanguage($language);
@@ -375,7 +375,7 @@ function bt_begateway_go()
         break;
       case 'on-hold':
         //params for capture
-        $arr_params = array( 'wc-api' => 'BT_beGateway', 
+        $arr_params = array( 'wc-api' => 'BT_beGateway',
           'begateway' => 'capture',
           'uid' => md5(get_post_meta($post->ID, '_uid', true)),
           'oid' => $post->ID );
