@@ -286,7 +286,7 @@ function bt_begateway_go()
 
       //now look to the result array for the token
       if ($response->getToken()) {
-        $payment_url="https://" . $this->settings['domain-checkout'] . "/checkout";
+        $payment_url=$response->getRedirectUrlScriptName();
 
         update_post_meta(  ltrim( $order->get_order_number(), '#' ), '_Token', $token );
         if ( 'yes' == $this->debug ){
