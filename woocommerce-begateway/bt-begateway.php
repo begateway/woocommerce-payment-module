@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce beGateway Payment Gateway
 Plugin URI: https://github.com/beGateway/woocommerce-payment-module
 Description: Extends WooCommerce with beGateway payment gateway.
-Version: 1.0.2
+Version: 1.0.5
 Author: beGateway development team
 
 Text Domain: woocommerce-begateway
@@ -12,7 +12,7 @@ Domain Path: /languages/
  */
 
 //setup definitions - may not be needed but belts and braces chaps!
-define('BT_BEGATEWAY_VERSION', '1.0.0');
+define('BT_BEGATEWAY_VERSION', '1.0.5');
 
 if ( !defined('WP_CONTENT_URL') )
   define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
@@ -279,8 +279,8 @@ function bt_begateway_go()
           $this->log->add( 'begateway', 'Unable to get payment token on order: ' . $order_id . 'Reason: ' . $response->getMessage()  );
         }
 
-        $woocommerce->add_error(__('Unable to contact the payment server at this time. Please try later.'));
-        $woocommerce->add_error($response->getMessage());
+        wc_add_notice(__('Unable to contact the payment server at this time. Please try later.'), 'error');
+        wc_add_notice($response->getMessage(), 'error');
         exit();
       }
 
@@ -293,7 +293,7 @@ function bt_begateway_go()
           $this->log->add( 'begateway', 'Token received, forwarding customer to: '.$payment_url);
         }
       } else{
-        $woocommerce->add_error(__('Payment error: ').$response->getMessage());
+        wc_add_notice(__('Payment error: ').$response->getMessage(), 'error');
         if ( 'yes' == $this->debug ){
           $this->log->add( 'begateway', 'Payment error order ' . $order_id.'  '.$error_to_show  );
         }
@@ -469,7 +469,6 @@ function bt_begateway_go()
       $webhook = new \beGateway\Webhook;
 
       if ($webhook->isAuthorized()) {
-
         //log
         if ( "yes" == $this->debug ){
           $display="\n-------------------------------------------\n";
@@ -495,11 +494,9 @@ function bt_begateway_go()
 
     function process_order($webhook) {
       global $woocommerce;
-
       $order_id = $webhook->getTrackingId();
       $order = new WC_Order( $order_id );
       $type = $webhook->getResponse()->transaction->type;
-
       if (in_array($type, array('payment','authorization'))) {
         $status = $webhook->getStatus();
         update_post_meta(  $order_id, '_uid', $webhook->getUid() );
@@ -528,7 +525,7 @@ function bt_begateway_go()
         if ($webhook->isSuccess()) {
           if ($type == 'payment' && $order->get_status() != 'processing') {
             $order->add_order_note( $messages[$type]['success'] . ' UID: ' . $webhook->getUid() . '<br>' );
-            $order->payment_complete();
+            $order->payment_complete($webhook->getResponse()->transaction->uid);
           } elseif ($order->get_status() != 'on-hold') {
             $order->update_status( 'on-hold', $messages[$type]['success'] . ' UID: ' . $webhook->getUid() . '<br>' );
           }
@@ -604,7 +601,7 @@ function bt_begateway_go()
       if($response->isSuccess()){
 
         if ($type == 'capture') {
-          $order->payment_complete();
+          $order->payment_complete($response->getUid());
           $order->add_order_note( $messages[$type]['success'] . '. UID: ' . $response->getUid() );
           update_post_meta($order_id,'_uid',$response->getUid());
         } elseif ($type == 'void') {
