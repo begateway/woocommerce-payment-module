@@ -12,7 +12,7 @@ Domain Path: /languages/
  */
 
 //setup definitions - may not be needed but belts and braces chaps!
-define('BT_BEGATEWAY_VERSION', '1.0.5');
+define('BT_BEGATEWAY_VERSION', '1.0.7');
 
 if ( !defined('WP_CONTENT_URL') )
   define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
