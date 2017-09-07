@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce beGateway Payment Gateway
 Plugin URI: https://github.com/beGateway/woocommerce-payment-module
 Description: Extends WooCommerce with beGateway payment gateway.
-Version: 1.0.8
+Version: 1.1.0
 Author: beGateway development team
 
 Text Domain: woocommerce-begateway
@@ -242,20 +242,20 @@ function bt_begateway_go()
       }
 
       $token->money->setCurrency(get_woocommerce_currency());
-      $token->money->setAmount($order->order_total);
+      $token->money->setAmount($order->get_total());
       $token->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $token->setTrackingId(ltrim( $order->get_order_number(), '#' ));
-      $token->customer->setFirstName($order->billing_first_name);
-      $token->customer->setLastName($order->billing_last_name);
-      $token->customer->setCountry($order->billing_country);
-      $token->customer->setCity($order->billing_city);
-      $token->customer->setPhone($order->billing_phone);
-      $token->customer->setZip($order->billing_postcode);
-      $token->customer->setAddress($order->billing_address_1. $order->billing_address_2);
-      $token->customer->setEmail($order->billing_email);
+      $token->customer->setFirstName($order->get_billing_first_name());
+      $token->customer->setLastName($order->get_billing_last_name());
+      $token->customer->setCountry($order->get_billing_country());
+      $token->customer->setCity($order->get_billing_city());
+      $token->customer->setPhone($order->get_billing_phone());
+      $token->customer->setZip($order->get_billing_postcode());
+      $token->customer->setAddress($order->get_billing_address_1() . $order->get_billing_address_2());
+      $token->customer->setEmail($order->get_billing_email());
 
-      if (in_array($order->billing_country, array('US','CA'))) {
-        $token->customer->setState($order->billing_state);
+      if (in_array($order->get_billing_country(), array('US','CA'))) {
+        $token->customer->setState($order->get_billing_state());
       }
 
       $token->setSuccessUrl(esc_url_raw( $this->get_return_url($order) ) );
@@ -333,7 +333,7 @@ function bt_begateway_go()
       // Return payment page
       return array(
         'result'    => 'success',
-        'redirect'	=> add_query_arg('key', $order->order_key, $order->get_checkout_payment_url( true ))
+        'redirect'	=> add_query_arg('key', $order->get_order_key(), $order->get_checkout_payment_url( true ))
       );
     }
     // end process_payment
@@ -369,7 +369,7 @@ function bt_begateway_go()
       //WordPress will also mutilate or just plain kill any PHP Sessions setup so, instead of passing the return URL that way we'll pop it into a post meta
       update_post_meta($post->ID,'_return_url', $this->curPageURL());
 
-      switch ( $order->status){
+      switch ( $order->get_status()){
       case 'pending':
         $display.=__('Order currently pending no capture/refund available', 'woocommerce-begateway');
         break;
@@ -573,10 +573,10 @@ function bt_begateway_go()
         )
       );
       //check order status is on hold exit if not
-      if (in_array($type,array('capture','void')) && $order->status !='on-hold') {
+      if (in_array($type,array('capture','void')) && $order->get_status() !='on-hold') {
         exit($messages[$type]['not_possible']);
       }
-      if (in_array($type,array('refund')) && $order->status !='processing') {
+      if (in_array($type,array('refund')) && $order->get_status() !='processing') {
         exit($messages[$type]['not_possible']);
       }
       // now send data to the server
