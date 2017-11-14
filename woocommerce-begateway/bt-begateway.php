@@ -12,7 +12,7 @@ Domain Path: /languages/
  */
 
 //setup definitions - may not be needed but belts and braces chaps!
-define('BT_BEGATEWAY_VERSION', '1.2.0');
+define('BT_BEGATEWAY_VERSION', '1.2.1');
 
 if ( !defined('WP_CONTENT_URL') )
   define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
@@ -56,7 +56,7 @@ if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugin
 
 }
 
-require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/beGateway.php';
+require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php';
 
 //Launch plugin
 function bt_begateway_go()
