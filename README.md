@@ -1,5 +1,9 @@
 ## WooCommerce payment module
 
+[Module for WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
+[Module for WooCommerce 3.0](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.0)
+[Module for WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
+
 [Русская версия](#Модуль-оплаты-woocommerce)
 
 ### Installation
@@ -50,8 +54,8 @@ Now the module is configured.
 
 Tested and developed with:
 
-  * Wordress 4.2.x / 4.3.x
-  * WooCommerce 2.3.x / 2.4.x
+  * Wordress 4.8.x
+  * WooCommerce 3.2.x
 
 PHP 5.3+ is required.
 
@@ -78,6 +82,10 @@ Use the test data to make a test payment:
 Issue pull requests or send feature requests.
 
 ## Модуль оплаты WooCommerce
+
+[Модуль для WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
+[Модуль для WooCommerce 3.0](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.0)
+[Модуль для WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
 
 [English version](#woocommerce-payment-module)
 
@@ -129,8 +137,8 @@ Issue pull requests or send feature requests.
 
 Разработанно и протестированно с:
 
-  * Wordress 4.2.x / 4.3.x
-  * WooCommerce 2.3.x / 2.4.x
+  * Wordress 4.8.x
+  * WooCommerce 3.2.x
 
 Требуется PHP 5.3+
 
