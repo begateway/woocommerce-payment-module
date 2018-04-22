@@ -56,8 +56,8 @@ Now the module is configured.
 
 Tested and developed with:
 
-  * Wordress 4.8.x
-  * WooCommerce 3.2.x
+  * Wordress 4.9.5
+  * WooCommerce 3.2.x/3.3.x
 
 PHP 5.6+ is required.
 
@@ -141,8 +141,8 @@ Use the following test card to make failed test payment:
 
 Разработанно и протестированно с:
 
-  * Wordress 4.8.x
-  * WooCommerce 3.2.x
+  * Wordress 4.9.5
+  * WooCommerce 3.2.x/3.3.x
 
 Требуется PHP 5.3+
 
