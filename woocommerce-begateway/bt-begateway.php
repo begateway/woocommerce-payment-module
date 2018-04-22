@@ -1,19 +1,17 @@
 <?php
 /*
-Plugin Name: WooCommerce beGateway Payment Gateway
-Plugin URI: https://github.com/beGateway/woocommerce-payment-module
+Plugin Name: WooCommerce BeGateway Payment Gateway
+Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with beGateway payment gateway.
-Version: 1.2.1
+Version: 1.3.0
 Author: beGateway development team
 
 Text Domain: woocommerce-begateway
 Domain Path: /languages/
 
- */
+*/
 
 //setup definitions - may not be needed but belts and braces chaps!
-define('BT_BEGATEWAY_VERSION', '1.2.1');
-
 if ( !defined('WP_CONTENT_URL') )
   define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
 
@@ -91,21 +89,18 @@ function bt_begateway_go()
         $this->title                    = $this->settings['admin_title'];
       }
 
-      \BeGateway\Settings::$gatewayBase = 'https://' . $this->settings['domain-gateway'];
-      \BeGateway\Settings::$checkoutBase = 'https://' . $this->settings['domain-checkout'];
-      \BeGateway\Settings::$shopId = $this->settings['shop-id'];
-      \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
       //callback URL - hooks into the WP/WooCommerce API and initiates the payment class for the bank server so it can access all functions
       $this->notify_url = WC()->api_request_url('BT_beGateway');
       $this->notify_url = str_replace('carts.local','webhook.begateway.com:8443', $this->notify_url);
+      $this->notify_url = str_replace('app.docker.local:8080','webhook.begateway.com:8443', $this->notify_url);
 
       $this->method_title             = $this->title;
       $this->description              = $this->settings['description'];
       $this->transaction_type         = $this->settings['tx-type'];
-      $this->debug                    = $this->settings['debug'];
+      $this->settings['debug']                    = $this->settings['debug'];
       $this->show_transaction_table   = $this->settings['show-transaction-table'] == 'yes' ? true : false;
       // Logs
-      if ( 'yes' == $this->debug ){
+      if ( 'yes' == $this->settings['debug'] ){
         $this->log = new WC_Logger();
       }
 
@@ -127,7 +122,7 @@ function bt_begateway_go()
 
     public function admin_options()
     {
-      echo '<h3>' . __('beGateway', 'woocommerce-begateway') . '</h3>';
+      echo '<h3>' . __('BeGateway', 'woocommerce-begateway') . '</h3>';
       echo '<table class="form-table">';
       // generate the settings form.
       $this->generate_settings_html();
@@ -138,64 +133,95 @@ function bt_begateway_go()
     public function init_form_fields()
     {
       // transaction options
-      $tx_options = array('payment' => __('Payment', 'woocommerce-begateway'), 'authorization' => __('Authorization', 'woocommerce-begateway'));
 
       $this->form_fields = array(
         'enabled' => array(
           'title' => __( 'Enable/Disable', 'woocommerce-begateway' ),
           'type' => 'checkbox',
-          'label' => __( 'Enable beGateway', 'woocommerce-begateway' ),
+          'label' => __( 'Enable BeGateway', 'woocommerce-begateway' ),
           'default' => 'yes'
         ),
         'title' => array(
           'title' => __( 'Title', 'woocommerce-begateway' ),
           'type' => 'text',
-          'description' => __( 'This is the title displayed to the user during checkout.', 'woocommerce-begateway' ),
+          'description' => __( 'This is the title displayed to the user during checkout', 'woocommerce-begateway' ),
           'default' => __( 'Credit or debit card', 'woocommerce-begateway' )
         ),
         'admin_title' => array(
           'title' => __( 'Admin Title', 'woocommerce-begateway' ),
           'type' => 'text',
           'description' => __( 'This is the title displayed to the admin user', 'woocommerce-begateway' ),
-          'default' => __( 'beGateway', 'woocommerce-begateway' )
+          'default' => __( 'BeGateway', 'woocommerce-begateway' )
         ),
         'description' => array(
           'title' => __( 'Description', 'woocommerce-begateway' ),
           'type' => 'textarea',
-          'description' => __( 'This is the description which the user sees during checkout.', 'woocommerce-begateway' ),
+          'description' => __( 'This is the description which the user sees during checkout', 'woocommerce-begateway' ),
           'default' => __("VISA, Mastercard", 'woocommerce-begateway')
         ),
         'shop-id' => array(
           'title' => __( 'Shop ID', 'woocommerce-begateway' ),
           'type' => 'text',
           'description' => __( 'Please enter your Shop Id.', 'woocommerce-begateway' ),
-          'default' => ''
+          'default' => '361'
         ),
         'secret-key' => array(
-          'title' => __( 'Secret Key', 'woocommerce-begateway' ),
+          'title' => __( 'Secret key', 'woocommerce-begateway' ),
           'type' => 'text',
           'description' => __( 'Please enter your Shop secret key.', 'woocommerce-begateway' ),
-          'default' => ''
+          'default' => 'b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d'
         ),
         'domain-gateway' => array(
           'title' => __( 'Payment gateway domain', 'woocommerce-begateway' ),
           'type' => 'text',
-          'description' => __( 'Please enter payment gateway domain of your payment processor.', 'woocommerce-begateway' ),
-          'default' => ''
+          'description' => __( 'Please enter payment gateway domain of your payment processor', 'woocommerce-begateway' ),
+          'default' => 'demo-gateway.begateway.com'
         ),
         'domain-checkout' => array(
           'title' => __( 'Payment page domain', 'woocommerce-begateway' ),
           'type' => 'text',
-          'description' => __( 'Please enter payment page domain of your payment processor.', 'woocommerce-begateway' ),
-          'default' => ''
+          'description' => __( 'Please enter payment page domain of your payment processor', 'woocommerce-begateway' ),
+          'default' => 'checkout.begateway.com'
         ),
         'tx-type'      => array(
-          'title' => __('Transaction Type', 'woocommerce-begateway'),
+          'title' => __('Transaction type', 'woocommerce-begateway'),
           'type' => 'select',
-          'options' => $tx_options,
-          'description' => __( 'Select Payment (Authorization & Capture)  or Authorization.', 'woocommerce-begateway' )
+          'options' => array(
+            'payment' => __('Payment', 'woocommerce-begateway'),
+            'authorization' => __('Authorization', 'woocommerce-begateway')
+          ),
+          'description' => __( 'Select Payment (Authorization & Capture) or Authorization.', 'woocommerce-begateway' )
         ),
-
+        'enable_bankcard' => array(
+          'title' => __( 'Enable Bankcard Payments', 'woocommerce-begateway' ),
+          'type' => 'checkbox',
+          'description' => __( 'This enables VISA/Mastercard and etc card payments', 'woocommerce-begateway' ),
+          'default' => 'yes'
+        ),
+        'enable_bankcard_halva' => array(
+          'title' => __( 'Enable Halva card payments', 'woocommerce-begateway' ),
+          'type' => 'checkbox',
+          'description' => __( 'This enables Halva card payments', 'woocommerce-begateway' ),
+          'default' => 'no'
+        ),
+        'enable_erip' => array(
+          'title' => __( 'Enable ERIP payments', 'woocommerce-begateway' ),
+          'type' => 'checkbox',
+          'description' => __( 'This enables ERIP payments', 'woocommerce-begateway' ),
+          'default' => 'no'
+        ),
+        'erip_service_no' => array(
+          'title' => __( 'ERIP service code', 'woocommerce-begateway' ),
+          'type' => 'text',
+          'description' => __( 'Enter ERIP service code provided you by your payment service provider', 'woocommerce-begateway' ),
+          'default' => '99999999'
+        ),
+        'payment_valid' => array(
+          'title' => __( 'Payment valid (minutes)', 'woocommerce-begateway' ),
+          'type' => 'text',
+          'description' => __( 'The value sets a period of time within which an order must be paid', 'woocommerce-begateway' ),
+          'default' => '60'
+        ),
         'show-transaction-table' => array(
           'title' => __('Enable admin capture etc.', 'woocommerce-begateway'),
           'type' => 'checkbox',
@@ -203,7 +229,16 @@ function bt_begateway_go()
           'description' => __( 'Allows admin to send capture/void/refunds', 'woocommerce-begateway' ),
           'default' => 'yes'
         ),
-
+        'mode'      => array(
+          'title' => __('Payment mode', 'woocommerce-begateway'),
+          'type' => 'select',
+          'options' => array(
+            'test' => __('Test', 'woocommerce-begateway'),
+            'live' => __('Live', 'woocommerce-begateway')
+          ),
+          'description' => __( 'Select module payment mode', 'woocommerce-begateway' ),
+          'default' => 'test'
+        ),
         'debug' => array(
           'title' => __( 'Debug Log', 'woocommerce-begateway' ),
           'type' => 'checkbox',
@@ -211,7 +246,6 @@ function bt_begateway_go()
           'default' => 'no',
           'description' =>  __( 'Log events', 'woocommerce-begateway' ),
         )
-
       );
     } // end init_form_fields()
 
@@ -219,7 +253,7 @@ function bt_begateway_go()
       //creates a self-submitting form to pass the user through to the beGateway server
       global $woocommerce;
       $order = new WC_order( $order_id );
-      if ( 'yes' == $this->debug ){
+      if ( 'yes' == $this->settings['debug'] ){
         $this->log->add( 'begateway', 'Generating payment form for order ' . $order->get_order_number()  );
       }
       // Order number & Cart Contents for description field - may change
@@ -236,8 +270,9 @@ function bt_begateway_go()
       }
 
       $token = new \BeGateway\GetPaymentToken;
+      $this->_init();
 
-      if ($this->transaction_type == 'authorization') {
+      if ($this->settings['transaction_type'] == 'authorization') {
         $token->setAuthorizationTransactionType();
       }
 
@@ -264,9 +299,34 @@ function bt_begateway_go()
       $token->setCancelUrl( esc_url_raw( $order->get_cancel_order_url_raw() ) );
       $token->setNotificationUrl($this->notify_url);
 
-      $token->setLanguage($language);
+      $token->setExpiryDate(date("c", (int)$this->settings['payment_valid'] * 60 + time() + 1));
 
-      if ( 'yes' == $this->debug ){
+      $token->setLanguage($lang);
+
+      if ($this->settings['enable_bankcard'] == 'yes') {
+        $cc = new \BeGateway\PaymentMethod\CreditCard;
+        $token->addPaymentMethod($cc);
+      }
+
+      if ($this->settings['enable_bankcard_halva'] == 'yes') {
+        $halva = new \BeGateway\PaymentMethod\CreditCardHalva;
+        $token->addPaymentMethod($halva);
+      }
+
+      if ($this->settings['enable_erip'] == 'yes') {
+        $erip = new \BeGateway\PaymentMethod\Erip(array(
+          'order_id' => $data['order_id'],
+          'account_number' => strval($data['order_id']),
+          'service_no' => $this->settings['erip_service_no']
+        ));
+        $token->addPaymentMethod($erip);
+      }
+
+      if ($this->settings['mode'] == 'test') {
+        $token->setTestMode();
+      }
+
+      if ( 'yes' == $this->settings['debug'] ){
         $this->log->add( 'begateway', 'Requesting token for order ' . $order->get_order_number()  );
       }
 
@@ -274,54 +334,48 @@ function bt_begateway_go()
 
       if(!$response->isSuccess()) {
 
-        if ( 'yes' == $this->debug ){
+        if ( 'yes' == $this->settings['debug'] ){
           $this->log->add( 'begateway', 'Unable to get payment token on order: ' . $order_id . 'Reason: ' . $response->getMessage()  );
         }
 
-        wc_add_notice(__('Unable to contact the payment server at this time. Please try later.'), 'error');
+        wc_add_notice(__('Error to get a payment token.', 'woocommerce-begateway'), 'error');
         wc_add_notice($response->getMessage(), 'error');
-        exit();
-      }
-
+      } else {
       //now look to the result array for the token
-      if ($response->getToken()) {
         $payment_url=$response->getRedirectUrlScriptName();
-
         update_post_meta(  ltrim( $order->get_order_number(), '#' ), '_Token', $token );
-        if ( 'yes' == $this->debug ){
+
+        if ( 'yes' == $this->settings['debug'] ){
           $this->log->add( 'begateway', 'Token received, forwarding customer to: '.$payment_url);
         }
-      } else{
-        wc_add_notice(__('Payment error: ').$response->getMessage(), 'error');
-        if ( 'yes' == $this->debug ){
-          $this->log->add( 'begateway', 'Payment error order ' . $order_id.'  '.$error_to_show  );
-        }
-        exit('Sorry - there was an error contacting the bank server, please try later');
-      }
 
-      wc_enqueue_js('
-        jQuery("body").block({
-          message: "'.__('Thank you for your order. We are now redirecting you to make the payment.', 'woocommerce-begateway').'",
-            overlayCSS: {
-              background: "#fff",
-              opacity: 0.6
-            },
-            css: {
-              padding:        20,
-              textAlign:      "center",
-              color:          "#555",
-              border:         "3px solid #aaa",
-              backgroundColor:"#fff",
-              cursor:         "wait",
-              lineHeight:		"32px"
-            }
-        });
-        jQuery("#submit_begateway_payment_form").click();
-      ');
-      return '<form action="'.$payment_url.'" method="post" id="begateway_payment_form">
-        <input type="hidden" name="token" value="' . $response->getToken() . '">
-        <input type="submit" class="button-alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" /> <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woothemes').'</a>
-        </form>';
+        wc_enqueue_js('
+          jQuery("body").block({
+            message: "'.__('Thank you for your order. We are now redirecting you to make the payment.', 'woocommerce-begateway').'",
+              overlayCSS: {
+                background: "#fff",
+                opacity: 0.6
+              },
+              css: {
+                padding:        20,
+                textAlign:      "center",
+                color:          "#555",
+                border:         "3px solid #aaa",
+                backgroundColor:"#fff",
+                cursor:         "wait",
+                lineHeight:		"32px"
+              }
+          });
+          jQuery("#submit_begateway_payment_form").click();
+        ');
+
+        return '
+          <form action="'.$payment_url.'" method="post" id="begateway_payment_form">
+            <input type="hidden" name="token" value="' . $response->getToken() . '">
+            <input type="submit" class="button-alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" /> <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woothemes').'</a>
+          </form>
+        ';
+      }
     }
 
     function process_payment( $order_id ) {
@@ -448,7 +502,6 @@ function bt_begateway_go()
       $display.='<a  onclick="javascript:add' . $action . 'URL(this);"  href="'.str_replace( 'https:', 'http:', add_query_arg( $arr_params, home_url( '/' ) ) ).'">';
       $display.='<button type="button" class="button">'.$btn_txt.'</button></a>';
       return $display;
-
     }
 
     /**
@@ -466,10 +519,11 @@ function bt_begateway_go()
       global $woocommerce;
 
       $webhook = new \BeGateway\Webhook;
+      $this->_init();
 
       if ($webhook->isAuthorized()) {
         //log
-        if ( "yes" == $this->debug ){
+        if ( "yes" == $this->settings['debug'] ){
           $display="\n-------------------------------------------\n";
           $display.= "Order No: ".$webhook->getTrackingId();
           $display.= "\nUID: ".$webhook->getUid();
@@ -480,7 +534,7 @@ function bt_begateway_go()
         $this->process_order($webhook);
 
       } else {
-        if ( "yes" == $this->debug ){
+        if ( "yes" == $this->settings['debug'] ){
           $display="\n----------- Unable to proceed --------------\n";
           $display.= "Order No: ".$webhook->getTrackingId();
           $display.="\n--------------------------------------------\n";
@@ -517,29 +571,36 @@ function bt_begateway_go()
         );
         $messages['callback_error'] = __('Callback error, order status not updated', 'woocommerce-begateway');
 
-        if ( 'yes' == $this->debug ){
+        if ( 'yes' == $this->settings['debug'] ){
           $this->log->add( 'begateway', 'Transaction type: ' . $type . '. Payment status '.$status.'. UID: '.$webhook->getUid());
         }
 
+        $notice = array(
+          ' ',
+          'UID: ' . $webhook->getUid(),
+          'Payment method: ' . $webhook->getPaymentMethod()
+        );
+
+        $notice = implode('<br>', $notice);
+
         if ($webhook->isSuccess()) {
           if ($type == 'payment' && $order->get_status() != 'processing') {
-            $order->add_order_note( $messages[$type]['success'] . ' UID: ' . $webhook->getUid() . '<br>' );
+            $order->add_order_note($messages[$type]['success'] . $notice);
             $order->payment_complete($webhook->getResponse()->transaction->uid);
           } elseif ($order->get_status() != 'on-hold') {
-            $order->update_status( 'on-hold', $messages[$type]['success'] . ' UID: ' . $webhook->getUid() . '<br>' );
+            $order->update_status('on-hold', $messages[$type]['success'] . $notice);
           }
         } elseif ($webhook->isFailed()) {
-            $order->update_status( 'failed', $messages[$type]['failed'] . ' UID: '. $webhook->getUid() .'<br>' );
-        } elseif ($webhook->isIncomplete()) {
-            $order->add_order_note( $messages[$type]['incomplete'] . ' UID: ' . $webhook->getUid() . '<br>' );
+            $order->update_status('failed', $messages[$type]['failed'] . $notice);
+        } elseif ($webhook->isIncomplete() || $webhook->isPending()) {
+            $order->add_order_note($messages[$type]['incomplete'] . $notice);
         } elseif ($webhook->isError()) {
-            $order->add_order_note( $messages[$type]['error'] . ' UID: ' . $webhook->getUid() . '<br>' );
+            $order->add_order_note($messages[$type]['error'] . $notice);
         } else {
-            $order->add_order_note( $messages['callback_error'] . ' UID: ' . $webhook->getUid() . '<br>' );
+            $order->add_order_note($messages['callback_error'] . $notice);
         }
       }
     }//end function
-
 
     function child_transaction($type, $uid, $order_id, $amount, $reason = ''){
       global $woocommerce;
@@ -580,6 +641,7 @@ function bt_begateway_go()
       }
       // now send data to the server
 
+      $this->_init();
       $klass = '\\BeGateway\\' . ucfirst($type) . 'Operation';
       $transaction = new $klass();
       $transaction->setParentUid($post_uid);
@@ -608,12 +670,12 @@ function bt_begateway_go()
         } elseif ($type == 'refund' ) {
           $order->update_status( 'refunded', $messages[$type]['success'] . '. UID: ' . $response->getUid() );
         }
-        if ( 'yes' == $this->debug ){
+        if ( 'yes' == $this->settings['debug'] ){
           $this->log->add( 'begateway', $messages[$type]['status'].': '.$response->getMessage());
         }
         update_post_meta($order_id,'_bt_admin_message',$messages[$type]['success']);
       }else{
-        if ( 'yes' == $this->debug ){
+        if ( 'yes' == $this->settings['debug'] ){
           $this->log->add( 'begateway', $messages[$type]['failed']. ': ' .$response->getMessage());
         }
         update_post_meta($order_id,'_bt_admin_error',$messages[$type]['failed']. ': ' .$response->getMessage());
@@ -671,7 +733,14 @@ function bt_begateway_go()
       $pageURL=rtrim($pageURL,'&message=1');
       return $pageURL;
     }
-  }//end of class
+
+    protected function _init() {
+      \BeGateway\Settings::$gatewayBase = 'https://' . $this->settings['domain-gateway'];
+      \BeGateway\Settings::$checkoutBase = 'https://' . $this->settings['domain-checkout'];
+      \BeGateway\Settings::$shopId = $this->settings['shop-id'];
+      \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
+    }
+  } //end of class
 
   if(is_admin())
     new BT_beGateway();
