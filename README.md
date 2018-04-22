@@ -1,4 +1,4 @@
-## WooCommerce payment module
+# WooCommerce payment module
 
 [Module for WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
 
@@ -8,24 +8,24 @@
 
 [Русская версия](#Модуль-оплаты-woocommerce)
 
-### Installation
+## Installation
 
   * Backup your webstore and database
   * Download [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
   * Start up the administrative panel for Wordpress (www.yourshop.com/wp-admin/)
-  * Choose _Plugins -> Add New_
+  * Choose _Plugins → Add New_
   * Upload the payment module archive via **Upload Plugin**.
-  * Choose _Plugins -> Installed Plugins_ and find the _WooCommerce beGateway Payment Gateway_ plugin and activate it.
+  * Choose _Plugins → Installed Plugins_ and find the _WooCommerce beGateway Payment Gateway_ plugin and activate it.
 
 ![Activate](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/activate-plugin-en.png)
 
-### Setup
+## Setup
 
-Now go to _WooCommerce -> Settings -> Checkout_
+Now go to _WooCommerce → Settings → Checkout_
 
 ![Setup-1](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/setup-plugin-1-en.png)
 
-At the top of the page you will see a link entitled `beGateway` – click on that to bring up the setup page.
+At the top of the page you will see a link entitled `BeGateway` – click on that to bring up the setup page.
 This will bring up a page displaying all the options that you can select to administer the payment module – these are all fairly self-explanatory.
 
 ![Setup-2](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/setup-plugin-2-en.png)
@@ -52,38 +52,38 @@ values received from your payment processor.
 
 Now the module is configured.
 
-### Notes
+## Notes
 
 Tested and developed with:
 
   * Wordress 4.8.x
   * WooCommerce 3.2.x
 
-PHP 5.3+ is required.
+PHP 5.6+ is required.
 
-### Demo credentials
+## Testing
 
-You are free to use the settings to configure the module to process
-payments with a demo gateway.
+You can use the following information to adjust the payment method in test mode:
 
-  * Shop Id __361__
-  * Shop secret key __b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d__
-  * Payment gateway domain __demo-gateway.begateway.com__
-  * Payment page domain __checkout.begateway.com__
+  * __Shop ID:__ 361
+  * __Shop Key:__ b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d
+  * __Checkout page domain:__ checkout.begateway.com
 
-Use the test data to make a test payment:
+Use the following test card to make successful test payment:
 
-  * card number __4200000000000000__
-  * card name __John Doe__
-  * card expiry month __01__ to get a success payment
-  * card expiry month __10__ to get a failed payment
-  * CVC __123__
+  * Card number: 4200000000000000
+  * Name on card: JOHN DOE
+  * Card expiry date: 01/30
+  * CVC: 123
 
-### Contributing
+Use the following test card to make failed test payment:
 
-Issue pull requests or send feature requests.
+  * Card number: 4005550000000019
+  * Name on card: JOHN DOE
+  * Card expiry date: 01/30
+  * CVC: 123
 
-## Модуль оплаты WooCommerce
+# Модуль оплаты WooCommerce
 
 [Модуль для WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
 
@@ -93,24 +93,24 @@ Issue pull requests or send feature requests.
 
 [English version](#woocommerce-payment-module)
 
-### Установка
+## Установка
 
   * Создайте резервную копию вашего магазина и базы данных
   * Загрузите [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
   * Зайдите в панель администратора Wordpress (www.yourshop.com/wp-admin/)
-  * Выберите _Плагины -> Добавить новый_
+  * Выберите _Плагины → Добавить новый_
   * Загрузите модуль через **Добавить новый**
-  * Выберите _Плагины -> Установленные_ и найдите _WooCommerce beGateway Payment Gateway_ модуль и активируйте его.
+  * Выберите _Плагины → Установленные_ и найдите _WooCommerce beGateway Payment Gateway_ модуль и активируйте его.
 
 ![Activate](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/activate-plugin-ru.png)
 
-### Настройка
+## Настройка
 
-Зайдите в _WooCommerce -> Настройки -> Оплата_
+Зайдите в _WooCommerce → Настройки → Оплата_
 
 ![Setup-1](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/setup-plugin-1-ru.png)
 
-Вверху страницы вы увидите ссылку `beGateway`. Нажмите на ее и откроется
+Вверху страницы вы увидите ссылку `BeGateway`. Нажмите на ее и откроется
 страницы настройки модуля.
 
 Параметры понятные и говорят сами за себя.
@@ -137,7 +137,7 @@ Issue pull requests or send feature requests.
 
 Модуль настроен и готов к работе.
 
-### Примечания
+## Примечания
 
 Разработанно и протестированно с:
 
@@ -146,20 +146,26 @@ Issue pull requests or send feature requests.
 
 Требуется PHP 5.3+
 
-### Тестовые данные
+## Тестирование
 
-Вы можете использовать следующие данные, чтобы настроить способ оплаты в
-тестовом режиме:
+Вы можете использовать следующие данные, чтобы настроить способ оплаты в тестовом режиме
 
-  * Идентификационный номер магазина __361__
-  * Секретный ключ магазина __b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d__
-  * Домен платежного шлюза __demo-gateway.begateway.com__
-  * Домен платежной страницы __checkout.begateway.com__
+  * __Идентификационный номер магазина:__ 361
+  * __Секретный ключ магазина:__ b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d
+  * __Домен платежного шлюза:__ demo-gateway.begateway.com
+  * __Домен платежной страницы:__ checkout.begateway.com
+  * __Режим работы:__ Тестовый
 
-Используйте следующий тестовый набор для тестового платежа:
+Используйте следующие данные карты для успешного тестового платежа:
 
-  * номер карты __4200000000000000__
-  * имя на карте __John Doe__
-  * месяц срока действия карты __01__, чтобы получить успешный платеж
-  * месяц срока действия карты __10__, чтобы получить неуспешный платеж
-  * CVC __123__
+  * Номер карты: 4200000000000000
+  * Имя на карте: JOHN DOE
+  * Месяц срока действия карты: 01/30
+  * CVC: 123
+
+Используйте следующие данные карты для неуспешного тестового платежа:
+
+  * Номер карты: 4005550000000019
+  * Имя на карте: JOHN DOE
+  * Месяц срока действия карты: 01/30
+  * CVC: 123
