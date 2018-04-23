@@ -316,7 +316,7 @@ function bt_begateway_go()
       if ($this->settings['enable_erip'] == 'yes') {
         $erip = new \BeGateway\PaymentMethod\Erip(array(
           'order_id' => $data['order_id'],
-          'account_number' => strval($data['order_id']),
+          'account_number' => ltrim($order->get_order_number()),
           'service_no' => $this->settings['erip_service_no']
         ));
         $token->addPaymentMethod($erip);

@@ -6,8 +6,6 @@
 
 [Module for WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
 
-[Module for WooCommerce 3.2](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.2)
-
 [Русская версия](#Модуль-оплаты-woocommerce)
 
 ## Installation
@@ -90,8 +88,6 @@ Use the following test card to make failed test payment:
 [Модуль для WooCommerce 3.0](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.0)
 
 [Модуль для WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
-
-[Модуль для WooCommerce 3.2](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.2)
 
 [English version](#woocommerce-payment-module)
 
