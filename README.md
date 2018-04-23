@@ -15,7 +15,7 @@
   * Start up the administrative panel for Wordpress (www.yourshop.com/wp-admin/)
   * Choose _Plugins → Add New_
   * Upload the payment module archive via **Upload Plugin**.
-  * Choose _Plugins → Installed Plugins_ and find the _WooCommerce beGateway Payment Gateway_ plugin and activate it.
+  * Choose _Plugins → Installed Plugins_ and find the _WooCommerce BeGateway Payment Gateway_ plugin and activate it.
 
 ![Activate](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/activate-plugin-en.png)
 
@@ -99,7 +99,7 @@ Use the following test card to make failed test payment:
   * Зайдите в панель администратора Wordpress (www.yourshop.com/wp-admin/)
   * Выберите _Плагины → Добавить новый_
   * Загрузите модуль через **Добавить новый**
-  * Выберите _Плагины → Установленные_ и найдите _WooCommerce beGateway Payment Gateway_ модуль и активируйте его.
+  * Выберите _Плагины → Установленные_ и найдите _WooCommerce BeGateway Payment Gateway_ модуль и активируйте его.
 
 ![Activate](https://github.com/beGateway/woocommerce-payment-module/raw/master/doc/activate-plugin-ru.png)
 

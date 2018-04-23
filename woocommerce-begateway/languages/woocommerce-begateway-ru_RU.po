@@ -343,7 +343,7 @@ msgid "https://github.com/begateway/woocommerce-payment-module"
 msgstr "https://github.com/begateway/woocommerce-payment-module"
 
 #. Description of the plugin/theme
-msgid "Extends WooCommerce with beGateway payment gateway."
+msgid "Extends WooCommerce with BeGateway payment gateway."
 msgstr "Расширение WooCommerce для платежного шлюза BeGateway"
 
 #. Author of the plugin/theme
