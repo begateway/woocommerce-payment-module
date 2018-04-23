@@ -45,6 +45,7 @@ Enter in fields as follows:
   * _Shop Key_
   * _Payment gateway domain_
   * _Payment page domain_
+  * and etc
 
 values received from your payment processor.
 
@@ -128,6 +129,7 @@ Use the following test card to make failed test payment:
   * _Секретный ключ_
   * _Домен платежного шлюза_
   * _Домен страницы оплаты_
+  * и т.д.
 
 введите значения, полученные от вашей платежной компании.
 
