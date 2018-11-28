@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce BeGateway Payment Gateway
 Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 1.3.3
+Version: 1.3.4
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
@@ -96,7 +96,6 @@ function bt_begateway_go()
 
       $this->method_title             = $this->title;
       $this->description              = $this->settings['description'];
-      $this->transaction_type         = $this->settings['tx-type'];
       $this->settings['debug']                    = $this->settings['debug'];
       $this->show_transaction_table   = $this->settings['show-transaction-table'] == 'yes' ? true : false;
       // Logs
@@ -183,7 +182,7 @@ function bt_begateway_go()
           'description' => __( 'Please enter payment page domain of your payment processor', 'woocommerce-begateway' ),
           'default' => 'checkout.begateway.com'
         ),
-        'tx-type'      => array(
+        'transaction_type'      => array(
           'title' => __('Transaction type', 'woocommerce-begateway'),
           'type' => 'select',
           'options' => array(
@@ -323,7 +322,7 @@ function bt_begateway_go()
       }
 
       if ($this->settings['mode'] == 'test') {
-        $token->setTestMode();
+        $token->setTestMode(true);
       }
 
       if ( 'yes' == $this->settings['debug'] ){
