@@ -1,11 +1,5 @@
 # WooCommerce payment module
 
-[Module for WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
-
-[Module for WooCommerce 3.0](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.0)
-
-[Module for WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
-
 [Русская версия](#Модуль-оплаты-woocommerce)
 
 ## Installation
@@ -83,12 +77,6 @@ Use the following test card to make failed test payment:
   * CVC: 123
 
 # Модуль оплаты WooCommerce
-
-[Модуль для WooCommerce 2.x](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-2.4)
-
-[Модуль для WooCommerce 3.0](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.0)
-
-[Модуль для WooCommerce 3.1](https://github.com/begateway/woocommerce-payment-module/tree/woocommerce-3.1)
 
 [English version](#woocommerce-payment-module)
 
