@@ -9,6 +9,8 @@ Author: BeGateway development team
 Text Domain: woocommerce-begateway
 Domain Path: /languages/
 
+WC requires at least: 3.2.0
+WC tested up to: 3.7.1
 */
 
 //setup definitions - may not be needed but belts and braces chaps!
