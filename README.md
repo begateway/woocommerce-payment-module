@@ -51,8 +51,8 @@ Now the module is configured.
 
 Tested and developed with:
 
-  * Wordress 4.9.5
-  * WooCommerce 3.2.x/3.3.x
+  * Wordress 4.9.5/5.2.4
+  * WooCommerce 3.2.x/3.3.x/3.7.x
 
 ## Testing
 
@@ -129,8 +129,8 @@ Use the following test card to make failed test payment:
 
 Разработанно и протестированно с:
 
-  * Wordress 4.9.5
-  * WooCommerce 3.2.x/3.3.x
+  * Wordress 4.9.5/5.2.4
+  * WooCommerce 3.2.x/3.3.x/3.7.x
 
 ## Тестирование
 

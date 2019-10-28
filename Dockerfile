@@ -1,7 +1,9 @@
 FROM wordpress:latest
 
-ENV WOOCOMMERCE_VERSION 3.3.5
-ENV WOOCOMMERCE_UPSTREAM_VERSION 3.3.5
+ARG wc_version
+
+ENV WOOCOMMERCE_VERSION ${wc_version}
+ENV WOOCOMMERCE_UPSTREAM_VERSION ${wc_version}
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends unzip wget

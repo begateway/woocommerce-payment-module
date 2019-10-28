@@ -1,22 +1,30 @@
-version: '3.1'
+version: '3.7'
 
 services:
   wordpress:
-    build: .
-    links:
-    - db:mysql
+    build:
+      context: .
+      args:
+        wc_version: "3.7.1"
     ports:
       - 8080:80
+    depends_on:
+      - db
     volumes:
       - /var/www/html
       - ./woocommerce-begateway:/var/www/html/wp-content/plugins/woocommerce-begateway
     restart: always
+    networks:
+      - default
     environment:
       WORDPRESS_DB_PASSWORD: example
+      WORDPRESS_DB_HOST: db
 
   db:
     image: mysql:5.7
     restart: always
+    networks:
+      - default
     volumes:
       - /var/lib/mysql
     environment:
