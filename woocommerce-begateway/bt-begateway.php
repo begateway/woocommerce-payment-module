@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce BeGateway Payment Gateway
 Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 1.3.5
+Version: 1.3.6
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
@@ -521,6 +521,10 @@ function bt_begateway_go()
 
       $webhook = new \BeGateway\Webhook;
       $this->_init();
+
+      if ( "yes" == $this->settings['debug'] ) {
+        $this->log->add("begateway", print_r($_SERVER, true));
+      }
 
       if ($webhook->isAuthorized()) {
         //log
