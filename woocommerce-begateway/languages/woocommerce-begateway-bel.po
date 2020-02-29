@@ -1,0 +1,356 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
+"POT-Creation-Date: 2020-02-29 22:27+0300\n"
+"PO-Revision-Date: 2020-02-29 22:28+0300\n"
+"Last-Translator: Zhenya Tikhonov <masontikhonov@gmail.com>\n"
+"Language-Team: Zhenya Tikhonov (masontikhonov@gmail.com)\n"
+"Language: be_BY\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: bt-begateway.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: bt-begateway.php:126 bt-begateway.php:155
+msgid "BeGateway"
+msgstr "BeGateway"
+
+#: bt-begateway.php:140
+msgid "Enable/Disable"
+msgstr "Уключыць/Выключыць"
+
+#: bt-begateway.php:142
+msgid "Enable BeGateway"
+msgstr "Уключыць BeGateway"
+
+#: bt-begateway.php:146
+msgid "Title"
+msgstr "Загаловак"
+
+#: bt-begateway.php:148
+msgid "This is the title displayed to the user during checkout"
+msgstr "Гэты загаловак паказваецца пакупніку падчас афармлення замовы"
+
+#: bt-begateway.php:149
+msgid "Credit or debit card"
+msgstr "Банкаўская карта"
+
+#: bt-begateway.php:152
+msgid "Admin Title"
+msgstr "Загаловак для адміністратара"
+
+#: bt-begateway.php:154
+msgid "This is the title displayed to the admin user"
+msgstr "Гэты загаловак паказваецца адміністратарам"
+
+#: bt-begateway.php:158
+msgid "Description"
+msgstr "Апісанне"
+
+#: bt-begateway.php:160
+msgid "This is the description which the user sees during checkout"
+msgstr "Гэта апісанне, якое карыстальнік бачыць падчас афармлення замовы"
+
+#: bt-begateway.php:161
+msgid "VISA, Mastercard"
+msgstr "Visa, MasterCard"
+
+#: bt-begateway.php:164
+msgid "Shop ID"
+msgstr "ID крамы"
+
+#: bt-begateway.php:166
+msgid "Please enter your Shop Id."
+msgstr "Пазначце ID крамы."
+
+#: bt-begateway.php:170
+msgid "Secret key"
+msgstr "Сакрэтны ключ"
+
+#: bt-begateway.php:172
+msgid "Please enter your Shop secret key."
+msgstr "Пазначце сакрэтны ключ вашай крамы."
+
+#: bt-begateway.php:176
+msgid "Payment gateway domain"
+msgstr "Дамен плацёжнага шлюза"
+
+#: bt-begateway.php:178
+msgid "Please enter payment gateway domain of your payment processor"
+msgstr "Пазначце дамен плацёжнага шлюза вашага плацёжнага працэсара"
+
+#: bt-begateway.php:182
+msgid "Payment page domain"
+msgstr "Дамен старонкі аплаты"
+
+#: bt-begateway.php:184
+msgid "Please enter payment page domain of your payment processor"
+msgstr "Пазначце дамен старонкі аплаты вашага плацёжнага працэсара"
+
+#: bt-begateway.php:188
+msgid "Transaction type"
+msgstr "Тып транзакцыі"
+
+#: bt-begateway.php:191
+msgid "Payment"
+msgstr "Аплата"
+
+#: bt-begateway.php:192
+msgid "Authorization"
+msgstr "Аўтарызацыя"
+
+#: bt-begateway.php:194
+msgid "Select Payment (Authorization & Capture) or Authorization."
+msgstr "Абярыце «Аплата» («Аўтарызацыя» + «Спісанне») або «Аўтарызацыя»."
+
+#: bt-begateway.php:197
+msgid "Enable Bankcard Payments"
+msgstr "Уключыць аплату банкаўскай картай"
+
+#: bt-begateway.php:199
+msgid "This enables VISA/Mastercard and etc card payments"
+msgstr "Уключае аплату пры дапамозе Visa, MasterCard і іншых банкаўскіх карт"
+
+#: bt-begateway.php:203
+msgid "Enable Halva card payments"
+msgstr "Уключыць аплату картай «Халва»"
+
+#: bt-begateway.php:205
+msgid "This enables Halva card payments"
+msgstr "Уключае аплату пры дапамозе карты «Халва»"
+
+#: bt-begateway.php:209
+msgid "Enable ERIP payments"
+msgstr "Уключыць аплату праз АРІП"
+
+#: bt-begateway.php:211
+msgid "This enables ERIP payments"
+msgstr "Уключае аплату праз АРІП"
+
+#: bt-begateway.php:215
+msgid "ERIP service code"
+msgstr "Код паслугі АРІП"
+
+#: bt-begateway.php:217
+msgid "Enter ERIP service code provided you by your payment service provider"
+msgstr "Пазначце код паслугі АРІП, дадзены вам плацёжным правайдэрам"
+
+#: bt-begateway.php:221
+msgid "Payment valid (minutes)"
+msgstr "Рахунак сапраўдны (хвілін)"
+
+#: bt-begateway.php:223
+msgid "The value sets a period of time within which an order must be paid"
+msgstr ""
+"Гэта значэнне вызначае перыяд часу, цягам якога замова мусіць быць аплачана"
+
+#: bt-begateway.php:227
+msgid "Enable admin capture etc."
+msgstr "Уключыць спісанне і інш. адміністратарам"
+
+#: bt-begateway.php:229
+msgid "Show Transaction Table"
+msgstr "Паказваць табліцу транзакцый"
+
+#: bt-begateway.php:230
+msgid "Allows admin to send capture/void/refunds"
+msgstr "Дазваляе адміністратарам аперацыі спісання/сказавання/звароту"
+
+#: bt-begateway.php:234
+msgid "Payment mode"
+msgstr "Рэжым аплаты"
+
+#: bt-begateway.php:237
+msgid "Test"
+msgstr "Тэставы"
+
+#: bt-begateway.php:238
+msgid "Live"
+msgstr "Сапраўдны"
+
+#: bt-begateway.php:240
+msgid "Select module payment mode"
+msgstr "Выберыце рэжым аплаты для модуля"
+
+#: bt-begateway.php:244
+msgid "Debug Log"
+msgstr "Журнал адладкі"
+
+#: bt-begateway.php:246
+msgid "Enable logging"
+msgstr "Уключыць запіс у журнал"
+
+#: bt-begateway.php:248
+msgid "Log events"
+msgstr "Запісваць падзеі"
+
+#: bt-begateway.php:282
+msgid "Order"
+msgstr "Замова"
+
+#: bt-begateway.php:342
+msgid "Error to get a payment token."
+msgstr "Памылка ў атрыманні токена аплаты."
+
+#: bt-begateway.php:355
+msgid ""
+"Thank you for your order. We are now redirecting you to make the payment."
+msgstr "Дзякуй за вашу замову. Зараз мы перанакіруем вас на старонку аплаты."
+
+#: bt-begateway.php:376
+msgid "Make payment"
+msgstr "Аплаціць"
+
+#: bt-begateway.php:376
+msgid "Cancel order &amp; restore cart"
+msgstr "Адмяніць замову і аднавіць кошык"
+
+#: bt-begateway.php:428
+msgid "Order currently pending no capture/refund available"
+msgstr "Замова ў статусе «Чаканне», спісанне або зварот недаступныя"
+
+#: bt-begateway.php:473
+msgid "Please enter amount to capture"
+msgstr "Пазначце суму спісання"
+
+#: bt-begateway.php:474
+msgid "Capture"
+msgstr "Спісаць"
+
+#: bt-begateway.php:477
+msgid "Please enter amount to void"
+msgstr "Пазначце суму скасавання"
+
+#: bt-begateway.php:478
+msgid "Void"
+msgstr "Скасаваць"
+
+#: bt-begateway.php:481
+msgid "Please enter amount to refund"
+msgstr "Пазначце суму звароту"
+
+#: bt-begateway.php:482
+msgid "Refund"
+msgstr "Зварот"
+
+#: bt-begateway.php:483
+msgid "Refund reason"
+msgstr "Прычына звароту"
+
+#: bt-begateway.php:564
+msgid "Payment success."
+msgstr "Аплата паспяховая."
+
+#: bt-begateway.php:565
+msgid "Payment failed."
+msgstr "Аплата няўдалая."
+
+#: bt-begateway.php:566
+msgid "Payment incomplete, order status not updated."
+msgstr "Аплата не завершана. Статус замовы не зменены."
+
+#: bt-begateway.php:567
+msgid "Payment error, order status not updated."
+msgstr "Памылка аплаты. Статус замовы не зменены."
+
+#: bt-begateway.php:570
+msgid "Payment authorised. No money captured yet."
+msgstr "Аплата аўтарызавана. Грошы пакуль не спісаны."
+
+#: bt-begateway.php:571
+msgid "Authorization failed."
+msgstr "Аўтарызацыя няўдалая."
+
+#: bt-begateway.php:572
+msgid "Authorisation incomplete, order status not updated."
+msgstr "Аўтарызацыя не завершана. Статус замовы не зменены."
+
+#: bt-begateway.php:573
+msgid "Authorisation error, order status not updated"
+msgstr "Памылка аўтарызацыі. Статус замовы не зменены"
+
+#: bt-begateway.php:577
+msgid "Callback error, order status not updated"
+msgstr "Памылка зваротнага паведамлення. Статус замовы не зменены"
+
+#: bt-begateway.php:617
+msgid "UID is not correct"
+msgstr "UID некарэктны"
+
+#: bt-begateway.php:622
+msgid "Wrong order status. Void is not possible."
+msgstr "Памылковы статус замовы. Скасаванне немагчыма."
+
+#: bt-begateway.php:623
+msgid "Void status"
+msgstr "Статус скасавання"
+
+#: bt-begateway.php:624
+msgid "Void attempt failed"
+msgstr "Спроба скасавання няўдалая"
+
+#: bt-begateway.php:625
+msgid "Payment voided"
+msgstr "Аплата скасавана"
+
+#: bt-begateway.php:628
+msgid "Wrong order status. Capture is not possible."
+msgstr "Памылковы статус замовы. Спісанне немагчыма."
+
+#: bt-begateway.php:629
+msgid "Capture status"
+msgstr "Статус спісання"
+
+#: bt-begateway.php:630
+msgid "Capture attempt failed"
+msgstr "Спроба спісання няўдалая"
+
+#: bt-begateway.php:631
+msgid "Payment captured"
+msgstr "Аплата спісана"
+
+#: bt-begateway.php:634
+msgid "Wrong order status. Refund is not possible."
+msgstr "Памылковы статус замовы. Зварот немагчымы."
+
+#: bt-begateway.php:635
+msgid "Refund status"
+msgstr "Статус звароту"
+
+#: bt-begateway.php:636
+msgid "Refund attempt failed"
+msgstr "Спроба звароту няўдалая"
+
+#: bt-begateway.php:637
+msgid "Payment refunded"
+msgstr "Аплата вернута"
+
+#: bt-begateway.php:660
+msgid "Refunded from Woocommerce"
+msgstr "Вернута з WooCommerce"
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce BeGateway Payment Gateway"
+msgstr "WooCommerce BeGateway Payment Gateway"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/begateway/woocommerce-payment-module"
+msgstr "https://github.com/begateway/woocommerce-payment-module"
+
+#. Description of the plugin/theme
+msgid "Extends WooCommerce with BeGateway payment gateway."
+msgstr "Пашырае WooCommerce плацёжным шлюзам BeGateway."
+
+#. Author of the plugin/theme
+msgid "BeGateway development team"
+msgstr "Каманда распрацоўкі BeGateway"
