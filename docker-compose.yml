@@ -1,11 +1,9 @@
 version: '3.7'
 
 services:
-  wordpress:
-    build:
+  wordpress: &wordpress
+    build: &build
       context: .
-      args:
-        wc_version: "3.7.1"
     ports:
       - 8080:80
     depends_on:
@@ -17,8 +15,22 @@ services:
     networks:
       - default
     environment:
-      WORDPRESS_DB_PASSWORD: example
+      WORDPRESS_DB_PASSWORD: admin
       WORDPRESS_DB_HOST: db
+
+  woocommerce_3:
+    build:
+      args:
+        wc_version: "3.7.1"
+      <<: *build
+    <<: *wordpress
+
+  woocommerce_4:
+    build:
+      args:
+        wc_version: "4.0.1"
+      <<: *build
+    <<: *wordpress
 
   db:
     image: mysql:5.7
@@ -28,4 +40,4 @@ services:
     volumes:
       - /var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: admin
