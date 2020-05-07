@@ -11,6 +11,7 @@ services:
     volumes:
       - /var/www/html
       - ./woocommerce-begateway:/var/www/html/wp-content/plugins/woocommerce-begateway
+      - ./docker/src/languages:/var/www/html/wp-content/languages
     restart: always
     networks:
       - default
