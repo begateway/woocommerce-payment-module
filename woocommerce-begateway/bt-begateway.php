@@ -264,12 +264,6 @@ function bt_begateway_go()
       $lang = explode('-', get_bloginfo('language'));
       $lang = $lang[0];
 
-      if(in_array($lang,\BeGateway\Language::getSupportedLanguages())) {
-        $language=$lang;
-      } else {
-        $language='en';
-      }
-
       $token = new \BeGateway\GetPaymentToken;
       $this->_init();
 
