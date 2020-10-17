@@ -1,44 +1,31 @@
 version: '3.7'
 
 services:
-  wordpress: &wordpress
+  woocommerce: &woocommerce
     build: &build
       context: .
+      args:
+        version: "5.4.2"
+        wc_version: "4.3.1"
     ports:
-      - 8080:80
+      - 80:80
     depends_on:
-      - db
+      - mysql
     volumes:
       - /var/www/html
       - ./woocommerce-begateway:/var/www/html/wp-content/plugins/woocommerce-begateway
       - ./docker/src/languages:/var/www/html/wp-content/languages
-    restart: always
     networks:
       - default
     environment:
-      WORDPRESS_DB_PASSWORD: admin
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DB_HOST: mysql
 
-  woocommerce_3:
-    build:
-      args:
-        wc_version: "3.7.1"
-      <<: *build
-    <<: *wordpress
-
-  woocommerce_4:
-    build:
-      args:
-        wc_version: "4.0.1"
-      <<: *build
-    <<: *wordpress
-
-  db:
-    image: mysql:5.7
-    restart: always
+  mysql:
+    image: mysql:5.6
     networks:
       - default
     volumes:
       - /var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root
