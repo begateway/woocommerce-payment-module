@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce BeGateway Payment Gateway
 Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 1.3.9
+Version: 1.3.10
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
@@ -294,7 +294,7 @@ function bt_begateway_go()
       $token->setCancelUrl( esc_url_raw( $order->get_cancel_order_url_raw() ) );
       $token->setNotificationUrl($this->notify_url);
 
-      $token->setExpiryDate(date("c", (int)$this->settings['payment_valid'] * 60 + time() + 1));
+      $token->setExpiryDate(date("c", intval($this->settings['payment_valid']) * 60 + time() + 1));
 
       $token->setLanguage($lang);
 
@@ -310,7 +310,7 @@ function bt_begateway_go()
 
       if ($this->settings['enable_erip'] == 'yes') {
         $erip = new \BeGateway\PaymentMethod\Erip(array(
-          'order_id' => $data['order_id'],
+          'order_id' => $order_id,
           'account_number' => ltrim($order->get_order_number()),
           'service_no' => $this->settings['erip_service_no']
         ));
@@ -367,7 +367,7 @@ function bt_begateway_go()
         return '
           <form action="'.$payment_url.'" method="post" id="begateway_payment_form">
             <input type="hidden" name="token" value="' . $response->getToken() . '">
-            <input type="submit" class="button-alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" /> <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woothemes').'</a>
+            <input type="submit" class="button-alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" /> <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woocommerce-begateway').'</a>
           </form>
         ';
       }
