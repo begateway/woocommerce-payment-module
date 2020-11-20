@@ -53,11 +53,6 @@ if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugin
   load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
   add_action('plugins_loaded', 'bt_begateway_go', 0);
   add_filter('woocommerce_payment_gateways', 'bt_begateway_add_gateway' );
-  // Register script
-  function bt_begateway_widget_scripts_method(){
-      wp_enqueue_script( 'bt_begateway_widget_script', "https://js.begateway.com/widget/be_gateway.js");
-  };
-  add_action( 'init', 'bt_begateway_widget_scripts_method' );
 }
 
 require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php';
@@ -88,6 +83,8 @@ function bt_begateway_go()
       $this->init_form_fields();
       // initialise settings
       $this->init_settings();
+      // init js
+      $this->_init_js();
       // variables
       $this->title   = $this->settings['title'];
       //admin title
@@ -737,6 +734,20 @@ function bt_begateway_go()
       \BeGateway\Settings::$shopId = $this->settings['shop-id'];
       \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
     }
+
+    protected function _init_js() {
+      // Register widget script
+      add_action('wp_enqueue_scripts', array($this, 'bt_begateway_widget_scripts_method'));
+    }
+
+    function bt_begateway_widget_scripts_method() {
+      $url = explode('.', $this->settings['domain-checkout']);
+      $url[0] = 'js';
+      $url = 'https://' . implode('.', $url) . '/widget/be_gateway.js';
+
+      wp_enqueue_script( 'bt_begateway_widget_script', $url);
+    }
+
   } //end of class
 
   if(is_admin())
