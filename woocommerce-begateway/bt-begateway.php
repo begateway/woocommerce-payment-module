@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce BeGateway Payment Gateway
 Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 1.3.10
+Version: 1.4.0
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
@@ -53,7 +53,6 @@ if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugin
   load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
   add_action('plugins_loaded', 'bt_begateway_go', 0);
   add_filter('woocommerce_payment_gateways', 'bt_begateway_add_gateway' );
-
 }
 
 require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php';
@@ -84,21 +83,24 @@ function bt_begateway_go()
       $this->init_form_fields();
       // initialise settings
       $this->init_settings();
+      // init js
+      $this->_init_js();
       // variables
-      $this->title                    = $this->settings['title'];
+      $this->title   = $this->settings['title'];
       //admin title
       if ( current_user_can( 'manage_options' ) ){
-        $this->title                    = $this->settings['admin_title'];
+        $this->title = $this->settings['admin_title'];
       }
 
       //callback URL - hooks into the WP/WooCommerce API and initiates the payment class for the bank server so it can access all functions
       $this->notify_url = WC()->api_request_url('BT_beGateway', is_ssl());
       $this->notify_url = str_replace('carts.local','webhook.begateway.com:8443', $this->notify_url);
       $this->notify_url = str_replace('app.docker.local:8080','webhook.begateway.com:8443', $this->notify_url);
+      $this->notify_url = str_replace('0.0.0.0','webhook.begateway.com:8443', $this->notify_url);
 
       $this->method_title             = $this->title;
       $this->description              = $this->settings['description'];
-      $this->settings['debug']                    = $this->settings['debug'];
+      $this->settings['debug']        = $this->settings['debug'];
       $this->show_transaction_table   = $this->settings['show-transaction-table'] == 'yes' ? true : false;
       // Logs
       if ( 'yes' == $this->settings['debug'] ){
@@ -344,32 +346,25 @@ function bt_begateway_go()
           $this->log->add( 'begateway', 'Token received, forwarding customer to: '.$payment_url);
         }
 
-        wc_enqueue_js('
-          jQuery("body").block({
-            message: "'.__('Thank you for your order. We are now redirecting you to make the payment.', 'woocommerce-begateway').'",
-              overlayCSS: {
-                background: "#fff",
-                opacity: 0.6
-              },
-              css: {
-                padding:        20,
-                textAlign:      "center",
-                color:          "#555",
-                border:         "3px solid #aaa",
-                backgroundColor:"#fff",
-                cursor:         "wait",
-                lineHeight:		"32px"
+        ?>
+        <script>
+          this.start_begateway_payment = function () {
+            var params = {
+              checkout_url: "<?= \BeGateway\Settings::$checkoutBase; ?>",
+              token: "<?= $response->getToken() ?>",
+              closeWidget: function(status) {
+                if (status == null) {
+                  window.location.replace("<?= $order->get_cancel_order_url() ?>");
+                }
               }
-          });
-          jQuery("#submit_begateway_payment_form").click();
-        ');
+            };
 
-        return '
-          <form action="'.$payment_url.'" method="post" id="begateway_payment_form">
-            <input type="hidden" name="token" value="' . $response->getToken() . '">
-            <input type="submit" class="button-alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" /> <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woocommerce-begateway').'</a>
-          </form>
-        ';
+            new BeGateway(params).createWidget();
+          };
+
+          start_begateway_payment();
+        </script>
+        <?php
       }
     }
 
@@ -739,6 +734,20 @@ function bt_begateway_go()
       \BeGateway\Settings::$shopId = $this->settings['shop-id'];
       \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
     }
+
+    protected function _init_js() {
+      // Register widget script
+      add_action('wp_enqueue_scripts', array($this, 'bt_begateway_widget_scripts_method'));
+    }
+
+    function bt_begateway_widget_scripts_method() {
+      $url = explode('.', $this->settings['domain-checkout']);
+      $url[0] = 'js';
+      $url = 'https://' . implode('.', $url) . '/widget/be_gateway.js';
+
+      wp_enqueue_script( 'bt_begateway_widget_script', $url);
+    }
+
   } //end of class
 
   if(is_admin())
