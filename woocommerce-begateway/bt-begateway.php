@@ -322,8 +322,8 @@ function woocommerce_begateway_init()
         );
 
         return '
-          <a href="#" class="button button-alt" id="submit_begateway_payment_form" onclick="woocommerce_start_begateway_payment();">'.__('Make payment', 'woocommerce-begateway').'</a>
-          <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woocommerce-begateway').'</a>
+          <button class="woocommerce-button woocommerce-Button button text-uppercase" id="submit_begateway_payment_form" onclick="woocommerce_start_begateway_payment();">'.__('Make payment', 'woocommerce-begateway').'</button>
+          <button class="woocommerce-button woocommerce-Button button text-uppercase" formaction="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woocommerce-begateway').'</button>
         ';
       }
     }
