@@ -1,4 +1,4 @@
-function woocommerce_start_begateway_payment() {
+function woocommerce_start_begateway_payment_widget() {
   var params = {
     checkout_url: begateway_wc_checkout_vars.checkout_url,
     token: begateway_wc_checkout_vars.token,
@@ -13,5 +13,5 @@ function woocommerce_start_begateway_payment() {
 };
 
 window.addEventListener('load',function(event){
-  woocommerce_start_begateway_payment();
+  woocommerce_start_begateway_payment_widget();
 },false);

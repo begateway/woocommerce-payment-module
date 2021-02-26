@@ -322,8 +322,23 @@ function woocommerce_begateway_init()
         );
 
         return '
-          <button class="woocommerce-button woocommerce-Button button text-uppercase" id="submit_begateway_payment_form" onclick="woocommerce_start_begateway_payment();">'.__('Make payment', 'woocommerce-begateway').'</button>
-          <button class="woocommerce-button woocommerce-Button button text-uppercase" formaction="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</button>
+          <script>
+            function woocommerce_start_begateway_payment(e) {
+              // check if BeGateway library is loaded well
+              if (typeof woocommerce_start_begateway_payment_widget === "function" ) {
+                e.preventDefault();
+                woocommerce_start_begateway_payment_widget();
+                return false;
+              } else {
+                return true;
+              }
+            }
+          </script>
+          <form action="'.$payment_url.'" method="post" id="begateway_payment_form" onSubmit="return woocommerce_start_begateway_payment(event);">
+            <input type="hidden" name="token" value="' . $response->getToken() . '">
+            <input type="submit" class="button alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" />
+            <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</a>
+          </form>
         ';
       }
     }
