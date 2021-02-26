@@ -3,65 +3,35 @@
 Plugin Name: WooCommerce BeGateway Payment Gateway
 Plugin URI: https://github.com/begateway/woocommerce-payment-module
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 1.4.0
+Version: 1.4.2
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
 Domain Path: /languages/
 
 WC requires at least: 3.2.0
-WC tested up to: 4.0.1
+WC tested up to: 5.0.0
 */
 
-//setup definitions - may not be needed but belts and braces chaps!
-if ( !defined('WP_CONTENT_URL') )
-  define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
-
-if ( !defined('WP_PLUGIN_URL') )
-  define('WP_PLUGIN_URL', WP_CONTENT_URL.'/plugins');
-
-if ( !defined('WP_CONTENT_DIR') )
-  define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
-
-if ( !defined('WP_PLUGIN_DIR') )
-  define('WP_PLUGIN_DIR', WP_CONTENT_DIR.'/plugins');
-
-define("BT_BEGATEWAY_PLUGINPATH", "/" . plugin_basename( dirname(__FILE__) ));
-
-define('BT_BEGATEWAY_BASE_URL', WP_PLUGIN_URL . BT_BEGATEWAY_PLUGINPATH);
-
-define('BT_BEGATEWAY_BASE_DIR', WP_PLUGIN_DIR . BT_BEGATEWAY_PLUGINPATH);
-
-//go looking for woocommerce - if not found then do not allow this plugin to do anything
-if(!function_exists('bt_get_plugins'))
+if ( ! defined( 'ABSPATH' ) )
 {
-  function bt_get_plugins()
-  {
-    if ( !is_multisite() )
-      return false;
-
-    $all_plugins = array_keys((array) get_site_option( 'active_sitewide_plugins' ));
-    if (!is_array($all_plugins) )
-      return false;
-
-    return $all_plugins;
-  }
-}
-
-if ( in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugins' )  ) || in_array('woocommerce/woocommerce.php', (array) bt_get_plugins() ) )
-{
-  load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
-  add_action('plugins_loaded', 'bt_begateway_go', 0);
-  add_filter('woocommerce_payment_gateways', 'bt_begateway_add_gateway' );
+    exit; // Exit if accessed directly
 }
 
 require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php';
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
+add_action('plugins_loaded', 'woocommerce_begateway_init', 0);
 
 //Launch plugin
-function bt_begateway_go()
+function woocommerce_begateway_init()
 {
+  if (!class_exists('WC_Payment_Gateway')) {
+    return;
+  }
 
-  class BT_beGateway extends WC_Payment_Gateway
+  class WC_beGateway extends WC_Payment_Gateway
   {
     var $notify_url;
 
@@ -83,8 +53,6 @@ function bt_begateway_go()
       $this->init_form_fields();
       // initialise settings
       $this->init_settings();
-      // init js
-      $this->_init_js();
       // variables
       $this->title   = $this->settings['title'];
       //admin title
@@ -93,7 +61,7 @@ function bt_begateway_go()
       }
 
       //callback URL - hooks into the WP/WooCommerce API and initiates the payment class for the bank server so it can access all functions
-      $this->notify_url = WC()->api_request_url('BT_beGateway', is_ssl());
+      $this->notify_url = WC()->api_request_url('WC_beGateway', is_ssl());
       $this->notify_url = str_replace('carts.local','webhook.begateway.com:8443', $this->notify_url);
       $this->notify_url = str_replace('app.docker.local:8080','webhook.begateway.com:8443', $this->notify_url);
       $this->notify_url = str_replace('0.0.0.0','webhook.begateway.com:8443', $this->notify_url);
@@ -346,25 +314,32 @@ function bt_begateway_go()
           $this->log->add( 'begateway', 'Token received, forwarding customer to: '.$payment_url);
         }
 
-        ?>
-        <script>
-          this.start_begateway_payment = function () {
-            var params = {
-              checkout_url: "<?= \BeGateway\Settings::$checkoutBase; ?>",
-              token: "<?= $response->getToken() ?>",
-              closeWidget: function(status) {
-                if (status == null) {
-                  window.location.replace("<?= $order->get_cancel_order_url() ?>");
-                }
+        $this->enqueueWidgetScripts(array(
+            'checkout_url' => \BeGateway\Settings::$checkoutBase,
+            'token' => $response->getToken(),
+            'cancel_url' => $order->get_cancel_order_url()
+          )
+        );
+
+        return '
+          <script>
+            function woocommerce_start_begateway_payment(e) {
+              // check if BeGateway library is loaded well
+              if (typeof woocommerce_start_begateway_payment_widget === "function" ) {
+                e.preventDefault();
+                woocommerce_start_begateway_payment_widget();
+                return false;
+              } else {
+                return true;
               }
-            };
-
-            new BeGateway(params).createWidget();
-          };
-
-          start_begateway_payment();
-        </script>
-        <?php
+            }
+          </script>
+          <form action="'.$payment_url.'" method="post" id="begateway_payment_form" onSubmit="return woocommerce_start_begateway_payment(event);">
+            <input type="hidden" name="token" value="' . $response->getToken() . '">
+            <input type="submit" class="button alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" />
+            <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</a>
+          </form>
+        ';
       }
     }
 
@@ -418,13 +393,13 @@ function bt_begateway_go()
         break;
       case 'on-hold':
         //params for capture
-        $arr_params = array( 'wc-api' => 'BT_beGateway',
+        $arr_params = array( 'wc-api' => 'WC_beGateway',
           'begateway' => 'capture',
           'uid' => md5(get_post_meta($post->ID, '_uid', true)),
           'oid' => $post->ID );
         $display.= $this->_getActionButton('capture', $order, $arr_params);
         //params for void
-        $arr_params = array( 'wc-api' => 'BT_beGateway',
+        $arr_params = array( 'wc-api' => 'WC_beGateway',
           'begateway' => 'void',
           'uid' => md5(get_post_meta($post->ID, '_uid', true)),
           'oid' => $post->ID );
@@ -433,7 +408,7 @@ function bt_begateway_go()
         break;
       case 'processing':
         //params for refund
-        $arr_params = array( 'wc-api' => 'BT_beGateway',
+        $arr_params = array( 'wc-api' => 'WC_beGateway',
           'begateway' => 'refund',
           'uid' => md5(get_post_meta($post->ID, '_uid', true)),
           'oid' => $post->ID );
@@ -735,29 +710,36 @@ function bt_begateway_go()
       \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
     }
 
-    protected function _init_js() {
-      // Register widget script
-      add_action('wp_enqueue_scripts', array($this, 'bt_begateway_widget_scripts_method'));
-    }
-
-    function bt_begateway_widget_scripts_method() {
+    function enqueueWidgetScripts($data) {
       $url = explode('.', $this->settings['domain-checkout']);
       $url[0] = 'js';
       $url = 'https://' . implode('.', $url) . '/widget/be_gateway.js';
 
-      wp_enqueue_script( 'bt_begateway_widget_script', $url);
+      wp_register_script('begateway_wc_widget', $url, null, null);
+      wp_register_script('begateway_wc_widget_start',
+        plugin_dir_url(__FILE__) . '/js/script.js',
+        array('begateway_wc_widget'), null
+      );
+
+      wp_localize_script('begateway_wc_widget_start',
+            'begateway_wc_checkout_vars',
+            $data
+        );
+
+      wp_enqueue_script('begateway_wc_widget_start');
     }
 
   } //end of class
 
   if(is_admin())
-    new BT_beGateway();
-}
+    new WC_beGateway();
 
-//add to gateways
-function bt_begateway_add_gateway( $methods )
-{
-    $methods[] = 'BT_beGateway';
-    return $methods;
+  //add to gateways
+  function woocommerce_add_begateway_gateway( $methods )
+  {
+      $methods[] = 'WC_beGateway';
+      return $methods;
+  }
+
+  add_filter('woocommerce_payment_gateways', 'woocommerce_add_begateway_gateway' );
 }
-?>
