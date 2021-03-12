@@ -9,13 +9,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The addons class, used for subscriptions.
  */
 class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
-
-
 	/**
 	 * WC_Gateway_BeGateway_Addons constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+    $this->supports = array(
+      'products',
+      'refunds',
+      'tokenization',
+      'subscriptions',
+      'subscription_cancellation',
+      'subscription_suspension',
+      'subscription_reactivation',
+      'subscription_amount_changes',
+      'subscription_date_changes',
+      'subscription_payment_method_change', // Subs 1.n compatibility.
+      'subscription_payment_method_change_customer',
+      'subscription_payment_method_change_admin',
+      'multiple_subscriptions',
+    );
+
 		if ( class_exists( 'WC_Subscriptions_Order' ) ) {
 			add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array(
 				$this,
@@ -42,6 +57,11 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 			), 10, 2 );
 		}
 	}
+
+  public function woocommerce_loaded() {
+    include_once( plugin_basename( 'includes/class-wc-begateway-payment-tokens.php' ) );
+    include_once( plugin_basename( 'includes/class-wc-begateway-payment-token.php' ) );
+  }
 
 	/**
 	 * Trigger scheduled subscription payment.
@@ -79,7 +99,7 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		if ( !$last_card_id ) {
 				return new WP_Error( 'begateway_error', __( 'Card ID was found', 'woocommerce-begateway' ) );
 		}
-		$order_id = get_woo_id( $order );
+		$order_id = $order->get_id();
 
 		$this->log( "Info: Begin processing subscription payment for order {$order_id} for the amount of {$amount}" );
 		// create a new transaction from a previous one, or a card.
@@ -105,7 +125,7 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		$this->save_transaction_id( $result, $order );
 
 		$this->log( 'Info: Authorize was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-	  update_post_meta( get_woo_id( $order ), '_begateway_transaction_captured',
+	  update_post_meta( $order->get_id(), '_begateway_transaction_captured',
       $this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
     );
 
@@ -134,8 +154,8 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 	 * @return void
 	 */
 	public function update_failing_payment_method( $subscription, $renewal_order ) {
-		update_post_meta( get_woo_id( $subscription ), '_begateway_transaction_id', get_post_meta( $renewal_order->get_id(), '_begateway_transaction_id', true ));
-		update_post_meta( get_woo_id( $subscription ), '_begateway_card_id', get_post_meta( $renewal_order->get_id(), '_begateway_card_id', true ));
+		update_post_meta( $subscription->get_id(), '_begateway_transaction_id', get_post_meta( $renewal_order->get_id(), '_begateway_transaction_id', true ));
+		update_post_meta( $subscription->get_id(), '_begateway_card_id', get_post_meta( $renewal_order->get_id(), '_begateway_card_id', true ));
 	}
 
 	/**
@@ -144,8 +164,8 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 	 * @param WC_Order $resubscribe_order The order created for the customer to resubscribe to the old expired/cancelled subscription.
 	 */
 	public function delete_resubscribe_meta( $resubscribe_order ) {
-		delete_post_meta( get_woo_id( $resubscribe_order ), '_begateway_transaction_id' );
-		delete_post_meta( get_woo_id( $resubscribe_order ), '_begateway_card_id' );
+		delete_post_meta( $resubscribe_order->get_id(), '_begateway_transaction_id' );
+		delete_post_meta( $resubscribe_order->get_id(), '_begateway_card_id' );
 	}
 
 	/**
@@ -161,7 +181,7 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		if ( $this->id !== $subscription->get_payment_method() || ! $subscription->get_user() ) {
 			return $payment_method_to_display;
 		}
-		$transaction_id = get_post_meta( get_woo_id( $subscription ), '_begateway_transaction_id', true );
+		$transaction_id = get_post_meta( $subscription->get_id(), '_begateway_transaction_id', true );
 		// add more details, if we can get the card.
 
     $this->_init();
@@ -193,11 +213,11 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		$payment_meta[ $this->id ] = array(
 			'post_meta' => array(
 				'_begateway_transaction_id' => array(
-					'value' => get_post_meta( get_woo_id( $subscription ), '_begateway_transaction_id', true ),
+					'value' => get_post_meta( $subscription->get_id(), '_begateway_transaction_id', true ),
 					'label' => 'A previous transaction ID',
 				),
 				'begateway_card_id'         => array(
-					'value' => get_post_meta( get_woo_id( $subscription ), '_begateway_card_id', true ),
+					'value' => get_post_meta( $subscription->get_id(), '_begateway_card_id', true ),
 					'label' => 'A previous card ID',
 				),
 			),
@@ -234,15 +254,15 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 	protected function save_transaction_id( $result, $order ) {
 		parent::save_transaction_id( $result, $order );
 		// Also store it on the subscriptions being purchased or paid for in the order.
-		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( get_woo_id( $order ) ) ) {
-			$subscriptions = wcs_get_subscriptions_for_order( get_woo_id( $order ) );
-		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( get_woo_id( $order ) ) ) {
-			$subscriptions = wcs_get_subscriptions_for_renewal_order( get_woo_id( $order ) );
+		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
+			$subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
+		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
+			$subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
 		} else {
 			$subscriptions = array();
 		}
 		foreach ( $subscriptions as $subscription ) {
-			update_post_meta( get_woo_id( $subscription ), '_begateway_transaction_id', $result['id'] );
+			update_post_meta( $subscription->get_id(), '_begateway_transaction_id', $result['id'] );
 		}
 	}
 
@@ -255,15 +275,17 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 	protected function save_card_id( $card_id, $order ) {
 		parent::save_card_id( $card_id, $order );
 		// Also store it on the subscriptions being purchased or paid for in the order.
-		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( get_woo_id( $order ) ) ) {
-			$subscriptions = wcs_get_subscriptions_for_order( get_woo_id( $order ) );
-		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( get_woo_id( $order ) ) ) {
-			$subscriptions = wcs_get_subscriptions_for_renewal_order( get_woo_id( $order ) );
+		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
+			$subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
+		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
+			$subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
 		} else {
 			$subscriptions = array();
 		}
 		foreach ( $subscriptions as $subscription ) {
-			update_post_meta( get_woo_id( $subscription ), '_begateway_card_id', $card_id );
+			update_post_meta( $subscription->get_id(), '_begateway_card_id', $card_id );
 		}
 	}
 }
+
+WC_BeGateway::register_gateway('WC_Gateway_BeGateway_Addons');

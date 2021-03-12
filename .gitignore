@@ -6,3 +6,4 @@ docker/src/languages/plugins/*.json
 docker/src/languages/plugins/akismet*
 docker/src/languages/plugins/hello*
 docker/src/languages/themes
+.tags*
