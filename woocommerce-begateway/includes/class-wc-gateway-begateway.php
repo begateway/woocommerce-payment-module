@@ -108,9 +108,7 @@ if ( ! defined( 'ABSPATH' ) )
         $token->setAuthorizationTransactionType();
       }
 
-      $token->money->setCurrency($order->get_currency());
-      $token->money->setAmount($order->get_total());
-      $token->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
+      $this->set_payment_token_params( $token, $order );
       $token->setTrackingId($order->get_id());
       $token->customer->setFirstName($order->get_billing_first_name());
       $token->customer->setLastName($order->get_billing_last_name());
@@ -203,6 +201,12 @@ if ( ! defined( 'ABSPATH' ) )
           </form>
         ';
       }
+    }
+
+    function set_payment_token_params( &$token, $order ) {
+      $token->money->setCurrency( $order->get_currency() );
+      $token->money->setAmount( $order->get_total() );
+      $token->setDescription( __( 'Order', 'woocommerce' ) . ' # ' .$order->get_order_number() );
     }
 
     function process_payment( $order_id ) {

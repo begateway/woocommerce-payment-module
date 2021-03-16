@@ -81,8 +81,6 @@ class WC_BeGateway
 	*/
   public function woocommerce_loaded() {
     require_once( dirname( __FILE__ ) . '/begateway-api-php/lib/BeGateway.php' );
-    include_once( dirname( __FILE__ ) . '/includes/class-wc-begateway-payment-token.php' );
-    include_once( dirname( __FILE__ ) . '/includes/class-wc-begateway-payment-tokens.php' );
     include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway.php' );
 
     if ($this->is_woocommerce_subscription_support_enabled()) {

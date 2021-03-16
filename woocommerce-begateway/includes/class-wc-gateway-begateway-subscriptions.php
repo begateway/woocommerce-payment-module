@@ -46,7 +46,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 				$this,
 				'maybe_render_subscription_payment_method',
 			), 10, 2 );
-			// allow store managers to manually set Paylike as the payment method on a subscription.
+			// allow store managers to manually set BeGateway as the payment method on a subscription.
 			add_filter( 'woocommerce_subscription_payment_meta', array(
 				$this,
 				'add_subscription_payment_meta',
@@ -68,7 +68,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$result = $this->process_subscription_payment( $renewal_order, $amount_to_charge );
 		if ( is_wp_error( $result ) ) {
 			/* translators: %1$s is replaced with the error message */
-			$renewal_order->update_status( 'failed', sprintf( __( 'BeGateway Transaction Failed (%s)', 'woocommerce-begateway' ), $result->get_error_message() ) );
+			$renewal_order->update_status( 'failed', sprintf( __( 'Error to process subscription payment with the error: %s', 'woocommerce-begateway' ), $result->get_error_message() ) );
 		}
 	}
 
@@ -90,8 +90,8 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$last_card_id        = $this->get_card_id( $order );
 		$result              = null;
 		if ( !$last_card_id ) {
-    		$this->log( "Info: Card token {$last_card_id} not found for order {$order->get_id()}" );
-				return new WP_Error( 'begateway_error', __( 'Card ID not found', 'woocommerce-begateway' ) );
+  		$this->log( "Info: Card token {$last_card_id} not found for order {$order->get_id()}" );
+			return new WP_Error( 'begateway_error', __( 'Card token not found', 'woocommerce-begateway' ) );
 		}
 		$order_id = $order->get_id();
 
@@ -103,22 +103,22 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		}
 
 		if ( is_wp_error( $result ) ) {
-			$this->log( 'Issue: Authorize has failed, the result from the verification threw an wp error:' . $result->get_error_message() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+			$this->log( "Issue: Subscription payment for order {$order_id} has failed with error: " . $result->get_error_message() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
 			$order->add_order_note(
-				__( 'Unable to verify transaction!', 'woocommerce-begateway' ) . PHP_EOL .
+				__( 'Error to process subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
 				$result->get_error_message()
 			);
 			return $result;
 		}
 
 		$order->add_order_note(
-      __( 'BeGateway authorization complete.', 'woocommerce-begateway' ) . PHP_EOL .
-			__( 'Transaction ID: ', 'woocommerce-begateway' ) . $result->getUid() . PHP_EOL
+      __( 'Successfully processed subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
+			__( 'Transaction UID: ', 'woocommerce-begateway' ) . $result->getUid() . PHP_EOL
 		);
 
 		$this->save_transaction_id( $result, $order );
 
-		$this->log( 'Info: Authorize was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+		$this->log( 'Info: Subscription payment was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
 	  update_post_meta( $order->get_id(), '_begateway_transaction_captured',
       $this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
     );
@@ -139,7 +139,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	}
 
 	/**
-	 * Update the begateway_transaction_id for a subscription after using Paylike to complete a payment to make up for
+	 * Update the begateway_transaction_id for a subscription after using BeGateway to complete a payment to make up for
 	 * an automatic renewal payment which previously failed.
 	 *
 	 * @param WC_Subscription $subscription The subscription for which the failing payment method relates.
@@ -153,7 +153,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	}
 
 	/**
-	 * Don't transfer Paylike transaction id meta to resubscribe orders.
+	 * Don't transfer BeGateway transaction id meta to resubscribe orders.
 	 *
 	 * @param WC_Order $resubscribe_order The order created for the customer to resubscribe to the old expired/cancelled subscription.
 	 */
@@ -175,22 +175,13 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		if ( $this->id !== $subscription->get_payment_method() || ! $subscription->get_user() ) {
 			return $payment_method_to_display;
 		}
-		$transaction_id = get_post_meta( $subscription->get_id(), '_begateway_transaction_id', true );
-		// add more details, if we can get the card.
 
-    $this->_init();
-    $query = new \BeGateway\QueryByUid;
-    $query->setUid($transaction_id);
-
-    $response = $query->submit();
-
-    if ($response->isError()) {
-      $this->log("Fetching transaction {$transaction_id} failed");
-		} elseif ($response->isSuccess() && $response->getPaymentMethod()) {
-      $pm = $response->getPaymentMethod();
-      $card = $response->getResponse()->transaction->$pm;
-			$payment_method_to_display = sprintf( __( 'Via %s card ending in %s (%s)', 'woocommerce-begateway' ), ucfirst($card->brand), $card->last_4, ucfirst( $this->id ) );
-    }
+		$payment_method_to_display = sprintf(
+      __( 'Via %s card ending in %s (%s)', 'woocommerce-begateway' ),
+      ucfirst( $subscription->get_meta( '_begateway_card_brand', true ) ),
+      $subscription->get_meta( '_begateway_card_last_4', true ),
+      ucfirst( $this->title )
+    );
 
 		return $payment_method_to_display;
 	}
@@ -307,4 +298,44 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
     return $subscriptions;
   }
 
+  /* set zero amount for payment token request to update payment method */
+  function set_payment_token_params( &$token, $order ) {
+    parent::set_payment_token_params( $token, $order );
+
+    if ( wcs_is_subscription( $order->get_id() ) ) {
+      $token->money->setAmount(0);
+      $token->setDescription( __( 'Subscription payment method update of order', 'woocommerce' ) . ' # ' .$order->get_order_number() );
+    }
+  }
+
+  function process_ipn_request( $webhook ) {
+    $order_id = $webhook->getTrackingId();
+
+    if ( ! wcs_is_subscription( $order_id ) ) {
+      return parent::process_ipn_request( $webhook );
+    }
+    // do payment method update
+
+    $order = new WC_Order( $order_id );
+    $type = $webhook->getResponse()->transaction->type;
+    if (in_array($type, array('payment','authorization'))) {
+      $status = $webhook->getStatus();
+
+      if ($webhook->isSuccess()) {
+        $this->log(
+          'Transaction type: ' . $type . PHP_EOL .
+          'Payment status '. $status . PHP_EOL .
+          'Subscription payment method update transaction UID: ' . $webhook->getUid() . PHP_EOL .
+          'Message: ' . $webhook->getMessage()
+        );
+
+        $pm = $webhook->getPaymentMethod();
+
+        if ( $pm && isset( $webhook->getResponse()->transaction->$pm->token ) ) {
+          update_post_meta($order_id, '_begateway_transaction_payment_method', $pm );
+          $this->save_card_id( $webhook->getResponse()->transaction->$pm, $order );
+        }
+      }
+    }
+  }
 }
