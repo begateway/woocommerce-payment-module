@@ -22,6 +22,7 @@ jQuery(document).ready(function ($) {
 				self.html(self.data('text'));
 				self.prop('disabled', false);
 				if (!response.success) {
+					alert(response.data);
 					return false;
 				}
 
@@ -102,7 +103,7 @@ jQuery(document).ready(function ($) {
 		e.preventDefault();
 		var nonce = $(this).data('nonce');
 		var order_id = $(this).data('order-id');
-		var amount = $("#reepay-capture_partly_amount-field").val();
+		var amount = $("#begateway-capture_partly_amount-field").val();
 		var self = $(this);
 
 		$.ajax({
@@ -123,7 +124,6 @@ jQuery(document).ready(function ($) {
 				self.html(self.data('text'));
 				self.prop('disabled', false);
 				if (!response.success) {
-					alert(response);
 					alert(response.data);
 					return false;
 				}
@@ -139,7 +139,7 @@ jQuery(document).ready(function ($) {
 		e.preventDefault();
 		var nonce = $(this).data('nonce');
 		var order_id = $(this).data('order-id');
-		var amount = $("#reepay-refund_partly_amount-field").val();
+		var amount = $("#begateway-refund_partly_amount-field").val();
 		var self = $(this);
 
 		$.ajax({
@@ -160,7 +160,6 @@ jQuery(document).ready(function ($) {
 				self.html(self.data('text'));
 				self.prop('disabled', false);
 				if (!response.success) {
-					alert(response);
 					alert(response.data);
 					return false;
 				}
@@ -172,5 +171,5 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	$( '#reepay-capture_partly_amount-field, #reepay-refund_partly_amount-field' ).inputmask({ alias: "currency", groupSeparator: '' });
+	$( '#begateway-capture_partly_amount-field, #begateway-refund_partly_amount-field' ).inputmask({ alias: "currency", groupSeparator: '' });
 });

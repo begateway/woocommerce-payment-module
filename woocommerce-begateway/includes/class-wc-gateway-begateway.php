@@ -27,6 +27,10 @@ if ( ! defined( 'ABSPATH' ) )
 
   class WC_Gateway_BeGateway extends WC_Payment_Gateway
   {
+    const NO_REFUND  = [ 'erip' ];
+    const NO_CAPTURE = [ 'erip' ];
+    const NO_CANCEL  = [ 'erip' ];
+
     protected $log;
 
     /**
@@ -104,7 +108,7 @@ if ( ! defined( 'ABSPATH' ) )
         $token->setAuthorizationTransactionType();
       }
 
-      $token->money->setCurrency(get_woocommerce_currency());
+      $token->money->setCurrency($order->get_currency());
       $token->money->setAmount($order->get_total());
       $token->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $token->setTrackingId($order->get_id());
@@ -238,7 +242,18 @@ if ( ! defined( 'ABSPATH' ) )
 
       $this->log('Received webhook json: ' . file_get_contents('php://input'));
 
-      if ($webhook->isAuthorized()) {
+      if ( ! $this->validate_ipn_amount($webhook) ) {
+        $this->log(
+          '----------- Invalid amount webhook --------------' . PHP_EOL .
+          "Order No: ".$webhook->getTrackingId() . PHP_EOL .
+          "UID: ".$webhook->getUid() . PHP_EOL .
+          '--------------------------------------------'
+        );
+
+        wp_die( "beGateway Notify Amount Failure" );
+      }
+
+      if ( $webhook->isAuthorized() ) {
         $this->log(
           '-------------------------------------------' . PHP_EOL .
           "Order No: ".$webhook->getTrackingId() . PHP_EOL .
@@ -261,6 +276,26 @@ if ( ! defined( 'ABSPATH' ) )
     }
     //end of check_ipn_response
 
+    protected function validate_ipn_amount( $webhook ) {
+      $order_id = $webhook->getTrackingId();
+      $order = new WC_Order( $order_id );
+
+      if ( ! $order ) {
+        return false;
+      }
+
+      $money = new \BeGateway\Money;
+      $money->setCurrency( $order->get_currency() );
+      $money->setAmount( $order->get_total() );
+      $money->setCurrency( $webhook->getResponse()->transaction->currency );
+      $money->setCents( $webhook->getResponse()->transaction->amount );
+
+      $transaction = $webhook->getResponse()->transaction;
+
+      return $transaction->currency == $money->getCurrency() &&
+        $transaction->amount == $money->getCents();
+    }
+
     function process_ipn_request($webhook) {
       $order_id = $webhook->getTrackingId();
       $order = new WC_Order( $order_id );
@@ -268,53 +303,37 @@ if ( ! defined( 'ABSPATH' ) )
       if (in_array($type, array('payment','authorization'))) {
         $status = $webhook->getStatus();
 
-        $messages = array(
-          'payment' => array(
-            'success' => __('Payment success.', 'woocommerce-begateway'),
-            'failed' => __('Payment failed.', 'woocommerce-begateway'),
-            'incomplete' => __('Payment incomplete, order status not updated.', 'woocommerce-begateway'),
-            'error' => __('Payment error, order status not updated.', 'woocommerce-begateway'),
-          ),
-          'authorization' => array(
-            'success' => __('Payment authorized. No money captured yet.', 'woocommerce-begateway'),
-            'failed' => __('Authorization failed.', 'woocommerce-begateway'),
-            'incomplete' => __('Authorization incomplete, order status not updated.', 'woocommerce-begateway'),
-            'error' => __('Authorization error, order status not updated', 'woocommerce-begateway'),
-          )
+        $this->log(
+          'Transaction type: ' . $type . PHP_EOL .
+          'Payment status '. $status . PHP_EOL .
+          'UID: ' . $webhook->getUid() . PHP_EOL .
+          'Message: ' . $webhook->getMessage()
         );
-        $messages['callback_error'] = __('Callback error, order status not updated', 'woocommerce-begateway');
-
-        $this->log('Transaction type: ' . $type . '. Payment status '.$status.'. UID: '.$webhook->getUid());
-
-        $notice = array(
-          ' ',
-          'UID: ' . $webhook->getUid(),
-          'Payment method: ' . $webhook->getPaymentMethod()
-        );
-
-        $notice = implode(PHP_EOL, $notice);
 
         if ($webhook->isSuccess()) {
-          $order->add_order_note($messages[$type]['success'] . $notice);
-          $order->payment_complete($webhook->getResponse()->transaction->uid);
-          update_post_meta($order_id, '_begateway_transaction_captured', 'authorization' == $type ? 'no' : 'yes');
+          $order->payment_complete( $webhook->getUid() );
+
+          if ( 'authorization' == $type ) {
+            update_post_meta($order_id, '_begateway_transaction_captured', 'no' );
+            update_post_meta($order_id, '_begateway_transaction_captured_amount', 0 );
+          } else {
+            update_post_meta($order_id, '_begateway_transaction_captured', 'yes' );
+            update_post_meta($order_id, '_begateway_transaction_captured_amount', $order->get_total() );
+          }
+          update_post_meta($order_id, '_begateway_transaction_refunded_amount', 0 );
+
+          update_post_meta($order_id, '_begateway_transaction_payment_method', $webhook->getPaymentMethod() );
 
           $pm = $webhook->getPaymentMethod();
 
           if ( $pm && isset( $webhook->getResponse()->transaction->$pm->token ) ) {
-            $this->save_card_id( $webhook->getResponse()->transaction->$pm->token, $order );
+            $this->save_card_id( $webhook->getResponse()->transaction->$pm, $order );
           }
 
           $this->save_transaction_id($webhook, $order);
 
         } elseif ($webhook->isFailed()) {
-            $order->update_status('failed', $messages[$type]['failed'] . $notice);
-        } elseif ($webhook->isIncomplete() || $webhook->isPending()) {
-            $order->add_order_note($messages[$type]['incomplete'] . $notice);
-        } elseif ($webhook->isError()) {
-            $order->add_order_note($messages[$type]['error'] . $notice);
-        } else {
-            $order->add_order_note($messages['callback_error'] . $notice);
+          $order->update_status( 'failed', $webhook->getMessage() );
         }
       }
     }//end function
@@ -324,20 +343,25 @@ if ( ! defined( 'ABSPATH' ) )
 		 *
 		 * @param $order_id int
 		 */
-		public function capture_payment( $order_id ) {
+		public function capture_payment( $order_id, $amount ) {
 			$order = wc_get_order( $order_id );
 			if ( $this->id != $order->get_payment_method() ) {
-				return false;
+				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
 			}
 			$transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
-			$captured = get_post_meta( $order_id, '_begatewat_transaction_captured', true );
-			if ( ! ( $transaction_uid && 'no' === $captured ) ) {
-				return false;
+			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
+
+			if ( ! $transaction_uid ) {
+				return new WP_Error( 'begateway_error', __( 'No transaction reference UID to capture' , 'woocommerce-begateway' ) );
+			}
+
+			if ( 'yes' == $captured ) {
+				return new WP_Error( 'begateway_error', __( 'Transaction is already captured' , 'woocommerce-begateway' ) );
 			}
 
 			$this->log( "Info: Starting to capture {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
 
-      $response = $this->child_transaction('capture', $transaction_uid, $order_id, $this->get_order_amount($order));
+      $response = $this->child_transaction( 'capture', $transaction_uid, $order_id, $amount );
 
       if($response->isSuccess()){
         $note = __( 'BeGateway capture complete.', 'woocommerce-begateway' ) . PHP_EOL .
@@ -346,15 +370,20 @@ if ( ! defined( 'ABSPATH' ) )
   			$order->add_order_note($note);
 
   			$this->log('Info: Capture was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-  			$this->save_transaction_id( $result, $order );
+  			$this->save_transaction_id( $response, $order );
   			update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
-        $order->payment_complete($response->getUid());
+  			update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
+        $order->payment_complete( $response->getUid() );
+
+        return true;
       } else {
   			$order->add_order_note(
-  				__( 'Unable to capture transaction!', 'woocommerce-begateway' ) . PHP_EOL .
+  				__( 'Error to capture transaction!', 'woocommerce-begateway' ) . PHP_EOL .
   				__( 'Error: ', 'woocommerce-begateway' ) . $response->getMessage()
+
   			);
-  			$this->log('Issue: Capure has failed there has been an issue with the transaction.' . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+  			$this->log('Issue: Capture has failed there has been an issue with the transaction.' . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+				return new WP_Error( 'begateway_error', __( 'Error to capture transaction' , 'woocommerce-begateway' ) );
       }
 		}
 
@@ -363,56 +392,88 @@ if ( ! defined( 'ABSPATH' ) )
 		 *
 		 * @param int $order_id
 		 */
-		public function cancel_payment( $order_id ) {
+		public function cancel_payment( $order_id, $amount ) {
 			$order = wc_get_order( $order_id );
 			if ( $this->id != $order->get_payment_method() ) {
-				return false;
+				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
 			}
 			$transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
 			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
 			if ( ! $transaction_uid ) {
-				return false;
+				return new WP_Error( 'begateway_error', __( 'No transaction reference UID to cancel' , 'woocommerce-begateway' ) );
 			}
 
-      $type = $captured == 'yes' ? 'refund' : 'void';
+      $this->log( "Info: Starting to void {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
 
-      $this->log( "Info: Starting to {$type} {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-
-      if ('refund' == $type) {
-        $this->child_transaction('refund', $transaction_uid, $order_id, $this->get_order_amount($order), __('Refunded from Woocommerce', 'woocommerce-begateway'));
-      } else {
-        $this->child_transaction('void', $transaction_uid, $order_id, $this->get_order_amount($order));
-      }
+      $response = $this->child_transaction('void', $transaction_uid, $order_id, $amount);
 
       if($response->isSuccess()){
-        if ('refund' == $type) {
-          $note = __( 'BeGateway refund complete.', 'woocommerce-begateway' ) . PHP_EOL .
-            __( 'Transaction UID: ', 'woocommerce-begateway' ) . $response->getUid();
+        $note = __( 'BeGateway void complete.', 'woocommerce-begateway' ) . PHP_EOL .
+          __( 'Transaction UID: ', 'woocommerce-begateway' ) . $response->getUid();
 
-    			$order->add_order_note($note);
+  			$order->add_order_note($note);
 
-    			$this->log('Info: Refund was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-    			$this->save_transaction_id( $result, $order );
-    			update_post_meta( $order->get_id(), '_begateway_transaction_refunded', 'yes' );
-
-        } else {
-          $note = __( 'BeGateway void complete.', 'woocommerce-begateway' ) . PHP_EOL .
-            __( 'Transaction UID: ', 'woocommerce-begateway' ) . $response->getUid();
-
-    			$order->add_order_note($note);
-
-    			$this->log('Info: Void was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-    			$this->save_transaction_id( $result, $order );
-    			update_post_meta( $order->get_id(), '_begateway_transaction_voided', 'yes' );
-        }
+  			$this->log('Info: Void was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+  			update_post_meta( $order->get_id(), '_begateway_transaction_voided', 'yes' );
+        return true;
       } else {
   			$order->add_order_note(
-  				sprintf(__('Unable to %s transaction!', 'woocommerce-begateway'), $type) . PHP_EOL .
+  			  __( 'Error to void transaction.', 'woocommerce-begateway' ) . PHP_EOL .
   				__( 'Error: ', 'woocommerce-begateway' ) . $response->getMessage()
   			);
-  			$this->log("Issue: {$type} has failed there has been an issue with the transaction." . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+  			$this->log("Issue: Void has failed there has been an issue with the transaction." . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+
+				return new WP_Error('begateway_error', __( 'Error to void transaction.', 'woocommerce-begateway' ) );
       }
 		}
+
+    /**
+     * Refund payment
+     *
+     * @param int $order_id
+     */
+    public function refund_payment( $order_id, $amount ) {
+      $order = wc_get_order( $order_id );
+      if ( $this->id != $order->get_payment_method() ) {
+        return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
+      }
+      $transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
+      $captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
+      if ( ! $transaction_uid ) {
+        return new WP_Error( 'begateway_error', __( 'No transaction reference UID to refund' , 'woocommerce-begateway' ) );
+      }
+
+      $this->log( "Info: Starting to refund {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+
+      $response = $this->child_transaction('refund', $transaction_uid, $order_id, $amount, __( 'Refunded from Woocommerce', 'woocommerce-begateway' ) );
+
+      if($response->isSuccess()){
+        $note = __( 'BeGateway refund complete.', 'woocommerce-begateway' ) . PHP_EOL .
+          __( 'Transaction UID: ', 'woocommerce-begateway' ) . $response->getUid();
+
+        $order->add_order_note($note);
+
+        $this->log('Info: Refund was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+
+        $refund_amount = $order->get_meta( '_begateway_transaction_refunded_amount', true ) ?: 0;
+        $refund_amount += $amount;
+        update_post_meta( $order->get_id(), '_begateway_transaction_refunded_amount', $refund_amount );
+
+        if ( $refund_amount >= $order->get_total() ) {
+          update_post_meta( $order->get_id(), '_begateway_transaction_refunded', 'yes' );
+        }
+        return true;
+
+      } else {
+        $order->add_order_note(
+          __( 'Error to refund transaction.', 'woocommerce-begateway' ) . PHP_EOL .
+          __( 'Error: ', 'woocommerce-begateway' ) . $response->getMessage()
+        );
+        $this->log("Issue: Refund has failed there has been an issue with the transaction." . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
+
+        return new WP_Error('begateway_error', __( 'Error to refund transaction.', 'woocommerce-begateway' ) );
+      }
+    }
 
   	/**
   	 * Store the transaction id.
@@ -434,7 +495,9 @@ if ( ! defined( 'ABSPATH' ) )
       $transaction->setParentUid($uid);
       $transaction->money->setCurrency(get_woocommerce_currency());
       $transaction->money->setAmount($amount);
-      $transaction->setReason($reason);
+      if (!empty($reason)) {
+        $transaction->setReason($reason);
+      }
 
       $response = $transaction->submit();
 
@@ -537,7 +600,7 @@ if ( ! defined( 'ABSPATH' ) )
 
       wp_register_script('begateway_wc_widget', $url, null, null);
       wp_register_script('begateway_wc_widget_start',
-        plugin_dir_url(__FILE__) . '/js/script.js',
+        untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/../js/script.js',
         array('begateway_wc_widget'), null
       );
 
@@ -547,6 +610,31 @@ if ( ! defined( 'ABSPATH' ) )
         );
 
       wp_enqueue_script('begateway_wc_widget_start');
+    }
+
+    /**
+    * Get Invoice data of Order.
+    *
+    * @param WC_Order $order
+    *
+    * @return array
+    * @throws Exception
+    */
+    public function get_invoice_data( $order ) {
+      if ( is_int( $order ) ) {
+        $order = wc_get_order( $order );
+      }
+
+      if ( $order->get_payment_method() !== $this->id ) {
+        throw new Exception('Unable to get invoice data.');
+      }
+
+      return array(
+        'authorized_amount' => $order->get_total(),
+        'settled_amount'    => $order->get_meta( '_begateway_transaction_captured_amount', true ) ?: 0,
+        'refunded_amount'   => $order->get_meta( '_begateway_transaction_refunded_amount', true ) ?: 0,
+        'state'             => $order->get_status()
+      );
     }
 
     /**
@@ -571,9 +659,51 @@ if ( ! defined( 'ABSPATH' ) )
   	 * @param int      $card_id The card reference.
   	 * @param WC_Order $order The order object related to the transaction.
   	 */
-  	protected function save_card_id( $card_id, $order ) {
-  		update_post_meta( $order->get_id(), '_begateway_card_id', $card_id );
+  	protected function save_card_id( $card, $order ) {
+  		update_post_meta( $order->get_id(), '_begateway_card_id', $card->token );
+  		update_post_meta( $order->get_id(), '_begateway_card_last_4', $card->last_4 );
+  		update_post_meta( $order->get_id(), '_begateway_card_brand', $card->brand != 'master' ? $card->brand : 'mastercard' );
   	}
-  } //end of class
 
-WC_BeGateway::register_gateway('WC_Gateway_BeGateway');
+  	/**
+  	 * Check if a payment method supports refund
+  	 *
+  	 * @param WC_Order $order The order object related to the transaction.
+     * @return boolean
+  	 */
+    public function can_payment_method_refund( $order ) {
+      return !in_array( $pm, self::NO_REFUND);
+    }
+
+  	/**
+  	 * Check if a payment method supports cancel
+  	 *
+  	 * @param WC_Order $order The order object related to the transaction.
+     * @return boolean
+  	 */
+    public function can_payment_method_cancel( $order ) {
+      $pm = $this->getPaymentMethod( $order );
+      return !in_array( $pm, self::NO_CANCEL);
+    }
+
+  	/**
+  	 * Check if a payment method supports capture
+  	 *
+  	 * @param WC_Order $order The order object related to the transaction.
+     * @return boolean
+  	 */
+    public function can_payment_method_capture( $order ) {
+      $pm = $this->getPaymentMethod( $order );
+      return !in_array( $pm, self::NO_CAPTURE);
+    }
+
+  	/**
+  	 * Return order payment method
+  	 *
+  	 * @param WC_Order $order The order object related to the transaction.
+     * @return string
+  	 */
+    public function getPaymentMethod( $order ) {
+      return $order->get_meta( '_begateway_transaction_payment_method');
+    }
+  } //end of class

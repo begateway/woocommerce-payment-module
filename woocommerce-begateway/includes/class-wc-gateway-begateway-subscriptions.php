@@ -4,13 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WC_Gateway_BeGateway_Addons
+ * Class WC_Gateway_BeGateway_Subscriptions
  *
  * The addons class, used for subscriptions.
  */
-class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
+class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	/**
-	 * WC_Gateway_BeGateway_Addons constructor.
+	 * WC_Gateway_BeGateway_Subscriptions constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -58,11 +58,6 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		}
 	}
 
-  public function woocommerce_loaded() {
-    include_once( plugin_basename( 'includes/class-wc-begateway-payment-tokens.php' ) );
-    include_once( plugin_basename( 'includes/class-wc-begateway-payment-token.php' ) );
-  }
-
 	/**
 	 * Trigger scheduled subscription payment.
 	 *
@@ -76,7 +71,6 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 			$renewal_order->update_status( 'failed', sprintf( __( 'BeGateway Transaction Failed (%s)', 'woocommerce-begateway' ), $result->get_error_message() ) );
 		}
 	}
-
 
 	/**
 	 * Process payment for subscription
@@ -193,7 +187,8 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
     if ($response->isError()) {
       $this->log("Fetching transaction {$transaction_id} failed");
 		} elseif ($response->isSuccess() && $response->getPaymentMethod()) {
-      $card = $response->getPaymentMethod();
+      $pm = $response->getPaymentMethod();
+      $card = $response->getResponse()->transaction->$pm;
 			$payment_method_to_display = sprintf( __( 'Via %s card ending in %s (%s)', 'woocommerce-begateway' ), ucfirst($card->brand), $card->last_4, ucfirst( $this->id ) );
     }
 
@@ -287,5 +282,3 @@ class WC_Gateway_BeGateway_Addons extends WC_Gateway_BeGateway {
 		}
 	}
 }
-
-WC_BeGateway::register_gateway('WC_Gateway_BeGateway_Addons');

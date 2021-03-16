@@ -11,11 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <ul class="order_action">
-	<li class="begateway-admin-section-li-header">
-        <?php echo __( 'State', 'woocommerce-begateway' ); ?>: <?php echo $order_data['state']; ?>
-    </li>
-
-	<?php $order_is_cancelled = ( $order->get_meta( '_begateway_order_cancelled', true ) === '1' ); ?>
+	<?php $order_is_cancelled = ( $order->get_meta( '_begateway_transaction_refunded', true ) === 'yes' ) || $order->get_meta( '_begateway_transaction_voided', true ) === 'yes'; ?>
 	<?php if ($order_is_cancelled && 'cancelled' != $order_data['state']): ?>
 		<li class="begateway-admin-section-li-small">
             <?php echo __( 'Order is cancelled', 'woocommerce-begateway' ); ?>
@@ -30,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class='begateway-balance__currency'>
                 &nbsp;
             </span>
-            <?php echo wc_price( ( $order_data['authorized_amount'] - $order_data['settled_amount'] ) / 100 ); ?>
+            <?php echo wc_price( ( $order_data['authorized_amount'] - $order_data['settled_amount'] ) ); ?>
         </span>
     </li>
 	<li class="begateway-admin-section-li">
@@ -41,18 +37,18 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class='begateway-balance__currency'>
                 &nbsp;
             </span>
-            <?php echo wc_price( $order_data['authorized_amount'] / 100 ); ?>
+            <?php echo wc_price( $order_data['authorized_amount'] ); ?>
         </span>
     </li>
 	<li class="begateway-admin-section-li">
         <span class="begateway-balance__label">
-            <?php echo __( 'Total settled', 'woocommerce-begateway' ); ?>:
+            <?php echo __( 'Total captured', 'woocommerce-begateway' ); ?>:
         </span>
         <span class="begateway-balance__amount">
             <span class='begateway-balance__currency'>
                 &nbsp;
             </span>
-            <?php echo wc_price( $order_data['settled_amount'] / 100 ); ?>
+            <?php echo wc_price( $order_data['settled_amount'] ); ?>
         </span>
     </li>
 	<li class="begateway-admin-section-li">
@@ -63,28 +59,32 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class='begateway-balance__currency'>
                 &nbsp;
             </span>
-            <?php echo wc_price( $order_data['refunded_amount'] / 100 ); ?>
+            <?php echo wc_price( $order_data['refunded_amount'] ); ?>
         </span>
     </li>
 	<li style='font-size: xx-small'>&nbsp;</li>
-	<?php if ($order_data['settled_amount'] == 0 && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled): ?>
+  <?php $can_capture = $gateway->can_payment_method_capture( $order ); ?>
+	<?php if ($order_data['settled_amount'] == 0 && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled && $can_capture): ?>
 		<li class="begateway-full-width">
             <a class="button button-primary" data-action="begateway_capture" id="begateway_capture" data-nonce="<?php echo wp_create_nonce( 'begateway' ); ?>" data-order-id="<?php echo $order_id; ?>" data-confirm="<?php echo __( 'You are about to CAPTURE this payment', 'woocommerce-begateway' ); ?>">
-                <?php echo sprintf( __( 'Capture Full Amount (%s)', 'woocommerce-begateway' ), wc_price( $order_data['authorized_amount'] / 100 ) ); ?>
+                <?php echo sprintf( __( 'Capture full amount (%s)', 'woocommerce-begateway' ), wc_price( $order_data['authorized_amount'] ) ); ?>
             </a>
         </li>
 	<?php endif; ?>
 
-	<?php if ($order_data['settled_amount'] == 0 && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled): ?>
+  <?php $can_cancel = $gateway->can_payment_method_cancel( $order ); ?>
+	<?php if ($order_data['settled_amount'] == 0 && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled && $can_cancel): ?>
 		<li class="begateway-full-width">
             <a class="button" data-action="begateway_cancel" id="begateway_cancel" data-confirm="<?php echo __( 'You are about to CANCEL this payment', 'woocommerce-begateway' ); ?>" data-nonce="<?php echo wp_create_nonce( 'begateway' ); ?>" data-order-id="<?php echo $order_id; ?>">
-                <?php echo __( 'Cancel remaining balance', 'woocommerce-begateway' ); ?>
+                <?php echo __( 'Cancel transaction', 'woocommerce-begateway' ); ?>
             </a>
         </li>
 		<li style='font-size: xx-small'>&nbsp;</li>
 	<?php endif; ?>
 
-	<?php if ($order_data['authorized_amount'] > $order_data['settled_amount'] && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled): ?>
+  <?php $can_capture = $gateway->can_payment_method_capture( $order ); ?>
+  <?php $order_is_captured = $order->get_meta( '_begateway_transaction_captured', true) == 'yes'; ?>
+	<?php if ($order_data['authorized_amount'] > $order_data['settled_amount'] && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled && !$order_is_captured && $can_capture): ?>
 		<li class="begateway-admin-section-li-header">
             <?php echo __( 'Partly capture', 'woocommerce-begateway' ); ?>
         </li>
@@ -93,18 +93,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php echo __( 'Capture amount', 'woocommerce-begateway' ); ?>:
             </span>
             <span class="begateway-partly_capture_amount">
-                <input id="begateway-capture_partly_amount-field" class="begateway-capture_partly_amount-field" type="text" autocomplete="off" size="6" value="<?php echo ( $order_data['authorized_amount'] - $order_data['settled_amount'] ) / 100; ?>" />
+                <input id="begateway-capture_partly_amount-field" class="begateway-capture_partly_amount-field" type="text" autocomplete="off" size="6" value="<?php echo ( $order_data['authorized_amount'] - $order_data['settled_amount'] ); ?>" />
             </span>
         </li>
 		<li class="begateway-full-width">
             <a class="button" id="begateway_capture_partly" data-nonce="<?php echo wp_create_nonce( 'begateway' ); ?>" data-order-id="<?php echo $order_id; ?>">
-                <?php echo __( 'Capture Specified Amount', 'woocommerce-begateway' ); ?>
+                <?php echo __( 'Capture specified amount', 'woocommerce-begateway' ); ?>
             </a>
         </li>
 		<li style='font-size: xx-small'>&nbsp;</li>
 	<?php endif; ?>
 
-	<?php if ( $order_data['settled_amount'] > $order_data['refunded_amount'] && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled ): ?>
+  <?php $can_refund = $gateway->can_payment_method_capture( $order ); ?>
+	<?php if ( $order_data['settled_amount'] > $order_data['refunded_amount'] && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled && $can_refund): ?>
 		<li class="begateway-admin-section-li-header">
             <?php echo __( 'Partly refund', 'woocommerce-begateway' ); ?>
         </li>
@@ -113,40 +114,41 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php echo __( 'Refund amount', 'woocommerce-begateway' ); ?>:
             </span>
             <span class="begateway-partly_refund_amount">
-                <input id="begateway-refund_partly_amount-field" class="begateway-refund_partly_amount-field" type="text" size="6" autocomplete="off" value="<?php echo ( $order_data['settled_amount'] - $order_data['refunded_amount'] ) / 100; ?>" />
+                <input id="begateway-refund_partly_amount-field" class="begateway-refund_partly_amount-field" type="text" size="6" autocomplete="off" value="<?php echo ( $order_data['settled_amount'] - $order_data['refunded_amount'] ) ?>" />
             </span>
         </li>
 		<li class="begateway-full-width">
             <a class="button" id="begateway_refund_partly" data-nonce="<?php echo wp_create_nonce( 'begateway' ); ?>" data-order-id="<?php echo $order_id; ?>">
-                <?php echo __( 'Refund Specified Amount', 'woocommerce-begateway' ); ?>
+                <?php echo __( 'Refund specified amount', 'woocommerce-begateway' ); ?>
             </a>
         </li>
 		<li style='font-size: xx-small'>&nbsp;</li>
 	<?php endif; ?>
 
 	<li class="begateway-admin-section-li-header-small">
-        <?php echo __( 'Order ID', 'woocommerce-begateway' ) ?>
+        <?php echo __( 'Payment method', 'woocommerce-begateway' ) ?>
     </li>
 	<li class="begateway-admin-section-li-small">
-        <?php echo $order_data["handle"]; ?>
+        <?php echo ucfirst( $order->get_meta( '_begateway_transaction_payment_method', true ) ); ?>
     </li>
 	<li class="begateway-admin-section-li-header-small">
-        <?php echo __( 'Transaction ID', 'woocommerce-begateway' ) ?>
+        <?php echo __( 'Transaction UID', 'woocommerce-begateway' ) ?>
     </li>
 	<li class="begateway-admin-section-li-small">
-        <?php echo $order_data["id"]; ?>
+        <?php echo $order->get_meta( '_begateway_transaction_id', true ); ?>
     </li>
-	<?php if ( isset( $order_data['transactions'][0] ) && isset( $order_data['transactions'][0]['card_transaction'] ) ): ?>
+	<?php if ( null != $order->get_meta( '_begateway_card_last_4', true ) ): ?>
         <li class="begateway-admin-section-li-header-small">
 			<?php echo __( 'Card number', 'woocommerce-begateway' ); ?>
         </li>
         <li class="begateway-admin-section-li-small">
-			<?php echo WC_ReepayCheckout::formatCreditCard( $order_data['transactions'][0]['card_transaction']['masked_card'] ); ?>
+			<?php echo 'xxxx ' . $order->get_meta( '_begateway_card_last_4', true ); ?>
         </li>
-        <p>
-        <center>
-            <img src="<?php echo $gateway->get_logo( $order_data['transactions'][0]['card_transaction']['card_type'] ); ?>" class="begateway-admin-card-logo" />
-        </center>
-        </p>
-	<?php endif; ?>
+        <li class="begateway-admin-section-li-header-small">
+			<?php echo __( 'Card brand', 'woocommerce-begateway' ); ?>
+        </li>
+        <li class="begateway-admin-section-li-small">
+			<?php echo ucfirst( $order->get_meta( '_begateway_card_brand', true ) ); ?>
+        </li>
+	<?php endif ?>
 </ul>

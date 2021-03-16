@@ -56,7 +56,7 @@ class WC_BeGateway
 
     add_action( 'wp_ajax_begateway_refund_partly', array(
       $this,
-      'ajax_begateway_refund_partly'
+      'ajax_begateway_refund'
     ) );
 
 		// add meta boxes
@@ -80,13 +80,17 @@ class WC_BeGateway
 	* @return void
 	*/
   public function woocommerce_loaded() {
-    require_once( dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php' );
+    require_once( dirname( __FILE__ ) . '/begateway-api-php/lib/BeGateway.php' );
+    include_once( dirname( __FILE__ ) . '/includes/class-wc-begateway-payment-token.php' );
+    include_once( dirname( __FILE__ ) . '/includes/class-wc-begateway-payment-tokens.php' );
     include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway.php' );
 
     if ($this->is_woocommerce_subscription_support_enabled()) {
       // register gateway with subscription support
-      include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway-addons.php' );
+      include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway-subscriptions.php' );
+      WC_BeGateway::register_gateway('WC_Gateway_BeGateway_Subscriptions');
     } else {
+      WC_BeGateway::register_gateway('WC_Gateway_BeGateway');
     }
   }
 
@@ -152,7 +156,7 @@ class WC_BeGateway
 			if ( $order = wc_get_order( $post->ID ) ) {
 				$payment_method = $order->get_payment_method();
 				if ( $this->id == $payment_method ) {
-					add_meta_box( 'begateway-payment-actions', __( 'BeGateway Payment', 'woocommerce-begateway' ), [
+					add_meta_box( 'begateway-payment-actions', __( 'Transactions', 'woocommerce-begateway' ), [
 						&$this,
 						'meta_box_payment',
 					], $post_type, 'side', 'high', [
@@ -174,7 +178,9 @@ class WC_BeGateway
 
 		if ( $order = wc_get_order( $post->ID ) ) {
 
-			if ( $this->id == $order->get_payment_method() ) {
+      $payment_method = $order->get_payment_method();
+
+			if ( $this->id == $payment_method ) {
 
 				do_action( 'woocommerce_begateway_meta_box_payment_before_content', $order );
 
@@ -272,6 +278,128 @@ class WC_BeGateway
 			// Enqueued script with localized data
 			wp_enqueue_script( 'begateway-admin-js' );
 		}
+	}
+
+  /**
+	 * Action for Capture
+	 */
+	public function ajax_begateway_capture() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'begateway' ) ) {
+			exit( 'Invalid nonce' );
+		}
+
+		$order_id = (int) $_REQUEST['order_id'];
+		$order = wc_get_order( $order_id );
+
+		// Get Payment Gateway
+		$payment_method = $order->get_payment_method();
+		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+
+		/** @var WC_Gateway_BeGateway $gateway */
+		$gateway = 	$gateways[ $payment_method ];
+		$result = $gateway->capture_payment( $order_id, $order->get_total() );
+
+    if (!is_wp_error($result)) {
+			wp_send_json_success( __( 'Capture success.', 'woocommerce-begateway' ) );
+    } else {
+			wp_send_json_error( $result->get_error_message() );
+    }
+	}
+
+	/**
+	 * Action for Cancel
+	 */
+	public function ajax_begateway_cancel() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'begateway' ) ) {
+			exit( 'Invalid nonce' );
+		}
+
+		$order_id = (int) $_REQUEST['order_id'];
+		$order = wc_get_order( $order_id );
+
+		//
+		// Check if the order is already cancelled
+		// ensure no more actions are made
+		//
+		if ( $order->get_meta( '_begateway_transaction_voided', true ) === "yes" ) {
+			wp_send_json_success( __( 'Order already cancelled.', 'woocommerce-begateway' ) );
+			return;
+		}
+
+		// Get Payment Gateway
+		$payment_method = $order->get_payment_method();
+		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+
+		/** @var WC_Gateway_BeGateway $gateway */
+		$gateway = 	$gateways[ $payment_method ];
+
+		$result = $gateway->cancel_payment( $order_id, $order->get_total() );
+
+    if (!is_wp_error($result)) {
+			wp_send_json_success( __( 'Cancel success.', 'woocommerce-begateway' ) );
+    } else {
+			wp_send_json_error( $result->get_error_message() );
+    }
+	}
+
+	/**
+	 * Action for Cancel
+	 */
+	public function ajax_begateway_refund() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'begateway' ) ) {
+			exit( 'Invalid nonce' );
+		}
+
+		$amount = $_REQUEST['amount'];
+		$order_id = (int) $_REQUEST['order_id'];
+		$order = wc_get_order( $order_id );
+
+    $amount = str_replace(",", ".", $amount);
+    $amount = floatval($amount);
+
+		$payment_method = $order->get_payment_method();
+		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+
+		/** @var WC_Gateway_BeGateway $gateway */
+		$gateway = 	$gateways[ $payment_method ];
+		$result = $gateway->refund_payment( $order_id, $amount );
+
+    if (!is_wp_error($result)) {
+			wp_send_json_success( __( 'Refund success.', 'woocommerce-begateway' ) );
+    } else {
+			wp_send_json_error( $result->get_error_message() );
+    }
+	}
+
+	/**
+	 * Action for partial capture
+	 */
+	public function ajax_begateway_capture_partly() {
+
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'begateway' ) ) {
+			exit( 'Invalid nonce' );
+		}
+
+		$amount = $_REQUEST['amount'];
+		$order_id = (int) $_REQUEST['order_id'];
+		$order = wc_get_order( $order_id );
+
+    $amount = str_replace(",", ".", $amount);
+    $amount = floatval($amount);
+
+		// Get Payment Gateway
+		$payment_method = $order->get_payment_method();
+		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+
+		/** @var WC_Gateway_BeGateway $gateway */
+		$gateway = 	$gateways[ $payment_method ];
+		$result = $gateway->capture_payment( $order_id, $amount );
+
+    if (!is_wp_error($result)) {
+			wp_send_json_success( __( 'Capture partly success.', 'woocommerce-begateway' ) );
+    } else {
+			wp_send_json_error( $result->get_error_message() );
+    }
 	}
 
   protected function is_woocommerce_subscription_support_enabled() {
