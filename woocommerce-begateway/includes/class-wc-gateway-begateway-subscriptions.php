@@ -87,11 +87,11 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 			return true;
 		}
 		// get last transaction id used.
-		$last_transaction_id = $this->get_transaction_id( $order );
 		$last_card_id        = $this->get_card_id( $order );
 		$result              = null;
 		if ( !$last_card_id ) {
-				return new WP_Error( 'begateway_error', __( 'Card ID was found', 'woocommerce-begateway' ) );
+    		$this->log( "Info: Card token {$last_card_id} not found for order {$order->get_id()}" );
+				return new WP_Error( 'begateway_error', __( 'Card ID not found', 'woocommerce-begateway' ) );
 		}
 		$order_id = $order->get_id();
 
@@ -248,16 +248,11 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 */
 	protected function save_transaction_id( $result, $order ) {
 		parent::save_transaction_id( $result, $order );
-		// Also store it on the subscriptions being purchased or paid for in the order.
-		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
-			$subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
-		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
-			$subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
-		} else {
-			$subscriptions = array();
-		}
+
+    $subscriptions = $this->get_order_subscriptions( $order );
+
 		foreach ( $subscriptions as $subscription ) {
-			update_post_meta( $subscription->get_id(), '_begateway_transaction_id', $result['id'] );
+      parent::save_transaction_id( $result, $subscription );
 		}
 	}
 
@@ -267,18 +262,49 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 * @param int      $card_id The card reference.
 	 * @param WC_Order $order The order reference.
 	 */
-	protected function save_card_id( $card_id, $order ) {
-		parent::save_card_id( $card_id, $order );
-		// Also store it on the subscriptions being purchased or paid for in the order.
-		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
-			$subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
-		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
-			$subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
-		} else {
-			$subscriptions = array();
-		}
+	protected function save_card_id( $card, $order ) {
+		parent::save_card_id( $card, $order );
+
+    $subscriptions = $this->get_order_subscriptions( $order );
+
 		foreach ( $subscriptions as $subscription ) {
-			update_post_meta( $subscription->get_id(), '_begateway_card_id', $card_id );
+      parent::save_card_id( $card, $subscription);
 		}
 	}
+
+  /**
+  * @param $order
+  *
+  * @return mixed
+  */
+  protected function get_card_id( $order ) {
+    $card_id = parent::get_card_id( $order );
+    if ( $card_id ) {
+      return $card_id;
+    }
+
+    $subscriptions = $this->get_order_subscriptions( $order );
+
+    foreach ( $subscriptions as $subscription ) {
+      $card_id = parent::get_card_id( $subscription );
+      if ( $card_id ) {
+        return $card_id;
+      }
+    }
+
+    return false;
+  }
+
+  protected function get_order_subscriptions( $order ) {
+    $subscriptions = array();
+
+    if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
+      $subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
+    } elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
+      $subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
+    }
+
+    return $subscriptions;
+  }
+
 }

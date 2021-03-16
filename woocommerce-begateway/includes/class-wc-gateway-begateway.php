@@ -484,6 +484,9 @@ if ( ! defined( 'ABSPATH' ) )
   	protected function save_transaction_id( $transaction, $order ) {
   		update_post_meta( $order->get_id(), '_transaction_id', $transaction->getUid());
   		update_post_meta( $order->get_id(), '_begateway_transaction_id', $transaction->getUid());
+      if ( method_exists($transaction, 'getPaymentMethod') ) {
+        update_post_meta( $order->get_id(), '_begateway_transaction_payment_method', $transaction->getPaymentMethod() );
+      }
   	}
 
     function child_transaction($type, $uid, $order_id, $amount, $reason = ''){
@@ -664,6 +667,19 @@ if ( ! defined( 'ABSPATH' ) )
   		update_post_meta( $order->get_id(), '_begateway_card_last_4', $card->last_4 );
   		update_post_meta( $order->get_id(), '_begateway_card_brand', $card->brand != 'master' ? $card->brand : 'mastercard' );
   	}
+
+    /**
+    * @param $order
+    *
+    * @return mixed
+    */
+    protected function get_card_id( $order ) {
+      $card_id = get_post_meta( $order->get_id(), '_begateway_card_id', true );
+      if ( $card_id ) {
+        return $card_id;
+      }
+      return false;
+    }
 
   	/**
   	 * Check if a payment method supports refund
