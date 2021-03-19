@@ -209,37 +209,6 @@ class WC_BeGateway
 		}
 	}
 
-	public function meta_box_subscription() {
-	  $this->meta_box_payment();
-	}
-
-	/**
-	 * MetaBox for Payment Actions
-	 * @return void
-	 */
-	public static function order_meta_box_payment_actions() {
-		global $post_id;
-		$order = wc_get_order( $post_id );
-
-		// Get Payment Gateway
-		$payment_method = $order->get_payment_method();
-		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
-
-		/** @var WC_Gateway_BeGateway $gateway */
-		$gateway = 	$gateways[ $payment_method ];
-
-		wc_get_template(
-			'admin/payment-actions.php',
-			array(
-				'gateway'    => $gateway,
-				'order'      => $order,
-				'order_id'   => $post_id,
-			),
-			'',
-			dirname( __FILE__ ) . '/templates/'
-		);
-	}
-
   /**
 	 * Enqueue Scripts in admin
 	 *

@@ -60,18 +60,6 @@ if ( ! defined( 'ABSPATH' ) )
       add_action('woocommerce_api_wc_gateway_begateway', array( $this, 'validate_ipn_request' ) );
       add_action('woocommerce_update_options_payment_gateways', array($this, 'process_admin_options'));
       add_action('woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-
-			// add_action( 'woocommerce_order_status_on-hold_to_processing', array( $this, 'capture_payment' ) );
-			// add_action( 'woocommerce_order_status_on-hold_to_completed', array( $this, 'capture_payment' ) );
-			// add_action( 'woocommerce_order_status_on-hold_to_cancelled', array( $this, 'cancel_payment' ) );
-			// add_action( 'woocommerce_order_status_on-hold_to_refunded', array( $this, 'cancel_payment' ) );
-
-        // add_action( 'admin_menu', array( $this, 'add_meta_boxes' ), 10, 2 );
-  		  // add_action( 'add_meta_boxes_shop_order', array( $this, 'add_meta_boxes' ), 10, 2 );
-  		  // add_action( 'add_meta_boxes_shop_subscription', array( $this, 'add_meta_boxes' ), 10, 2 );
-  		// add_action( 'add_meta_boxes_shop_order', array( $this, 'add_meta_boxes' ) );
-  		// add_action( 'add_meta_boxes_shop_subscription', array( $this, 'add_meta_boxes' ) );
-
     } // end __construct
 
     /**

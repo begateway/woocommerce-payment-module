@@ -123,6 +123,11 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
       $this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
     );
 
+    if ( $this->settings['transaction_type'] != 'authorization' ) {
+  		update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
+  		update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
+    }
+
     $order->payment_complete($result->getUid());
 	}
 
