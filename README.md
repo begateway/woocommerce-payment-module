@@ -1,4 +1,6 @@
-# WooCommerce payment module
+# WooCommerce payment plugin
+
+It supports [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 
 [Русская версия](#Модуль-оплаты-woocommerce)
 
@@ -26,7 +28,7 @@ This will bring up a page displaying all the options that you can select to admi
 
   * set _Title_ e.g. _Credit or debit card_
   * set _Admin Title_ e.g. _beGateway_
-  * set _Description_ e.g. _VISA, MasterCard_. You are free to put all payment cards supported by your acquiring payment agreement.
+  * set _Description_ e.g. _Visa, Mastercard_. You are free to put all payment cards supported by your acquiring payment agreement.
   * Transaction type: _Authorization_ or _Payment_
   * Check _Enable admin capture etc_ if you want to allow administrators
     to issue refunds or captures from WooCommerce backend
@@ -77,7 +79,11 @@ Use the following test card to make failed test payment:
   * Card expiry date: 01/30
   * CVC: 123
 
+Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal-payments/ to test subscription renewal payments.
+
 # Модуль оплаты WooCommerce
+
+Модуль поддерживает работу с плагином подписок [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 
 [English version](#woocommerce-payment-module)
 
@@ -107,7 +113,7 @@ Use the following test card to make failed test payment:
 
   * задайте _Заголовок_ e.g. _Credit or debit card_
   * задайте _Заголовок для администратора_ e.g. _beGateway_
-  * задайте _Описание_ e.g. _VISA, MasterCard_. You are free to put all payment cards supported by your acquiring payment agreement.
+  * задайте _Описание_ e.g. _Visa, Mastercard_. You are free to put all payment cards supported by your acquiring payment agreement.
   * задайте _Тип транзакции_: _Авторизация_ или _Платеж_
   * отметьте _Включить администратору возможность списания/отмены авторизации/возврат_ если хотите посылать списания/возвраты/отмену авторизации из панели администратора WooCommerce
   * отметьте _Журнал отладки_ если хотите журналировать события модуля
@@ -157,3 +163,9 @@ Use the following test card to make failed test payment:
   * Имя на карте: JOHN DOE
   * Месяц срока действия карты: 01/30
   * CVC: 123
+
+Для тестирования продления подписок следуйте инструкции https://docs.woocommerce.com/document/testing-subscription-renewal-payments/
+
+# TODO
+
+Добавить https://github.com/YahnisElsts/plugin-update-checker

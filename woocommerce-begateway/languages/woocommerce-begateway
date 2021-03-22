@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-WPHeader: bt-begateway.php\n"
+"X-Poedit-WPHeader: wc-begateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
@@ -20,320 +20,320 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: bt-begateway.php:125 bt-begateway.php:154
+#: wc-begateway.php:125 wc-begateway.php:154
 msgid "BeGateway"
 msgstr ""
 
-#: bt-begateway.php:139
+#: wc-begateway.php:139
 msgid "Enable/Disable"
 msgstr ""
 
-#: bt-begateway.php:141
+#: wc-begateway.php:141
 msgid "Enable BeGateway"
 msgstr ""
 
-#: bt-begateway.php:145
+#: wc-begateway.php:145
 msgid "Title"
 msgstr ""
 
-#: bt-begateway.php:147
+#: wc-begateway.php:147
 msgid "This is the title displayed to the user during checkout"
 msgstr ""
 
-#: bt-begateway.php:148
+#: wc-begateway.php:148
 msgid "Credit or debit card"
 msgstr ""
 
-#: bt-begateway.php:151
+#: wc-begateway.php:151
 msgid "Admin Title"
 msgstr ""
 
-#: bt-begateway.php:153
+#: wc-begateway.php:153
 msgid "This is the title displayed to the admin user"
 msgstr ""
 
-#: bt-begateway.php:157
+#: wc-begateway.php:157
 msgid "Description"
 msgstr ""
 
-#: bt-begateway.php:159
+#: wc-begateway.php:159
 msgid "This is the description which the user sees during checkout"
 msgstr ""
 
-#: bt-begateway.php:160
+#: wc-begateway.php:160
 msgid "VISA, Mastercard"
 msgstr ""
 
-#: bt-begateway.php:163
+#: wc-begateway.php:163
 msgid "Shop ID"
 msgstr ""
 
-#: bt-begateway.php:165
+#: wc-begateway.php:165
 msgid "Please enter your Shop Id."
 msgstr ""
 
-#: bt-begateway.php:169
+#: wc-begateway.php:169
 msgid "Secret key"
 msgstr ""
 
-#: bt-begateway.php:171
+#: wc-begateway.php:171
 msgid "Please enter your Shop secret key."
 msgstr ""
 
-#: bt-begateway.php:175
+#: wc-begateway.php:175
 msgid "Payment gateway domain"
 msgstr ""
 
-#: bt-begateway.php:177
+#: wc-begateway.php:177
 msgid "Please enter payment gateway domain of your payment processor"
 msgstr ""
 
-#: bt-begateway.php:181
+#: wc-begateway.php:181
 msgid "Payment page domain"
 msgstr ""
 
-#: bt-begateway.php:183
+#: wc-begateway.php:183
 msgid "Please enter payment page domain of your payment processor"
 msgstr ""
 
-#: bt-begateway.php:187
+#: wc-begateway.php:187
 msgid "Transaction type"
 msgstr ""
 
-#: bt-begateway.php:190
+#: wc-begateway.php:190
 msgid "Payment"
 msgstr ""
 
-#: bt-begateway.php:191
+#: wc-begateway.php:191
 msgid "Authorization"
 msgstr ""
 
-#: bt-begateway.php:193
+#: wc-begateway.php:193
 msgid "Select Payment (Authorization & Capture) or Authorization."
 msgstr ""
 
-#: bt-begateway.php:196
+#: wc-begateway.php:196
 msgid "Enable Bankcard Payments"
 msgstr ""
 
-#: bt-begateway.php:198
+#: wc-begateway.php:198
 msgid "This enables VISA/Mastercard and etc card payments"
 msgstr ""
 
-#: bt-begateway.php:202
+#: wc-begateway.php:202
 msgid "Enable Halva card payments"
 msgstr ""
 
-#: bt-begateway.php:204
+#: wc-begateway.php:204
 msgid "This enables Halva card payments"
 msgstr ""
 
-#: bt-begateway.php:208
+#: wc-begateway.php:208
 msgid "Enable ERIP payments"
 msgstr ""
 
-#: bt-begateway.php:210
+#: wc-begateway.php:210
 msgid "This enables ERIP payments"
 msgstr ""
 
-#: bt-begateway.php:214
+#: wc-begateway.php:214
 msgid "ERIP service code"
 msgstr ""
 
-#: bt-begateway.php:216
+#: wc-begateway.php:216
 msgid "Enter ERIP service code provided you by your payment service provider"
 msgstr ""
 
-#: bt-begateway.php:220
+#: wc-begateway.php:220
 msgid "Payment valid (minutes)"
 msgstr ""
 
-#: bt-begateway.php:222
+#: wc-begateway.php:222
 msgid "The value sets a period of time within which an order must be paid"
 msgstr ""
 
-#: bt-begateway.php:226
+#: wc-begateway.php:226
 msgid "Enable admin capture etc."
 msgstr ""
 
-#: bt-begateway.php:228
+#: wc-begateway.php:228
 msgid "Show Transaction Table"
 msgstr ""
 
-#: bt-begateway.php:229
+#: wc-begateway.php:229
 msgid "Allows admin to send capture/void/refunds"
 msgstr ""
 
-#: bt-begateway.php:233
+#: wc-begateway.php:233
 msgid "Payment mode"
 msgstr ""
 
-#: bt-begateway.php:236
+#: wc-begateway.php:236
 msgid "Test"
 msgstr ""
 
-#: bt-begateway.php:237
+#: wc-begateway.php:237
 msgid "Live"
 msgstr ""
 
-#: bt-begateway.php:239
+#: wc-begateway.php:239
 msgid "Select module payment mode"
 msgstr ""
 
-#: bt-begateway.php:243
+#: wc-begateway.php:243
 msgid "Debug Log"
 msgstr ""
 
-#: bt-begateway.php:245
+#: wc-begateway.php:245
 msgid "Enable logging"
 msgstr ""
 
-#: bt-begateway.php:247
+#: wc-begateway.php:247
 msgid "Log events"
 msgstr ""
 
-#: bt-begateway.php:281
+#: wc-begateway.php:281
 msgid "Order"
 msgstr ""
 
-#: bt-begateway.php:341
+#: wc-begateway.php:341
 msgid "Error to get a payment token."
 msgstr ""
 
-#: bt-begateway.php:354
+#: wc-begateway.php:354
 msgid ""
 "Thank you for your order. We are now redirecting you to make the payment."
 msgstr ""
 
-#: bt-begateway.php:375
+#: wc-begateway.php:375
 msgid "Make payment"
 msgstr ""
 
-#: bt-begateway.php:375
+#: wc-begateway.php:375
 msgid "Cancel order &amp; restore cart"
 msgstr ""
 
-#: bt-begateway.php:427
+#: wc-begateway.php:427
 msgid "Order currently pending no capture/refund available"
 msgstr ""
 
-#: bt-begateway.php:472
+#: wc-begateway.php:472
 msgid "Please enter amount to capture"
 msgstr ""
 
-#: bt-begateway.php:473
+#: wc-begateway.php:473
 msgid "Capture"
 msgstr ""
 
-#: bt-begateway.php:476
+#: wc-begateway.php:476
 msgid "Please enter amount to void"
 msgstr ""
 
-#: bt-begateway.php:477
+#: wc-begateway.php:477
 msgid "Void"
 msgstr ""
 
-#: bt-begateway.php:480
+#: wc-begateway.php:480
 msgid "Please enter amount to refund"
 msgstr ""
 
-#: bt-begateway.php:481
+#: wc-begateway.php:481
 msgid "Refund"
 msgstr ""
 
-#: bt-begateway.php:482
+#: wc-begateway.php:482
 msgid "Refund reason"
 msgstr ""
 
-#: bt-begateway.php:559
+#: wc-begateway.php:559
 msgid "Payment success."
 msgstr ""
 
-#: bt-begateway.php:560
+#: wc-begateway.php:560
 msgid "Payment failed."
 msgstr ""
 
-#: bt-begateway.php:561
+#: wc-begateway.php:561
 msgid "Payment incomplete, order status not updated."
 msgstr ""
 
-#: bt-begateway.php:562
+#: wc-begateway.php:562
 msgid "Payment error, order status not updated."
 msgstr ""
 
-#: bt-begateway.php:565
+#: wc-begateway.php:565
 msgid "Payment authorised. No money captured yet."
 msgstr ""
 
-#: bt-begateway.php:566
+#: wc-begateway.php:566
 msgid "Authorization failed."
 msgstr ""
 
-#: bt-begateway.php:567
+#: wc-begateway.php:567
 msgid "Authorisation incomplete, order status not updated."
 msgstr ""
 
-#: bt-begateway.php:568
+#: wc-begateway.php:568
 msgid "Authorisation error, order status not updated"
 msgstr ""
 
-#: bt-begateway.php:572
+#: wc-begateway.php:572
 msgid "Callback error, order status not updated"
 msgstr ""
 
-#: bt-begateway.php:612
+#: wc-begateway.php:612
 msgid "UID is not correct"
 msgstr ""
 
-#: bt-begateway.php:617
+#: wc-begateway.php:617
 msgid "Wrong order status. Void is not possible."
 msgstr ""
 
-#: bt-begateway.php:618
+#: wc-begateway.php:618
 msgid "Void status"
 msgstr ""
 
-#: bt-begateway.php:619
+#: wc-begateway.php:619
 msgid "Void attempt failed"
 msgstr ""
 
-#: bt-begateway.php:620
+#: wc-begateway.php:620
 msgid "Payment voided"
 msgstr ""
 
-#: bt-begateway.php:623
+#: wc-begateway.php:623
 msgid "Wrong order status. Capture is not possible."
 msgstr ""
 
-#: bt-begateway.php:624
+#: wc-begateway.php:624
 msgid "Capture status"
 msgstr ""
 
-#: bt-begateway.php:625
+#: wc-begateway.php:625
 msgid "Capture attempt failed"
 msgstr ""
 
-#: bt-begateway.php:626
+#: wc-begateway.php:626
 msgid "Payment captured"
 msgstr ""
 
-#: bt-begateway.php:629
+#: wc-begateway.php:629
 msgid "Wrong order status. Refund is not possible."
 msgstr ""
 
-#: bt-begateway.php:630
+#: wc-begateway.php:630
 msgid "Refund status"
 msgstr ""
 
-#: bt-begateway.php:631
+#: wc-begateway.php:631
 msgid "Refund attempt failed"
 msgstr ""
 
-#: bt-begateway.php:632
+#: wc-begateway.php:632
 msgid "Payment refunded"
 msgstr ""
 
-#: bt-begateway.php:655
+#: wc-begateway.php:655
 msgid "Refunded from Woocommerce"
 msgstr ""
 
