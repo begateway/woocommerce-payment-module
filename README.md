@@ -165,3 +165,7 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
   * CVC: 123
 
 Для тестирования продления подписок следуйте инструкции https://docs.woocommerce.com/document/testing-subscription-renewal-payments/
+
+# TODO
+
+Добавить https://github.com/YahnisElsts/plugin-update-checker
