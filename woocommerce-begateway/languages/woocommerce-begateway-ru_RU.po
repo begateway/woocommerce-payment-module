@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
-"POT-Creation-Date: 2021-02-25 17:34+0300\n"
-"PO-Revision-Date: 2021-02-25 17:34+0300\n"
+"POT-Creation-Date: 2021-03-19 17:58+0300\n"
+"PO-Revision-Date: 2021-03-19 17:58+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -13,326 +13,395 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-WPHeader: bt-begateway.php\n"
+"X-Poedit-WPHeader: wc-begateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: bt-begateway.php:96 bt-begateway.php:125
+#: includes/class-wc-gateway-begateway-subscriptions.php:71
+#, php-format
+msgid "Error to process subscription payment with the error: %s"
+msgstr "Ошибка обработки оплаты подписки с ошибкой: %s"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:94
+msgid "Card token not found"
+msgstr "Токен карты не найден"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:108
+msgid "Error to process subscription payment"
+msgstr "Ошибка при  оплате подписки"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:115
+msgid "Successfully processed subscription payment"
+msgstr "Оплата подписки успешно обработана"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:116
+#: includes/class-wc-gateway-begateway.php:360
+#: includes/class-wc-gateway-begateway.php:404
+#: includes/class-wc-gateway-begateway.php:444
+msgid "Transaction UID: "
+msgstr "Номер операции:"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:185
+#, php-format
+msgid "Via %s card ending in %s (%s)"
+msgstr "С карты %s, заканчивающейся на %s (%s)"
+
+#: includes/class-wc-gateway-begateway-subscriptions.php:312
+msgid "Subscription payment method update of order"
+msgstr "Обновление способа оплаты подписки по заказу"
+
+#: includes/class-wc-gateway-begateway.php:71
 msgid "BeGateway"
 msgstr "BeGateway"
 
-#: bt-begateway.php:110
-msgid "Enable/Disable"
-msgstr "Включить/Выключить"
+#: includes/class-wc-gateway-begateway.php:72
+msgid "BeGateway payment gateway solution"
+msgstr "Платёжный шлюз WooCommerce BeGateway"
 
-#: bt-begateway.php:112
-msgid "Enable BeGateway"
-msgstr "Включить BeGateway"
+#: includes/class-wc-gateway-begateway.php:156
+msgid "Error to get a payment token"
+msgstr "Ошибка получения токена платежа"
 
-#: bt-begateway.php:116
-msgid "Title"
-msgstr "Заголовок"
-
-#: bt-begateway.php:118
-msgid "This is the title displayed to the user during checkout"
-msgstr "Этот заголовок будет показан покупателю в процессе оплаты"
-
-#: bt-begateway.php:119
-msgid "Credit or debit card"
-msgstr "Банковская карта"
-
-#: bt-begateway.php:122
-msgid "Admin Title"
-msgstr "Заголовок для администратора"
-
-#: bt-begateway.php:124
-msgid "This is the title displayed to the admin user"
-msgstr "Этот заголовок будет показан администраторам"
-
-#: bt-begateway.php:128
-msgid "Description"
-msgstr "Описание"
-
-#: bt-begateway.php:130
-msgid "This is the description which the user sees during checkout"
-msgstr "Это описание будет видеть покупатель в процессе оплаты"
-
-#: bt-begateway.php:131
-msgid "VISA, Mastercard"
-msgstr "VISA, MasterCard"
-
-#: bt-begateway.php:134
-msgid "Shop ID"
-msgstr "ID магазина"
-
-#: bt-begateway.php:136
-msgid "Please enter your Shop Id."
-msgstr "Введите Id магазина"
-
-#: bt-begateway.php:140
-msgid "Secret key"
-msgstr "Секретный ключ магазина"
-
-#: bt-begateway.php:142
-msgid "Please enter your Shop secret key."
-msgstr "Введите секретный ключ вашего магазина"
-
-#: bt-begateway.php:146
-msgid "Payment gateway domain"
-msgstr "Домен платежного шлюза"
-
-#: bt-begateway.php:148
-msgid "Please enter payment gateway domain of your payment processor"
-msgstr "Введите домен платежного шлюза вашей платежной компании"
-
-#: bt-begateway.php:152
-msgid "Payment page domain"
-msgstr "Домен страницы оплаты"
-
-#: bt-begateway.php:154
-msgid "Please enter payment page domain of your payment processor"
-msgstr "Введите домен платежной страницы вашей платежной компании"
-
-#: bt-begateway.php:158
-msgid "Transaction type"
-msgstr "Тип операции"
-
-#: bt-begateway.php:161
-msgid "Payment"
-msgstr "Оплата"
-
-#: bt-begateway.php:162
-msgid "Authorization"
-msgstr "Авторизация"
-
-#: bt-begateway.php:164
-msgid "Select Payment (Authorization & Capture) or Authorization."
-msgstr "Выберите Оплата или Авторизация"
-
-#: bt-begateway.php:167
-msgid "Enable Bankcard Payments"
-msgstr "Включить оплату банковской картой"
-
-#: bt-begateway.php:169
-msgid "This enables VISA/Mastercard and etc card payments"
-msgstr "Включает оплату с помощью карты VISA/Mastercard и т.д."
-
-#: bt-begateway.php:173
-msgid "Enable Halva card payments"
-msgstr "Включить оплату банковской картой Халва"
-
-#: bt-begateway.php:175
-msgid "This enables Halva card payments"
-msgstr "Включает оплату с помощью карты Халва"
-
-#: bt-begateway.php:179
-msgid "Enable ERIP payments"
-msgstr "Включить оплату через ЕРИП"
-
-#: bt-begateway.php:181
-msgid "This enables ERIP payments"
-msgstr "Включает оплату через ЕРИП"
-
-#: bt-begateway.php:185
-msgid "ERIP service code"
-msgstr "Код услуги ЕРИП"
-
-#: bt-begateway.php:187
-msgid "Enter ERIP service code provided you by your payment service provider"
-msgstr "Введите код услуги ЕРИП, сообщенной вам ваши провайдером платежей"
-
-#: bt-begateway.php:191
-msgid "Payment valid (minutes)"
-msgstr "Оплата действительная (минут)"
-
-#: bt-begateway.php:193
-msgid "The value sets a period of time within which an order must be paid"
-msgstr "Укажите количество минут, в течение которых заказ должен быть оплачен"
-
-#: bt-begateway.php:197
-msgid "Enable admin capture etc."
-msgstr ""
-"Включить администратору возможность списания/отмены авторизации/возврат"
-
-#: bt-begateway.php:199
-msgid "Show Transaction Table"
-msgstr "Показывать таблицу транзакций"
-
-#: bt-begateway.php:200
-msgid "Allows admin to send capture/void/refunds"
-msgstr "Разрешить администраторам операции списания/отмена авторизации/возврат"
-
-#: bt-begateway.php:204
-msgid "Payment mode"
-msgstr "Режим работы"
-
-#: bt-begateway.php:207
-msgid "Test"
-msgstr "Тест"
-
-#: bt-begateway.php:208
-msgid "Live"
-msgstr "Рабочий"
-
-#: bt-begateway.php:210
-msgid "Select module payment mode"
-msgstr "Укажите режим работы модуля"
-
-#: bt-begateway.php:214
-msgid "Debug Log"
-msgstr "Журнал отладки"
-
-#: bt-begateway.php:216
-msgid "Enable logging"
-msgstr "Включить журнал сообщений"
-
-#: bt-begateway.php:218
-msgid "Log events"
-msgstr "События журнала"
-
-#: bt-begateway.php:246
-msgid "Order"
-msgstr "Заказ"
-
-#: bt-begateway.php:306
-msgid "Error to get a payment token."
-msgstr "Ошибка получения токена платежа."
-
-#: bt-begateway.php:325
+#: includes/class-wc-gateway-begateway.php:187
 msgid "Make payment"
 msgstr "Оплатить"
 
-#: bt-begateway.php:326
+#: includes/class-wc-gateway-begateway.php:188
 msgid "Cancel order"
 msgstr "Отменить заказ"
 
-#: bt-begateway.php:377
-msgid "Order currently pending no capture/refund available"
-msgstr "Заказ в статусе ожидания. Списание/возврат средств недоступно"
+#: includes/class-wc-gateway-begateway.php:197
+#: includes/class-wc-gateway-begateway.php:525
+msgid "Order"
+msgstr "Заказ"
 
-#: bt-begateway.php:422
-msgid "Please enter amount to capture"
-msgstr "Введите сумму для списания"
+#: includes/class-wc-gateway-begateway.php:341
+#: includes/class-wc-gateway-begateway.php:390
+#: includes/class-wc-gateway-begateway.php:430
+msgid "Invalid payment method"
+msgstr "Некорректный способ оплаты"
 
-#: bt-begateway.php:423
-msgid "Capture"
-msgstr "Списать"
+#: includes/class-wc-gateway-begateway.php:347
+msgid "No transaction reference UID to capture"
+msgstr "Номер операции авторизации не найден"
 
-#: bt-begateway.php:426
-msgid "Please enter amount to void"
-msgstr "Введите сумму для отмены авторизации"
+#: includes/class-wc-gateway-begateway.php:351
+msgid "Transaction is already captured"
+msgstr "Деньги по операции уже списаны"
 
-#: bt-begateway.php:427
-msgid "Void"
-msgstr "Отмена авторизации"
+#: includes/class-wc-gateway-begateway.php:359
+msgid "Capture completed"
+msgstr "Списание успешно"
 
-#: bt-begateway.php:430
-msgid "Please enter amount to refund"
-msgstr "Введите сумму для возврата"
+#: includes/class-wc-gateway-begateway.php:373
+#: includes/class-wc-gateway-begateway.php:378
+msgid "Error to capture transaction"
+msgstr "Ошибка списания денег по операции"
 
-#: bt-begateway.php:431
-msgid "Refund"
-msgstr "Возврат"
+#: includes/class-wc-gateway-begateway.php:374
+#: includes/class-wc-gateway-begateway.php:414
+#: includes/class-wc-gateway-begateway.php:462
+msgid "Error: "
+msgstr "Ошибка:"
 
-#: bt-begateway.php:432
-msgid "Refund reason"
-msgstr "Причина возврата"
+#: includes/class-wc-gateway-begateway.php:395
+msgid "No transaction reference UID to cancel"
+msgstr "Номер операции авторизации не найден"
 
-#: bt-begateway.php:513
-msgid "Payment success."
-msgstr "Оплата успешна."
+#: includes/class-wc-gateway-begateway.php:403
+msgid "Void complete"
+msgstr "Отмена успешна"
 
-#: bt-begateway.php:514
-msgid "Payment failed."
-msgstr "Платеж не прошел."
+#: includes/class-wc-gateway-begateway.php:413
+#: includes/class-wc-gateway-begateway.php:418
+msgid "Error to void transaction"
+msgstr "Ошибка отмены операции"
 
-#: bt-begateway.php:515
-msgid "Payment incomplete, order status not updated."
-msgstr "Платеж не завершен. Статус заказа не изменен."
+#: includes/class-wc-gateway-begateway.php:435
+msgid "No transaction reference UID to refund"
+msgstr "Номер операции оплаты не найден"
 
-#: bt-begateway.php:516
-msgid "Payment error, order status not updated."
-msgstr "Ошибка оплаты. Статус заказа не изменен."
-
-#: bt-begateway.php:519
-msgid "Payment authorised. No money captured yet."
-msgstr "Платеж авторизирован. Деньги реально еще не списаны."
-
-#: bt-begateway.php:520
-msgid "Authorization failed."
-msgstr "Авторизация не успешна"
-
-#: bt-begateway.php:521
-msgid "Authorisation incomplete, order status not updated."
-msgstr "Авторизация не завершена. Статус заказа не изменен"
-
-#: bt-begateway.php:522
-msgid "Authorisation error, order status not updated"
-msgstr "Ошибка авторизации. Статус заказа не изменен"
-
-#: bt-begateway.php:526
-msgid "Callback error, order status not updated"
-msgstr "Ошибка нотификации. Статус заказа не изменен"
-
-#: bt-begateway.php:566
-msgid "UID is not correct"
-msgstr "UID не верен"
-
-#: bt-begateway.php:571
-msgid "Wrong order status. Void is not possible."
-msgstr "Не верный статус. Отмена авторизации не возможна"
-
-#: bt-begateway.php:572
-msgid "Void status"
-msgstr "Статус отмены авторизации"
-
-#: bt-begateway.php:573
-msgid "Void attempt failed"
-msgstr "Попытка отмены авторизации неуспешна."
-
-#: bt-begateway.php:574
-msgid "Payment voided"
-msgstr "Платеж анулирован"
-
-#: bt-begateway.php:577
-msgid "Wrong order status. Capture is not possible."
-msgstr "Не верный статус. Операция списания не возможна"
-
-#: bt-begateway.php:578
-msgid "Capture status"
-msgstr "Статус списания"
-
-#: bt-begateway.php:579
-msgid "Capture attempt failed"
-msgstr "Попытка списания неуспешна"
-
-#: bt-begateway.php:580
-msgid "Payment captured"
-msgstr "Оплата списана"
-
-#: bt-begateway.php:583
-msgid "Wrong order status. Refund is not possible."
-msgstr "Не верный статус. Возврат платежа не возможен"
-
-#: bt-begateway.php:584
-msgid "Refund status"
-msgstr "Статус возврата платежа"
-
-#: bt-begateway.php:585
-msgid "Refund attempt failed"
-msgstr "Попытка возврата платежа неуспешна"
-
-#: bt-begateway.php:586
-msgid "Payment refunded"
-msgstr "Оплата возвращена"
-
-#: bt-begateway.php:609
+#: includes/class-wc-gateway-begateway.php:440
 msgid "Refunded from Woocommerce"
 msgstr "Возвращено из WooCommerce"
+
+#: includes/class-wc-gateway-begateway.php:443
+msgid "Refund completed"
+msgstr "Возврат успешен"
+
+#: includes/class-wc-gateway-begateway.php:461
+#: includes/class-wc-gateway-begateway.php:466
+msgid "Error to refund transaction"
+msgstr "Ошибка возврата денег по операции"
+
+#: includes/class-wc-gateway-begateway.php:556
+msgid "Issue: Creating the transaction failed!"
+msgstr "Ошибка создания операции"
+
+#: includes/class-wc-gateway-begateway.php:558
+msgid "There was a problem creating the transaction!"
+msgstr "Возникла проблема с созданием транзакции!"
+
+#: includes/settings-begateway.php:8
+msgid "Enable/Disable"
+msgstr "Включить/Выключить"
+
+#: includes/settings-begateway.php:10
+msgid "Enable BeGateway"
+msgstr "Включить BeGateway"
+
+#: includes/settings-begateway.php:14
+msgid "Title"
+msgstr "Заголовок"
+
+#: includes/settings-begateway.php:16
+msgid "This is the title displayed to the user during checkout"
+msgstr "Этот заголовок будет показан покупателю в процессе оплаты"
+
+#: includes/settings-begateway.php:17
+msgid "Credit or debit card"
+msgstr "Банковская карта"
+
+#: includes/settings-begateway.php:21
+msgid "Description"
+msgstr "Описание"
+
+#: includes/settings-begateway.php:23
+msgid "This is the description which the user sees during checkout"
+msgstr "Это описание будет видеть покупатель в процессе оплаты"
+
+#: includes/settings-begateway.php:24
+msgid "Visa, Mastercard"
+msgstr "Visa, Mastercard"
+
+#: includes/settings-begateway.php:28
+msgid "Shop ID"
+msgstr "ID магазина"
+
+#: includes/settings-begateway.php:30
+msgid "Please enter your shop Id"
+msgstr "Введите Id магазина"
+
+#: includes/settings-begateway.php:35
+msgid "Secret key"
+msgstr "Секретный ключ магазина"
+
+#: includes/settings-begateway.php:37
+msgid "Please enter your shop secret key"
+msgstr "Введите секретный ключ вашего магазина"
+
+#: includes/settings-begateway.php:42
+msgid "Public key"
+msgstr "Публичный ключ магазина"
+
+#: includes/settings-begateway.php:44
+msgid "Please enter your shop public key"
+msgstr "Введите публичный ключ вашего магазина"
+
+#: includes/settings-begateway.php:49
+msgid "Payment gateway domain"
+msgstr "Домен платежного шлюза"
+
+#: includes/settings-begateway.php:51
+msgid "Please enter payment gateway domain of your payment processor"
+msgstr "Введите домен платежного шлюза вашей платежной компании"
+
+#: includes/settings-begateway.php:56
+msgid "Payment page domain"
+msgstr "Домен страницы оплаты"
+
+#: includes/settings-begateway.php:58
+msgid "Please enter payment page domain of your payment processor"
+msgstr "Введите домен платежной страницы вашей платежной компании"
+
+#: includes/settings-begateway.php:63
+msgid "Transaction type"
+msgstr "Тип операции"
+
+#: includes/settings-begateway.php:66
+msgid "Payment"
+msgstr "Оплата"
+
+#: includes/settings-begateway.php:67
+msgid "Authorization"
+msgstr "Авторизация"
+
+#: includes/settings-begateway.php:69
+msgid "Select Payment (Authorization & Capture) or Authorization"
+msgstr "Выберите Оплата или Авторизация"
+
+#: includes/settings-begateway.php:73
+msgid "Payment methods"
+msgstr "Способы оплаты"
+
+#: includes/settings-begateway.php:77
+msgid "Select the payment method types to accept them explicity"
+msgstr "Выберите типы способов оплаты"
+
+#: includes/settings-begateway.php:79
+msgid "Bankcard"
+msgstr "Банковская карта"
+
+#: includes/settings-begateway.php:80
+msgid "Halva"
+msgstr "Халва"
+
+#: includes/settings-begateway.php:81
+msgid "ERIP"
+msgstr "ЕРИП"
+
+#: includes/settings-begateway.php:86
+msgid "ERIP service code"
+msgstr "Код услуги ЕРИП"
+
+#: includes/settings-begateway.php:88
+msgid "Enter ERIP service code provided you by your payment service provider"
+msgstr "Введите код услуги ЕРИП, сообщенной вам вашим провайдером платежей"
+
+#: includes/settings-begateway.php:93
+msgid "Payment valid (minutes)"
+msgstr "Оплата действительна (минут)"
+
+#: includes/settings-begateway.php:95
+msgid "The value sets a period of time within which an order must be paid"
+msgstr "Укажите количество минут, в течение которых заказ должен быть оплачен"
+
+#: includes/settings-begateway.php:100
+msgid "Payment mode"
+msgstr "Режим работы"
+
+#: includes/settings-begateway.php:103
+msgid "Test"
+msgstr "Тест"
+
+#: includes/settings-begateway.php:104
+msgid "Live"
+msgstr "Рабочий"
+
+#: includes/settings-begateway.php:106
+msgid "Select module payment mode"
+msgstr "Укажите режим работы модуля"
+
+#: includes/settings-begateway.php:111
+msgid "Debug Log"
+msgstr "Журнал отладки"
+
+#: includes/settings-begateway.php:113
+msgid "Enable logging"
+msgstr "Включить журнал сообщений"
+
+#: includes/settings-begateway.php:115
+msgid "Log events"
+msgstr "События журнала"
+
+#: templates/admin/metabox-order.php:17
+msgid "Order is cancelled"
+msgstr "Заказ успешно отменен"
+
+#: templates/admin/metabox-order.php:23
+msgid "Remaining balance"
+msgstr "Остаток"
+
+#: templates/admin/metabox-order.php:34
+msgid "Total authorized"
+msgstr "Всего авторизировано"
+
+#: templates/admin/metabox-order.php:45
+msgid "Total captured"
+msgstr "Всего списано"
+
+#: templates/admin/metabox-order.php:56
+msgid "Total refunded"
+msgstr "Всего возвращено"
+
+#: templates/admin/metabox-order.php:69
+msgid "You are about to CAPTURE this payment"
+msgstr "Вы осуществляете списание данной операции"
+
+#: templates/admin/metabox-order.php:70
+#, php-format
+msgid "Capture full amount (%s)"
+msgstr "Списать всю сумму (%s)"
+
+#: templates/admin/metabox-order.php:78
+msgid "You are about to CANCEL this payment"
+msgstr "Вы осуществляете отмену данной операции"
+
+#: templates/admin/metabox-order.php:79
+msgid "Cancel transaction"
+msgstr "Отменить операцию"
+
+#: templates/admin/metabox-order.php:89
+msgid "Partly capture"
+msgstr "Списание"
+
+#: templates/admin/metabox-order.php:93
+msgid "Capture amount"
+msgstr "Сумма списания"
+
+#: templates/admin/metabox-order.php:101
+msgid "Capture specified amount"
+msgstr "Списать указанную сумму"
+
+#: templates/admin/metabox-order.php:110
+msgid "Partly refund"
+msgstr "Возврат"
+
+#: templates/admin/metabox-order.php:114
+msgid "Refund amount"
+msgstr "Сумма возврата"
+
+#: templates/admin/metabox-order.php:122
+msgid "Refund specified amount"
+msgstr "Возврат указанной суммы"
+
+#: templates/admin/metabox-order.php:129
+msgid "Payment method"
+msgstr "Способ оплаты"
+
+#: templates/admin/metabox-order.php:135
+msgid "Transaction UID"
+msgstr "Номер операции:"
+
+#: templates/admin/metabox-order.php:142
+msgid "Card number"
+msgstr "Номер карты"
+
+#: templates/admin/metabox-order.php:148
+msgid "Card brand"
+msgstr "Тип карты"
+
+#: wc-begateway.php:157
+msgid "Transactions"
+msgstr "Операции"
+
+#: wc-begateway.php:241
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите..."
+
+#: wc-begateway.php:270
+msgid "Capture success"
+msgstr "Списание успешно"
+
+#: wc-begateway.php:292
+msgid "Order already cancelled"
+msgstr "Заказ уже отменен"
+
+#: wc-begateway.php:306
+msgid "Cancel success"
+msgstr "Отмена успешна"
+
+#: wc-begateway.php:335
+msgid "Refund success"
+msgstr "Возврат успешен"
+
+#: wc-begateway.php:366
+msgid "Capture partly success"
+msgstr "Списание успешно"
 
 #. Plugin Name of the plugin/theme
 msgid "WooCommerce BeGateway Payment Gateway"
@@ -347,10 +416,123 @@ msgid "Extends WooCommerce with BeGateway payment gateway."
 msgstr "Расширение WooCommerce для платежного шлюза BeGateway"
 
 #. Author of the plugin/theme
-#, fuzzy
-#| msgid "beGateway development team"
 msgid "BeGateway development team"
-msgstr "beGateway development team"
+msgstr "Команда разработчиков BeGateway"
+
+#, fuzzy
+#~| msgid "beGateway development team"
+#~ msgid "BeGateway refund complete"
+#~ msgstr "beGateway development team"
+
+#~ msgid "Error to capture transaction!"
+#~ msgstr "Ошибка списания денег"
+
+#~ msgid "Admin Title"
+#~ msgstr "Заголовок для администратора"
+
+#~ msgid "This is the title displayed to the admin user"
+#~ msgstr "Этот заголовок будет показан администраторам"
+
+#~ msgid "Enable Bankcard Payments"
+#~ msgstr "Включить оплату банковской картой"
+
+#~ msgid "This enables VISA/Mastercard and etc card payments"
+#~ msgstr "Включает оплату с помощью карты VISA/Mastercard и т.д."
+
+#~ msgid "Enable Halva card payments"
+#~ msgstr "Включить оплату банковской картой Халва"
+
+#~ msgid "This enables Halva card payments"
+#~ msgstr "Включает оплату с помощью карты Халва"
+
+#~ msgid "Enable ERIP payments"
+#~ msgstr "Включить оплату через ЕРИП"
+
+#~ msgid "This enables ERIP payments"
+#~ msgstr "Включает оплату через ЕРИП"
+
+#~ msgid "Enable admin capture etc."
+#~ msgstr ""
+#~ "Включить администратору возможность списания/отмены авторизации/возврат"
+
+#~ msgid "Show Transaction Table"
+#~ msgstr "Показывать таблицу транзакций"
+
+#~ msgid "Allows admin to send capture/void/refunds"
+#~ msgstr ""
+#~ "Разрешить администраторам операции списания/отмена авторизации/возврат"
+
+#~ msgid "Order currently pending no capture/refund available"
+#~ msgstr "Заказ в статусе ожидания. Списание/возврат средств недоступно"
+
+#~ msgid "Please enter amount to capture"
+#~ msgstr "Введите сумму для списания"
+
+#~ msgid "Capture"
+#~ msgstr "Списать"
+
+#~ msgid "Please enter amount to void"
+#~ msgstr "Введите сумму для отмены авторизации"
+
+#~ msgid "Void"
+#~ msgstr "Отмена авторизации"
+
+#~ msgid "Please enter amount to refund"
+#~ msgstr "Введите сумму для возврата"
+
+#~ msgid "Refund"
+#~ msgstr "Возврат"
+
+#~ msgid "Payment failed."
+#~ msgstr "Платеж не прошел."
+
+#~ msgid "Payment incomplete, order status not updated."
+#~ msgstr "Платеж не завершен. Статус заказа не изменен."
+
+#~ msgid "Payment error, order status not updated."
+#~ msgstr "Ошибка оплаты. Статус заказа не изменен."
+
+#~ msgid "Payment authorised. No money captured yet."
+#~ msgstr "Платеж авторизирован. Деньги реально еще не списаны."
+
+#~ msgid "Authorization failed."
+#~ msgstr "Авторизация не успешна"
+
+#~ msgid "Authorisation incomplete, order status not updated."
+#~ msgstr "Авторизация не завершена. Статус заказа не изменен"
+
+#~ msgid "Authorisation error, order status not updated"
+#~ msgstr "Ошибка авторизации. Статус заказа не изменен"
+
+#~ msgid "Callback error, order status not updated"
+#~ msgstr "Ошибка нотификации. Статус заказа не изменен"
+
+#~ msgid "UID is not correct"
+#~ msgstr "UID не верен"
+
+#~ msgid "Wrong order status. Void is not possible."
+#~ msgstr "Не верный статус. Отмена авторизации не возможна"
+
+#~ msgid "Void status"
+#~ msgstr "Статус отмены авторизации"
+
+#~ msgid "Void attempt failed"
+#~ msgstr "Попытка отмены авторизации неуспешна."
+
+#~ msgid "Payment voided"
+#~ msgstr "Платеж анулирован"
+
+#~ msgid "Wrong order status. Capture is not possible."
+#~ msgstr "Не верный статус. Операция списания не возможна"
+
+#~ msgid "Capture attempt failed"
+#~ msgstr "Попытка списания неуспешна"
+
+#~ msgid "Wrong order status. Refund is not possible."
+#~ msgstr "Не верный статус. Возврат платежа не возможен"
+
+#~ msgid "Refund attempt failed"
+#~ msgstr "Попытка возврата платежа неуспешна"
 
 #~ msgid ""
 #~ "Thank you for your order. We are now redirecting you to make the payment."

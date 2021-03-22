@@ -27,7 +27,7 @@ $settings = array(
   'shop-id' => array(
     'title' => __( 'Shop ID', 'woocommerce-begateway' ),
     'type' => 'text',
-    'description' => __( 'Please enter your shop Id.', 'woocommerce-begateway' ),
+    'description' => __( 'Please enter your shop Id', 'woocommerce-begateway' ),
     'default' => '361',
     'desc_tip'    => true
   ),

@@ -267,7 +267,7 @@ class WC_BeGateway
 		$result = $gateway->capture_payment( $order_id, $order->get_total() );
 
     if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Capture success.', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Capture success', 'woocommerce-begateway' ) );
     } else {
 			wp_send_json_error( $result->get_error_message() );
     }
@@ -289,7 +289,7 @@ class WC_BeGateway
 		// ensure no more actions are made
 		//
 		if ( $order->get_meta( '_begateway_transaction_voided', true ) === "yes" ) {
-			wp_send_json_success( __( 'Order already cancelled.', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Order already cancelled', 'woocommerce-begateway' ) );
 			return;
 		}
 
@@ -303,7 +303,7 @@ class WC_BeGateway
 		$result = $gateway->cancel_payment( $order_id, $order->get_total() );
 
     if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Cancel success.', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Cancel success', 'woocommerce-begateway' ) );
     } else {
 			wp_send_json_error( $result->get_error_message() );
     }
@@ -332,7 +332,7 @@ class WC_BeGateway
 		$result = $gateway->refund_payment( $order_id, $amount );
 
     if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Refund success.', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Refund success', 'woocommerce-begateway' ) );
     } else {
 			wp_send_json_error( $result->get_error_message() );
     }
@@ -363,7 +363,7 @@ class WC_BeGateway
 		$result = $gateway->capture_payment( $order_id, $amount );
 
     if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Capture partly success.', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Capture partly success', 'woocommerce-begateway' ) );
     } else {
 			wp_send_json_error( $result->get_error_message() );
     }
