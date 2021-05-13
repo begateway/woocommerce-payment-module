@@ -525,8 +525,6 @@ if ( ! defined( 'ABSPATH' ) )
       $transaction->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $transaction->setTrackingId($order->get_id());
 
-      $transaction->setTestMode(true);
-
       $transaction->card->setCardToken($token);
 
       $transaction->customer->setFirstName($order->get_billing_first_name());
