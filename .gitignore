@@ -11,3 +11,9 @@ docker/src/languages/admin*
 docker/src/languages/plugins/woocommerce-subscriptions*
 docker/src/languages/plugins/woocommerce-ru_RU.*
 docker/src/languages/ru*
+docker/src/languages/admin-ru_RU.mo
+docker/src/languages/admin-ru_RU.po
+docker/src/languages/plugins/woocommerce-ru_RU.mo
+docker/src/languages/plugins/woocommerce-ru_RU.po
+docker/src/languages/ru_RU.mo
+docker/src/languages/ru_RU.po
