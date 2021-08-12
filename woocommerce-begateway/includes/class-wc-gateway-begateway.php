@@ -1,18 +1,4 @@
 <?php
-/*
-Plugin Name: WooCommerce BeGateway Payment Gateway
-Plugin URI: https://github.com/begateway/woocommerce-payment-module
-Description: Extends WooCommerce with BeGateway payment gateway
-Version: 2.0.0
-Author: BeGateway development team
-
-Text Domain: woocommerce-begateway
-Domain Path: /languages/
-
-WC requires at least: 3.2.0
-WC tested up to: 5.0.0
-*/
-
 if ( ! defined( 'ABSPATH' ) )
 {
     exit; // Exit if accessed directly
