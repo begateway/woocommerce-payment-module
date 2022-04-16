@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WooCommerce BeGateway Payment Gateway
+Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
 Version: 2.0.2
 Author: BeGateway

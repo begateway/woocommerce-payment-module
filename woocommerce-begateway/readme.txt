@@ -1,4 +1,4 @@
-=== WooCommerce BeGateway Payment Gateway ===
+=== BeGateway Payment Gateway for WooCommerce ===
 Contributors: begateway
 Author URI: https://begateway.com
 Requires at least: 4.7
