@@ -52,6 +52,30 @@ values received from your payment processor.
 
 Now the plugin is configured.
 
+= Testing =
+
+You can use the following information to adjust the payment method in test mode:
+
+* __Shop ID:__ 361
+* __Shop Key:__ b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d
+* __Checkout page domain:__ checkout.begateway.com
+
+Use the following test card to make successful test payment:
+
+* Card number: `4200000000000000`
+* Name on card: `JOHN DOE`
+* Card expiry date: `01/30`
+* CVC: `123`
+
+Use the following test card to make failed test payment:
+
+* Card number: `4005550000000019`
+* Name on card: `JOHN DOE`
+* Card expiry date: `01/30`
+* CVC: `123`
+
+Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal-payments/ to test subscription renewal payments.
+
 == Installation ==
 
 = Using The WordPress Dashboard =
