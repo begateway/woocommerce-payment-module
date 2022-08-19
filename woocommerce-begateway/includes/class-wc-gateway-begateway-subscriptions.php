@@ -112,23 +112,23 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		}
 
 		$order->add_order_note(
-      __( 'Successfully processed subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
+      		__( 'Successfully processed subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
 			__( 'Transaction UID: ', 'woocommerce-begateway' ) . $result->getUid() . PHP_EOL
 		);
 
 		$this->save_transaction_id( $result, $order );
 
 		$this->log( 'Info: Subscription payment was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-	  update_post_meta( $order->get_id(), '_begateway_transaction_captured',
-      $this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
-    );
+	  	update_post_meta( $order->get_id(), '_begateway_transaction_captured',
+      		$this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
+    	);
 
-    if ( $this->settings['transaction_type'] != 'authorization' ) {
-  		update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
-  		update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
-    }
+    	if ( $this->settings['transaction_type'] != 'authorization' ) {
+  			update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
+  			update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
+    	}
 
-    $order->payment_complete($result->getUid());
+    	$order->payment_complete($result->getUid());
 	}
 
 	/**
@@ -140,7 +140,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 * @return bool|int|mixed|null|WP_Error
 	 */
 	private function get_merchant_id() {
-    return $this->settings['shop-id'];
+    	return $this->settings['shop-id'];
 	}
 
 	/**

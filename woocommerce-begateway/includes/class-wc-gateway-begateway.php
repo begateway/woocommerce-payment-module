@@ -274,7 +274,8 @@ if ( ! defined( 'ABSPATH' ) )
         $transaction->amount == $money->getCents();
     }
 
-    function process_ipn_request($webhook) {
+    function process_ipn_request($webhook)
+    {
       $order_id = $webhook->getTrackingId();
       $order = new WC_Order( $order_id );
       $type = $webhook->getResponse()->transaction->type;
@@ -289,7 +290,7 @@ if ( ! defined( 'ABSPATH' ) )
         );
 
         if ($webhook->isSuccess()) {
-          $order->payment_complete( $webhook->getUid() );
+          $order->payment_complete($webhook->getUid());
 
           if ( 'authorization' == $type ) {
             update_post_meta($order_id, '_begateway_transaction_captured', 'no' );
@@ -301,6 +302,15 @@ if ( ! defined( 'ABSPATH' ) )
           update_post_meta($order_id, '_begateway_transaction_refunded_amount', 0 );
 
           update_post_meta($order_id, '_begateway_transaction_payment_method', $webhook->getPaymentMethod() );
+
+          // save transaction locale
+          $lang = 'en'; 
+
+          if ($webhook->hasTransactionSection() && isset($webhook->getResponse()->transaction->language)) {
+            $lang = $webhook->getResponse()->transaction->language;
+          }
+
+          update_post_meta($order_id, '_begateway_transaction_language', $lang);
 
           $pm = $webhook->getPaymentMethod();
 
@@ -510,6 +520,9 @@ if ( ! defined( 'ABSPATH' ) )
       $transaction->money->setCurrency($this->_get_order_currency($order));
       $transaction->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $transaction->setTrackingId($order->get_id());
+
+      $lang = get_post_meta($order->get_id(), '_begateway_transaction_language', true);
+      $transaction->setLanguage($lang);
 
       $transaction->card->setCardToken($token);
 

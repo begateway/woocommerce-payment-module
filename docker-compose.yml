@@ -5,8 +5,8 @@ services:
     build: &build
       context: .
       args:
-        version: "5.8.0"
-        wc_version: "5.5.2"
+        version: "5.9.3"
+        wc_version: "6.5.1"
     ports:
       - 80:80
     depends_on:
