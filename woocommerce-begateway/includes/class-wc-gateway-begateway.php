@@ -106,6 +106,7 @@ if ( ! defined( 'ABSPATH' ) )
       $token->setExpiryDate(date("c", intval($this->settings['payment_valid']) * 60 + time() + 1));
 
       $token->setLanguage($lang);
+      $this->save_order_locale($order_id, $lang);
 
       if (in_array('bankcard', $this->get_option('payment_methods'))) {
         $cc = new \BeGateway\PaymentMethod\CreditCard;
@@ -303,14 +304,10 @@ if ( ! defined( 'ABSPATH' ) )
 
           update_post_meta($order_id, '_begateway_transaction_payment_method', $webhook->getPaymentMethod() );
 
-          // save transaction locale
-          $lang = 'en'; 
-
           if ($webhook->hasTransactionSection() && isset($webhook->getResponse()->transaction->language)) {
             $lang = $webhook->getResponse()->transaction->language;
+            $this->save_order_locale($order_id, $lang);
           }
-
-          update_post_meta($order_id, '_begateway_transaction_language', $lang);
 
           $pm = $webhook->getPaymentMethod();
 
@@ -710,5 +707,16 @@ if ( ! defined( 'ABSPATH' ) )
   	 */
     public function getPaymentMethod( $order ) {
       return $order->get_meta( '_begateway_transaction_payment_method');
+    }
+
+    /**
+     * Save user locale to use it in subscription charges
+     * @param int $order_id The order id related to a transaction
+     * @param string $lang Locale code
+     */
+    protected function save_order_locale($order_id, $locale)
+    {
+        $lang = get_post_meta($order_id, '_begateway_transaction_language', true ) ?: $locale;
+        update_post_meta($order_id, '_begateway_transaction_language', $lang);
     }
   } //end of class
