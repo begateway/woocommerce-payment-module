@@ -169,11 +169,8 @@ if ( ! defined( 'ABSPATH' ) )
               }
             }
           </script>
-          <form action="'.$payment_url.'" method="post" id="begateway_payment_form" onSubmit="return woocommerce_start_begateway_payment(event);">
-            <input type="hidden" name="token" value="' . $response->getToken() . '">
-            <input type="submit" class="button alt" id="submit_begateway_payment_form" value="'.__('Make payment', 'woocommerce-begateway').'" />
-            <a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</a>
-          </form>
+            <a class="button checkout-button" href="'.$response->getRedirectUrl().'" onClick="return woocommerce_start_begateway_payment(event);">'.__('Make payment', 'woocommerce-begateway').'"</a>
+            <a class="cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</a>
         ';
       }
     }
