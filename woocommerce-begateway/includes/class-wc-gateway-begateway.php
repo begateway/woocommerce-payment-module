@@ -106,7 +106,7 @@ if ( ! defined( 'ABSPATH' ) )
       $token->setExpiryDate(date("c", intval($this->settings['payment_valid']) * 60 + time() + 1));
 
       $token->setLanguage($lang);
-      $this->save_order_locale($order_id, $lang);
+      $this->save_locale($lang, $order);
 
       if (in_array('bankcard', $this->get_option('payment_methods'))) {
         $cc = new \BeGateway\PaymentMethod\CreditCard;
@@ -306,7 +306,7 @@ if ( ! defined( 'ABSPATH' ) )
 
           if ($webhook->hasTransactionSection() && isset($webhook->getResponse()->transaction->language)) {
             $lang = $webhook->getResponse()->transaction->language;
-            $this->save_order_locale($order_id, $lang);
+            $this->save_locale($lang, $order);
           }
 
           $pm = $webhook->getPaymentMethod();
@@ -518,8 +518,7 @@ if ( ! defined( 'ABSPATH' ) )
       $transaction->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $transaction->setTrackingId($order->get_id());
 
-      $lang = get_post_meta($order->get_id(), '_begateway_transaction_language', true);
-      $transaction->setLanguage($lang);
+      $transaction->setLanguage($this->get_locale($order));
 
       $transaction->card->setCardToken($token);
 
@@ -711,12 +710,22 @@ if ( ! defined( 'ABSPATH' ) )
 
     /**
      * Save user locale to use it in subscription charges
-     * @param int $order_id The order id related to a transaction
+     * @param WC_Order $order The order object related to the transaction.
      * @param string $lang Locale code
      */
-    protected function save_order_locale($order_id, $locale)
+    protected function save_locale($locale, $order)
     {
-        $lang = get_post_meta($order_id, '_begateway_transaction_language', true ) ?: $locale;
-        update_post_meta($order_id, '_begateway_transaction_language', $lang);
+        $lang = get_post_meta($order->get_id(), '_begateway_transaction_language', true ) ?: $locale;
+        update_post_meta($order->get_id(), '_begateway_transaction_language', $lang);
+    }
+
+    /**
+     * Get saved user locale to use it in subscription charges
+     * @param WC_Order $order The order object related to the transaction.
+     * @return string
+     */
+    protected function get_locale($order)
+    {
+        return get_post_meta($order->get_id(), '_begateway_transaction_language', true) ?: 'en';
     }
   } //end of class

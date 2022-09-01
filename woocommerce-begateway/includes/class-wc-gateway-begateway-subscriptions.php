@@ -87,7 +87,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 			return true;
 		}
 		// get last transaction id used.
-		$last_card_id        = $this->get_card_id( $order );
+		$last_card_id        = $this->get_card_id($order);
 		$result              = null;
 		if ( !$last_card_id ) {
   		$this->log( "Info: Card token {$last_card_id} not found for order {$order->get_id()}" );
@@ -155,6 +155,8 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	public function update_failing_payment_method( $subscription, $renewal_order ) {
 		update_post_meta( $subscription->get_id(), '_begateway_transaction_id', get_post_meta( $renewal_order->get_id(), '_begateway_transaction_id', true ));
 		update_post_meta( $subscription->get_id(), '_begateway_card_id', get_post_meta( $renewal_order->get_id(), '_begateway_card_id', true ));
+	
+		parent::save_locale(parent::get_locale($renewal_order), $subscription);
 	}
 
 	/**
@@ -245,10 +247,10 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	protected function save_transaction_id( $result, $order ) {
 		parent::save_transaction_id( $result, $order );
 
-    $subscriptions = $this->get_order_subscriptions( $order );
+    	$subscriptions = $this->get_order_subscriptions( $order );
 
 		foreach ( $subscriptions as $subscription ) {
-      parent::save_transaction_id( $result, $subscription );
+      		parent::save_transaction_id( $result, $subscription );
 		}
 	}
 
@@ -258,89 +260,140 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 * @param int      $card_id The card reference.
 	 * @param WC_Order $order The order reference.
 	 */
-	protected function save_card_id( $card, $order ) {
-		parent::save_card_id( $card, $order );
+	protected function save_card_id($card, $order) 
+	{
+		parent::save_card_id($card, $order);
 
-    $subscriptions = $this->get_order_subscriptions( $order );
+        $subscriptions = $this->get_order_subscriptions($order);
 
 		foreach ( $subscriptions as $subscription ) {
-      parent::save_card_id( $card, $subscription);
+      		parent::save_card_id($card, $subscription);
 		}
 	}
 
-  /**
-  * @param $order
-  *
-  * @return mixed
-  */
-  protected function get_card_id( $order ) {
-    $card_id = parent::get_card_id( $order );
-    if ( $card_id ) {
-      return $card_id;
-    }
+	/**
+	 * Saves subscription locale on the order and subscription.
+	 *
+	 * @param string   $locale the locale id.
+	 * @param WC_Order $order The order reference.
+	 */
+	protected function save_locale($locale, $order) 
+	{
+		parent::save_locale($locale, $order);
 
-    $subscriptions = $this->get_order_subscriptions( $order );
+        $subscriptions = $this->get_order_subscriptions($order);
 
-    foreach ( $subscriptions as $subscription ) {
-      $card_id = parent::get_card_id( $subscription );
-      if ( $card_id ) {
-        return $card_id;
-      }
-    }
+		foreach ( $subscriptions as $subscription ) {
+      		parent::save_locale($locale, $subscription);
+		}
+	}
 
-    return false;
-  }
+	/**
+	 * @param $order
+	*
+	* @return mixed
+	*/
+	protected function get_card_id($order) 
+	{
+		$card_id = parent::get_card_id( $order );
+		if ( $card_id ) {
+		return $card_id;
+		}
 
-  protected function get_order_subscriptions( $order ) {
-    $subscriptions = array();
+		$subscriptions = $this->get_order_subscriptions( $order );
 
-    if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
-      $subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
-    } elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
-      $subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
-    }
+		foreach ( $subscriptions as $subscription ) {
+			$card_id = parent::get_card_id( $subscription );
+			if ($card_id) {
+				return $card_id;
+			}
+		}
 
-    return $subscriptions;
-  }
+		return false;
+	}
 
-  /* set zero amount for payment token request to update payment method */
-  function set_payment_token_params( &$token, $order ) {
-    parent::set_payment_token_params( $token, $order );
+	/**
+	* @param WC_Order $order The order reference.
+	*
+	* @return mixed
+	*/
+	protected function get_locale($order) 
+	{
+		$lang = parent::get_locale($order);
+		if ($lang) {
+			return $lang;
+		}
 
-    if ( wcs_is_subscription( $order->get_id() ) ) {
-      $token->money->setAmount(0);
-      $token->setDescription( __( 'Subscription payment method update of order', 'woocommerce' ) . ' # ' .$order->get_order_number() );
-    }
-  }
+		$subscriptions = $this->get_order_subscriptions($order);
 
-  function process_ipn_request( $webhook ) {
-    $order_id = $webhook->getTrackingId();
+		foreach ( $subscriptions as $subscription ) {
+			$lang = parent::get_locale($subscription);
+			if ($lang) {
+				return $lang;
+			}
+		}
 
-    if ( ! wcs_is_subscription( $order_id ) ) {
-      return parent::process_ipn_request( $webhook );
-    }
-    // do payment method update
+		return false;
+	}
 
-    $order = new WC_Order( $order_id );
-    $type = $webhook->getResponse()->transaction->type;
-    if (in_array($type, array('payment','authorization'))) {
-      $status = $webhook->getStatus();
+	protected function get_order_subscriptions( $order ) 
+	{
+		$subscriptions = array();
 
-      if ($webhook->isSuccess()) {
-        $this->log(
-          'Transaction type: ' . $type . PHP_EOL .
-          'Payment status '. $status . PHP_EOL .
-          'Subscription payment method update transaction UID: ' . $webhook->getUid() . PHP_EOL .
-          'Message: ' . $webhook->getMessage()
-        );
+		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order->get_id() ) ) {
+		$subscriptions = wcs_get_subscriptions_for_order( $order->get_id() );
+		} elseif ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order->get_id() ) ) {
+		$subscriptions = wcs_get_subscriptions_for_renewal_order( $order->get_id() );
+		}
 
-        $pm = $webhook->getPaymentMethod();
+		return $subscriptions;
+	}
 
-        if ( $pm && isset( $webhook->getResponse()->transaction->$pm->token ) ) {
-          update_post_meta($order_id, '_begateway_transaction_payment_method', $pm );
-          $this->save_card_id( $webhook->getResponse()->transaction->$pm, $order );
-        }
-      }
-    }
-  }
+	/* set zero amount for payment token request to update payment method */
+	function set_payment_token_params( &$token, $order ) 
+	{
+		parent::set_payment_token_params( $token, $order );
+
+		if ( wcs_is_subscription( $order->get_id() ) ) {
+		$token->money->setAmount(0);
+		$token->setDescription( __( 'Subscription payment method update of order', 'woocommerce' ) . ' # ' .$order->get_order_number() );
+		}
+	}
+
+	function process_ipn_request( $webhook ) 
+	{
+		$order_id = $webhook->getTrackingId();
+
+		if (!wcs_is_subscription($order_id)) 
+		{
+			return parent::process_ipn_request($webhook);
+		}
+		// do payment method update
+
+		$order = new WC_Order($order_id);
+		$type = $webhook->getResponse()->transaction->type;
+		if (in_array($type, array('payment','authorization'))) {
+			$status = $webhook->getStatus();
+
+			if ($webhook->isSuccess()) {
+				$this->log(
+					'Transaction type: ' . $type . PHP_EOL .
+					'Payment status '. $status . PHP_EOL .
+					'Subscription payment method update transaction UID: ' . $webhook->getUid() . PHP_EOL .
+					'Message: ' . $webhook->getMessage()
+				);
+
+				$pm = $webhook->getPaymentMethod();
+
+				if ($pm && isset($webhook->getResponse()->transaction->$pm->token)) 
+				{
+					update_post_meta($order_id, '_begateway_transaction_payment_method', $pm);
+					$this->save_card_id( $webhook->getResponse()->transaction->$pm, $order);
+				}
+				if (isset($webhook->getResponse()->transaction->language)) {
+					$this->save_locale($webhook->getResponse()->transaction->language, $order);
+				}
+			}
+		}
+	}
 }
