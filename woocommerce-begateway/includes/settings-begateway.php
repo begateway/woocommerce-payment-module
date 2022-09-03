@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $settings = array(
   'enabled' => array(
-    'title' => __( 'Enable/Disable', 'woocommerce-begateway' ),
+    'title' => __('Enable/Disable', 'woocommerce-begateway'),
     'type' => 'checkbox',
     'label' => __( 'Enable BeGateway', 'woocommerce-begateway' ),
     'default' => 'yes'

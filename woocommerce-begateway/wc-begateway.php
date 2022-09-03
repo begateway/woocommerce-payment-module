@@ -24,8 +24,10 @@ class WC_BeGateway
   {
     $this->id = 'begateway';
 
-    add_action( 'plugins_loaded', array( $this, 'init' ), 0 );
     add_action( 'woocommerce_loaded', array( $this, 'woocommerce_loaded' ), 40 );
+
+	// Load translation files
+	add_action( 'init', __CLASS__ . '::load_plugin_textdomain', 3 );
 
     // Add statuses for payment complete
 		add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array(
@@ -66,14 +68,16 @@ class WC_BeGateway
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
   } // end __construct
 
-  /**
-	 * Init localisations and files
-	 * @return void
+  	/**
+	 * Called on plugins_loaded to load any translation files.
+	 *
+	 * @since 1.1
 	 */
-  public function init() {
-		// Localization
-    load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
-  }
+	public static function load_plugin_textdomain() {
+
+		$plugin_rel_path = apply_filters( 'woocommerce_begateway_translation_file_rel_path', dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain('woocommerce-begateway', false, $plugin_rel_path);
+	}
 
   /**
 	* WooCommerce Loaded: load classes
