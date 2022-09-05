@@ -1,26 +1,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
-"POT-Creation-Date: 2021-03-19 18:01+0300\n"
-"PO-Revision-Date: 2021-03-22 09:13+0300\n"
-"Last-Translator: Zhenya Tikhonov <masontikhonov@gmail.com>\n"
-"Language-Team: Zhenya Tikhonov (masontikhonov@gmail.com)\n"
+"POT-Creation-Date: 2022-09-03 10:51+0300\n"
+"PO-Revision-Date: 2022-09-03 11:06+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: be_BY\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wc-begateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
+#. translators: %1$s is replaced with the error message
 #: includes/class-wc-gateway-begateway-subscriptions.php:71
 #, php-format
 msgid "Error to process subscription payment with the error: %s"
@@ -39,110 +38,110 @@ msgid "Successfully processed subscription payment"
 msgstr "Аплата падпіскі апрацавана"
 
 #: includes/class-wc-gateway-begateway-subscriptions.php:116
-#: includes/class-wc-gateway-begateway.php:360
-#: includes/class-wc-gateway-begateway.php:404
-#: includes/class-wc-gateway-begateway.php:444
+#: includes/class-wc-gateway-begateway.php:350
+#: includes/class-wc-gateway-begateway.php:394
+#: includes/class-wc-gateway-begateway.php:434
 msgid "Transaction UID: "
 msgstr "Нумар аперацыі: "
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:185
+#: includes/class-wc-gateway-begateway-subscriptions.php:187
 #, php-format
 msgid "Via %s card ending in %s (%s)"
 msgstr "Праз карту %s, якая заканчваецца на %s (%s)"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:312
+#: includes/class-wc-gateway-begateway-subscriptions.php:359
 msgid "Subscription payment method update of order"
 msgstr "Абнаўленне спосабу аплаты падпіскі заказа"
 
-#: includes/class-wc-gateway-begateway.php:71
+#: includes/class-wc-gateway-begateway.php:57
 msgid "BeGateway"
 msgstr "BeGateway"
 
-#: includes/class-wc-gateway-begateway.php:72
+#: includes/class-wc-gateway-begateway.php:58
 msgid "BeGateway payment gateway solution"
 msgstr "Рашэнне шлюза аплаты BeGateway"
 
-#: includes/class-wc-gateway-begateway.php:156
+#: includes/class-wc-gateway-begateway.php:143
 msgid "Error to get a payment token"
 msgstr "Памылка ў атрыманні токена аплаты"
 
-#: includes/class-wc-gateway-begateway.php:187
+#: includes/class-wc-gateway-begateway.php:172
 msgid "Make payment"
 msgstr "Аплаціць"
 
-#: includes/class-wc-gateway-begateway.php:188
+#: includes/class-wc-gateway-begateway.php:173
 msgid "Cancel order"
 msgstr "Адмяніць замову"
 
-#: includes/class-wc-gateway-begateway.php:197
-#: includes/class-wc-gateway-begateway.php:525
+#: includes/class-wc-gateway-begateway.php:181
+#: includes/class-wc-gateway-begateway.php:515
 msgid "Order"
 msgstr "Замова"
 
-#: includes/class-wc-gateway-begateway.php:341
-#: includes/class-wc-gateway-begateway.php:390
-#: includes/class-wc-gateway-begateway.php:430
+#: includes/class-wc-gateway-begateway.php:331
+#: includes/class-wc-gateway-begateway.php:380
+#: includes/class-wc-gateway-begateway.php:420
 msgid "Invalid payment method"
 msgstr "Несапраўдны спосаб аплаты"
 
-#: includes/class-wc-gateway-begateway.php:347
+#: includes/class-wc-gateway-begateway.php:337
 msgid "No transaction reference UID to capture"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для спісання"
 
-#: includes/class-wc-gateway-begateway.php:351
+#: includes/class-wc-gateway-begateway.php:341
 msgid "Transaction is already captured"
 msgstr "Аплата ўжо спісана"
 
-#: includes/class-wc-gateway-begateway.php:359
+#: includes/class-wc-gateway-begateway.php:349
 msgid "Capture completed"
 msgstr "Спісанне паспяхова"
 
-#: includes/class-wc-gateway-begateway.php:373
-#: includes/class-wc-gateway-begateway.php:378
+#: includes/class-wc-gateway-begateway.php:363
+#: includes/class-wc-gateway-begateway.php:368
 msgid "Error to capture transaction"
-msgstr "Памылка списання транзакцыі"
+msgstr "Памылка спісання транзакцыі"
 
-#: includes/class-wc-gateway-begateway.php:374
-#: includes/class-wc-gateway-begateway.php:414
-#: includes/class-wc-gateway-begateway.php:462
+#: includes/class-wc-gateway-begateway.php:364
+#: includes/class-wc-gateway-begateway.php:404
+#: includes/class-wc-gateway-begateway.php:452
 msgid "Error: "
 msgstr "Памылка: "
 
-#: includes/class-wc-gateway-begateway.php:395
+#: includes/class-wc-gateway-begateway.php:385
 msgid "No transaction reference UID to cancel"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для адмены"
 
-#: includes/class-wc-gateway-begateway.php:403
+#: includes/class-wc-gateway-begateway.php:393
 msgid "Void complete"
 msgstr "Адмена паспяхова"
 
-#: includes/class-wc-gateway-begateway.php:413
-#: includes/class-wc-gateway-begateway.php:418
+#: includes/class-wc-gateway-begateway.php:403
+#: includes/class-wc-gateway-begateway.php:408
 msgid "Error to void transaction"
 msgstr "Памылка анулявання аперацыі"
 
-#: includes/class-wc-gateway-begateway.php:435
+#: includes/class-wc-gateway-begateway.php:425
 msgid "No transaction reference UID to refund"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для вяртання сродкаў"
 
-#: includes/class-wc-gateway-begateway.php:440
+#: includes/class-wc-gateway-begateway.php:430
 msgid "Refunded from Woocommerce"
 msgstr "Вернута з WooCommerce"
 
-#: includes/class-wc-gateway-begateway.php:443
+#: includes/class-wc-gateway-begateway.php:433
 msgid "Refund completed"
 msgstr "Вяртанне завершана"
 
-#: includes/class-wc-gateway-begateway.php:461
-#: includes/class-wc-gateway-begateway.php:466
+#: includes/class-wc-gateway-begateway.php:451
+#: includes/class-wc-gateway-begateway.php:456
 msgid "Error to refund transaction"
 msgstr "Памылка вяртання сродкаў па аперацыі"
 
-#: includes/class-wc-gateway-begateway.php:556
+#: includes/class-wc-gateway-begateway.php:546
 msgid "Issue: Creating the transaction failed!"
 msgstr "Узнікла праблема са стварэннем транзакцыі!"
 
-#: includes/class-wc-gateway-begateway.php:558
+#: includes/class-wc-gateway-begateway.php:548
 msgid "There was a problem creating the transaction!"
 msgstr "Узнікла праблема са стварэннем транзакцыі!"
 
@@ -268,8 +267,7 @@ msgstr "Рахунак сапраўдны (хвілін)"
 
 #: includes/settings-begateway.php:95
 msgid "The value sets a period of time within which an order must be paid"
-msgstr ""
-"Гэта значэнне вызначае перыяд часу, цягам якога замова мусіць быць аплачана"
+msgstr "Гэта значэнне вызначае перыяд часу, цягам якога замова мусіць быць аплачана"
 
 #: includes/settings-begateway.php:100
 msgid "Payment mode"
@@ -299,108 +297,108 @@ msgstr "Уключыць запіс у журнал"
 msgid "Log events"
 msgstr "Запісваць падзеі"
 
-#: templates/admin/metabox-order.php:17
+#: templates/admin/metabox-order.php:18
 msgid "Order is cancelled"
 msgstr "Заказ адменены"
 
-#: templates/admin/metabox-order.php:23
+#: templates/admin/metabox-order.php:24
 msgid "Remaining balance"
 msgstr "Баланс"
 
-#: templates/admin/metabox-order.php:34
+#: templates/admin/metabox-order.php:35
 msgid "Total authorized"
 msgstr "Усяго"
 
-#: templates/admin/metabox-order.php:45
+#: templates/admin/metabox-order.php:46
 msgid "Total captured"
 msgstr "Усяго спісана"
 
-#: templates/admin/metabox-order.php:56
+#: templates/admin/metabox-order.php:57
 msgid "Total refunded"
 msgstr "Усяго вернута"
 
-#: templates/admin/metabox-order.php:69
+#: templates/admin/metabox-order.php:70
 msgid "You are about to CAPTURE this payment"
 msgstr "Вы збіраецеся спісаць гэтую суму"
 
-#: templates/admin/metabox-order.php:70
+#: templates/admin/metabox-order.php:71
 #, php-format
 msgid "Capture full amount (%s)"
 msgstr "Спісаць поўную суму (%s)"
 
-#: templates/admin/metabox-order.php:78
+#: templates/admin/metabox-order.php:79
 msgid "You are about to CANCEL this payment"
 msgstr "Вы збіраецеся адмяніць гэты плацеж"
 
-#: templates/admin/metabox-order.php:79
+#: templates/admin/metabox-order.php:80
 msgid "Cancel transaction"
 msgstr "Адмена аперацыі"
 
-#: templates/admin/metabox-order.php:89
+#: templates/admin/metabox-order.php:90
 msgid "Partly capture"
 msgstr "Спісанне сродкаў"
 
-#: templates/admin/metabox-order.php:93
+#: templates/admin/metabox-order.php:94
 msgid "Capture amount"
 msgstr "Сума спісання"
 
-#: templates/admin/metabox-order.php:101
+#: templates/admin/metabox-order.php:102
 msgid "Capture specified amount"
 msgstr "Спісаць сродкі"
 
-#: templates/admin/metabox-order.php:110
+#: templates/admin/metabox-order.php:111
 msgid "Partly refund"
 msgstr "Зварот сродкаў"
 
-#: templates/admin/metabox-order.php:114
+#: templates/admin/metabox-order.php:115
 msgid "Refund amount"
 msgstr "Сума звароту"
 
-#: templates/admin/metabox-order.php:122
+#: templates/admin/metabox-order.php:123
 msgid "Refund specified amount"
 msgstr "Вярнуць сродкі"
 
-#: templates/admin/metabox-order.php:129
+#: templates/admin/metabox-order.php:131
 msgid "Payment method"
 msgstr "Метад аплаты"
 
-#: templates/admin/metabox-order.php:135
+#: templates/admin/metabox-order.php:137
 msgid "Transaction UID"
 msgstr "Нумар аперацыі"
 
-#: templates/admin/metabox-order.php:142
+#: templates/admin/metabox-order.php:144
 msgid "Card number"
 msgstr "Нумар карты"
 
-#: templates/admin/metabox-order.php:148
+#: templates/admin/metabox-order.php:150
 msgid "Card brand"
 msgstr "Тып карткі"
 
-#: wc-begateway.php:157
+#: wc-begateway.php:174
 msgid "Transactions"
 msgstr "Аперацыі"
 
-#: wc-begateway.php:241
+#: wc-begateway.php:259
 msgid "Please wait..."
 msgstr "Калі ласка, пачакайце…"
 
-#: wc-begateway.php:270
+#: wc-begateway.php:288
 msgid "Capture success"
 msgstr "Спісанне сродкаў паспяхова"
 
-#: wc-begateway.php:292
+#: wc-begateway.php:311
 msgid "Order already cancelled"
 msgstr "Заказ ужо адменены"
 
-#: wc-begateway.php:306
+#: wc-begateway.php:325
 msgid "Cancel success"
 msgstr "Адмена аперацыі паспяхова"
 
-#: wc-begateway.php:335
+#: wc-begateway.php:354
 msgid "Refund success"
 msgstr "Вяртанне сродкаў паспяхова"
 
-#: wc-begateway.php:366
+#: wc-begateway.php:385
 msgid "Capture partly success"
 msgstr "Спісанне паспяхова"
 
@@ -419,111 +417,3 @@ msgstr "Пашырае WooCommerce плацёжным шлюзам BeGateway."
 #. Author of the plugin/theme
 msgid "BeGateway development team"
 msgstr "Каманда распрацоўкі BeGateway"
-
-#~ msgid "Admin Title"
-#~ msgstr "Загаловак для адміністратара"
-
-#~ msgid "This is the title displayed to the admin user"
-#~ msgstr "Гэты загаловак паказваецца адміністратарам"
-
-#~ msgid "Enable Bankcard Payments"
-#~ msgstr "Уключыць аплату банкаўскай картай"
-
-#~ msgid "This enables VISA/Mastercard and etc card payments"
-#~ msgstr ""
-#~ "Уключае аплату пры дапамозе Visa, MasterCard і іншых банкаўскіх карт"
-
-#~ msgid "Enable Halva card payments"
-#~ msgstr "Уключыць аплату картай «Халва»"
-
-#~ msgid "This enables Halva card payments"
-#~ msgstr "Уключае аплату пры дапамозе карты «Халва»"
-
-#~ msgid "Enable ERIP payments"
-#~ msgstr "Уключыць аплату праз АРІП"
-
-#~ msgid "This enables ERIP payments"
-#~ msgstr "Уключае аплату праз АРІП"
-
-#~ msgid "Enable admin capture etc."
-#~ msgstr "Уключыць спісанне і інш. адміністратарам"
-
-#~ msgid "Show Transaction Table"
-#~ msgstr "Паказваць табліцу транзакцый"
-
-#~ msgid "Allows admin to send capture/void/refunds"
-#~ msgstr "Дазваляе адміністратарам аперацыі спісання/сказавання/звароту"
-
-#~ msgid "Order currently pending no capture/refund available"
-#~ msgstr "Замова ў статусе «Чаканне», спісанне або зварот недаступныя"
-
-#~ msgid "Please enter amount to capture"
-#~ msgstr "Пазначце суму спісання"
-
-#~ msgid "Capture"
-#~ msgstr "Спісаць"
-
-#~ msgid "Please enter amount to void"
-#~ msgstr "Пазначце суму скасавання"
-
-#~ msgid "Void"
-#~ msgstr "Скасаваць"
-
-#~ msgid "Please enter amount to refund"
-#~ msgstr "Пазначце суму звароту"
-
-#~ msgid "Refund"
-#~ msgstr "Зварот"
-
-#~ msgid "Payment failed."
-#~ msgstr "Аплата няўдалая."
-
-#~ msgid "Payment incomplete, order status not updated."
-#~ msgstr "Аплата не завершана. Статус замовы не зменены."
-
-#~ msgid "Payment error, order status not updated."
-#~ msgstr "Памылка аплаты. Статус замовы не зменены."
-
-#~ msgid "Payment authorised. No money captured yet."
-#~ msgstr "Аплата аўтарызавана. Грошы пакуль не спісаны."
-
-#~ msgid "Authorization failed."
-#~ msgstr "Аўтарызацыя няўдалая."
-
-#~ msgid "Authorisation incomplete, order status not updated."
-#~ msgstr "Аўтарызацыя не завершана. Статус замовы не зменены."
-
-#~ msgid "Authorisation error, order status not updated"
-#~ msgstr "Памылка аўтарызацыі. Статус замовы не зменены"
-
-#~ msgid "Callback error, order status not updated"
-#~ msgstr "Памылка зваротнага паведамлення. Статус замовы не зменены"
-
-#~ msgid "UID is not correct"
-#~ msgstr "UID некарэктны"
-
-#~ msgid "Wrong order status. Void is not possible."
-#~ msgstr "Памылковы статус замовы. Скасаванне немагчыма."
-
-#~ msgid "Void status"
-#~ msgstr "Статус скасавання"
-
-#~ msgid "Void attempt failed"
-#~ msgstr "Спроба скасавання няўдалая"
-
-#~ msgid "Payment voided"
-#~ msgstr "Аплата скасавана"
-
-#~ msgid "Wrong order status. Capture is not possible."
-#~ msgstr "Памылковы статус замовы. Спісанне немагчыма."
-
-#~ msgid "Wrong order status. Refund is not possible."
-#~ msgstr "Памылковы статус замовы. Зварот немагчымы."
-
-#~ msgid ""
-#~ "Thank you for your order. We are now redirecting you to make the payment."
-#~ msgstr ""
-#~ "Дзякуй за вашу замову. Зараз мы перанакіруем вас на старонку аплаты."
-
-#~ msgid "Cancel order &amp; restore cart"
-#~ msgstr "Адмяніць замову і аднавіць кошык"

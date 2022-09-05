@@ -17,3 +17,6 @@ docker/src/languages/plugins/woocommerce-ru_RU.mo
 docker/src/languages/plugins/woocommerce-ru_RU.po
 docker/src/languages/ru_RU.mo
 docker/src/languages/ru_RU.po
+docker/src/woocommerce-subscriptions_v3.0.12.zip
+docker/src/languages/plugins/woocommerce-begateway-ru_RU.mo
+docker/src/languages/plugins/woocommerce-begateway-ru_RU.po
