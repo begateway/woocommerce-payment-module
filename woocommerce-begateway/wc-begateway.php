@@ -7,7 +7,7 @@ Version: 2.0.3
 Author: BeGateway development team
 
 Text Domain: woocommerce-begateway
-Domain Path: /languages/
+Domain Path: /languages
 
 WC requires at least: 3.2.0
 WC tested up to: 6.5.1
