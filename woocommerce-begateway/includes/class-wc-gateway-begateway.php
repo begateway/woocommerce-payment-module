@@ -330,7 +330,7 @@ if ( ! defined( 'ABSPATH' ) )
 			if ( $this->id != $order->get_payment_method() ) {
 				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
 			}
-			$transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
+			$transaction_uid = $this->get_transaction_id($order);
 			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
 
 			if ( ! $transaction_uid ) {
@@ -379,7 +379,7 @@ if ( ! defined( 'ABSPATH' ) )
 			if ( $this->id != $order->get_payment_method() ) {
 				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
 			}
-			$transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
+			$transaction_uid = $this->get_transaction_id($order);
 			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
 			if ( ! $transaction_uid ) {
 				return new WP_Error( 'begateway_error', __( 'No transaction reference UID to cancel' , 'woocommerce-begateway' ) );
@@ -419,7 +419,7 @@ if ( ! defined( 'ABSPATH' ) )
       if ( $this->id != $order->get_payment_method() ) {
         return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'woocommerce-begateway' ) );
       }
-      $transaction_uid = get_post_meta( $order_id, '_begateway_transaction_id', true );
+      $transaction_uid = $this->get_transaction_id($order);
       $captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
       if ( ! $transaction_uid ) {
         return new WP_Error( 'begateway_error', __( 'No transaction reference UID to refund' , 'woocommerce-begateway' ) );
@@ -471,6 +471,17 @@ if ( ! defined( 'ABSPATH' ) )
       }
   	}
 
+    /**
+  	 * Retrieve the order transaction id.
+  	 *
+  	 * @param WC_Order $order The order object related to the transaction.
+     * @return string uid of a transaction
+     * 
+  	 */
+  	public function get_transaction_id($order) {
+      return get_post_meta( $order->get_id(), '_begateway_transaction_id', true );
+  	}
+
     function child_transaction($type, $uid, $order_id, $amount, $reason = ''){
       $order = new WC_order( $order_id );
 
@@ -511,7 +522,7 @@ if ( ! defined( 'ABSPATH' ) )
       $this->_init();
 
       $transaction->money->setAmount($amount);
-      $transaction->money->setCurrency($this->_get_order_currency($order));
+      $transaction->money->setCurrency($this->get_order_currency($order));
       $transaction->setDescription(__('Order', 'woocommerce') . ' # ' .$order->get_order_number());
       $transaction->setTrackingId($order->get_id());
 
@@ -559,7 +570,7 @@ if ( ! defined( 'ABSPATH' ) )
       \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
     }
 
-  	function _get_order_currency( $order ) {
+  	public function get_order_currency( $order ) {
   		if ( method_exists( $order, 'get_currency' ) ) {
   			return $order->get_currency();
   		} else {
@@ -574,7 +585,7 @@ if ( ! defined( 'ABSPATH' ) )
      *
      * @return mixed
      */
-    protected function get_order_amount( $order ) {
+    public function get_order_amount( $order ) {
       return $order->get_total() - $order->get_total_refunded();
     }
 
