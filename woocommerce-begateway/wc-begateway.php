@@ -2,16 +2,16 @@
 /*
 Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 2.0.2
+Version: 2.0.4
 Author: BeGateway
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Text Domain: woocommerce-begateway
-Domain Path: /languages/
+Domain Path: /languages
 
 WC requires at least: 3.2.0
-WC tested up to: 5.5.2
+WC tested up to: 6.5.1
 */
 
 if ( ! defined( 'ABSPATH' ) )
@@ -25,8 +25,10 @@ class WC_BeGateway
   {
     $this->id = 'begateway';
 
-    add_action( 'plugins_loaded', array( $this, 'init' ), 0 );
     add_action( 'woocommerce_loaded', array( $this, 'woocommerce_loaded' ), 40 );
+
+	// Load translation files
+	add_action( 'init', __CLASS__ . '::load_plugin_textdomain', 3 );
 
     // Add statuses for payment complete
 		add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array(
@@ -67,14 +69,16 @@ class WC_BeGateway
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
   } // end __construct
 
-  /**
-	 * Init localisations and files
-	 * @return void
+  	/**
+	 * Called on plugins_loaded to load any translation files.
+	 *
+	 * @since 1.1
 	 */
-	public function init() {
-		// Localization
-    load_plugin_textdomain('woocommerce-begateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
-  }
+	public static function load_plugin_textdomain() {
+
+		$plugin_rel_path = apply_filters( 'woocommerce_begateway_translation_file_rel_path', dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain('woocommerce-begateway', false, $plugin_rel_path);
+	}
 
   /**
 	* WooCommerce Loaded: load classes
@@ -139,14 +143,15 @@ class WC_BeGateway
 		return $statuses;
 	}
 
-  /**
- * Add meta boxes in admin
- * @return void
- */
-	public function add_meta_boxes( $post_type, $post ) {
-    if ( ! isset( $post->ID ) ) {       // Exclude links.
-      return;
-    }
+  	/**
+ 	* Add meta boxes in admin
+ 	* @return void
+ 	*/
+	public function add_meta_boxes( $post_type, $post ) 
+	{
+    	if ( ! isset( $post->ID ) ) {       // Exclude links.
+      		return;
+    	}
 
 		$screen     = get_current_screen();
 		$post_types = [ 'shop_order', 'shop_subscription' ];
@@ -167,17 +172,18 @@ class WC_BeGateway
 		}
 	}
 
-  /**
+  	/**
 	 * Inserts the content of the API actions into the meta box
 	 */
-	public function meta_box_payment($post) {
-    if ( ! isset( $post->ID ) ) {       // Exclude links.
-      return;
-    }
+	public function meta_box_payment($post) 
+	{
+    	if ( ! isset( $post->ID ) ) {       // Exclude links.
+      		return;
+    	}
 
 		if ( $order = wc_get_order( $post->ID ) ) {
 
-      $payment_method = $order->get_payment_method();
+      		$payment_method = $order->get_payment_method();
 
 			if ( $this->id == $payment_method ) {
 
@@ -199,7 +205,7 @@ class WC_BeGateway
 							'gateway'    => $gateway,
 							'order'      => $order,
 							'order_id'   => $order->get_id(),
-							'order_data' => $gateway->get_invoice_data( $order )
+							'order_data' => $gateway->get_invoice_data($order)
 						),
 						'',
 						dirname( __FILE__ ) . '/templates/'
@@ -210,13 +216,13 @@ class WC_BeGateway
 		}
 	}
 
-  /**
+  	/**
 	 * Enqueue Scripts in admin
 	 *
 	 * @param $hook
 	 *
 	 * @return void
- */
+ 	*/
 	public function admin_enqueue_scripts( $hook ) {
 		if ( $hook === 'post.php' ) {
 			// Scripts
@@ -248,7 +254,7 @@ class WC_BeGateway
 		}
 	}
 
-  /**
+    /**
 	 * Action for Capture
 	 */
 	public function ajax_begateway_capture() {
@@ -267,17 +273,18 @@ class WC_BeGateway
 		$gateway = 	$gateways[ $payment_method ];
 		$result = $gateway->capture_payment( $order_id, $order->get_total() );
 
-    if (!is_wp_error($result)) {
+    	if (!is_wp_error($result)) {
 			wp_send_json_success( __( 'Capture success', 'woocommerce-begateway' ) );
-    } else {
+    	} else {
 			wp_send_json_error( $result->get_error_message() );
-    }
+    	}
 	}
 
 	/**
 	 * Action for Cancel
 	 */
-	public function ajax_begateway_cancel() {
+	public function ajax_begateway_cancel() 
+	{
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'begateway' ) ) {
 			exit( 'Invalid nonce' );
 		}
@@ -303,11 +310,11 @@ class WC_BeGateway
 
 		$result = $gateway->cancel_payment( $order_id, $order->get_total() );
 
-    if (!is_wp_error($result)) {
+    	if (!is_wp_error($result)) {
 			wp_send_json_success( __( 'Cancel success', 'woocommerce-begateway' ) );
-    } else {
+    	} else {
 			wp_send_json_error( $result->get_error_message() );
-    }
+    	}
 	}
 
 	/**
@@ -322,8 +329,8 @@ class WC_BeGateway
 		$order_id = (int) $_REQUEST['order_id'];
 		$order = wc_get_order( $order_id );
 
-    $amount = str_replace(",", ".", $amount);
-    $amount = floatval($amount);
+    	$amount = str_replace(",", ".", $amount);
+    	$amount = floatval($amount);
 
 		$payment_method = $order->get_payment_method();
 		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
@@ -352,8 +359,8 @@ class WC_BeGateway
 		$order_id = (int) $_REQUEST['order_id'];
 		$order = wc_get_order( $order_id );
 
-    $amount = str_replace(",", ".", $amount);
-    $amount = floatval($amount);
+    	$amount = str_replace(",", ".", $amount);
+    	$amount = floatval($amount);
 
 		// Get Payment Gateway
 		$payment_method = $order->get_payment_method();
@@ -363,15 +370,16 @@ class WC_BeGateway
 		$gateway = 	$gateways[ $payment_method ];
 		$result = $gateway->capture_payment( $order_id, $amount );
 
-    if (!is_wp_error($result)) {
+    	if (!is_wp_error($result)) {
 			wp_send_json_success( __( 'Capture partly success', 'woocommerce-begateway' ) );
-    } else {
+    	} else {
 			wp_send_json_error( $result->get_error_message() );
-    }
+    	}
 	}
 
-  protected function is_woocommerce_subscription_support_enabled() {
-    return class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' );
+  protected function is_woocommerce_subscription_support_enabled()
+  {
+	return class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' );
   }
 } //end of class
 
