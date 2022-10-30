@@ -262,7 +262,7 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$order_id = (int) $_REQUEST['order_id'];
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
 		// Get Payment Gateway
@@ -289,7 +289,7 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$order_id = (int) $_REQUEST['order_id'];
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
 		//
@@ -325,8 +325,8 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$amount = $_REQUEST['amount'];
-		$order_id = (int) $_REQUEST['order_id'];
+		$amount = sanitize_text_field( $_REQUEST['amount'] );
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
     	$amount = str_replace(",", ".", $amount);
@@ -355,8 +355,8 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$amount = $_REQUEST['amount'];
-		$order_id = (int) $_REQUEST['order_id'];
+		$amount = sanitize_text_field( $_REQUEST['amount'] );
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
     	$amount = str_replace(",", ".", $amount);

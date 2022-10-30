@@ -145,7 +145,7 @@ if ( ! defined( 'ABSPATH' ) )
       } else {
       //now look to the result array for the token
         $payment_url=$response->getRedirectUrlScriptName();
-        update_post_meta(  ltrim( $order->get_order_number(), '#' ), '_Token', $token );
+        update_post_meta( ltrim( $order->get_order_number(), '#' ), '_Token', $token );
 
         $this->log('Token received, forwarding customer to: '.$payment_url);
 
@@ -169,8 +169,8 @@ if ( ! defined( 'ABSPATH' ) )
               }
             }
           </script>
-            <a class="button checkout-button" href="'.$response->getRedirectUrl().'" onClick="return woocommerce_start_begateway_payment(event);">'.__('Make payment', 'woocommerce-begateway').'"</a>
-            <a class="cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order', 'woocommerce-begateway').'</a>
+            <a class="button checkout-button" href="' . esc_url( $response->getRedirectUrl() ) . '" onClick="return woocommerce_start_begateway_payment(event);">' . __('Make payment', 'woocommerce-begateway').'"</a>
+            <a class="cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __('Cancel order', 'woocommerce-begateway').'</a>
         ';
       }
     }
@@ -178,7 +178,7 @@ if ( ! defined( 'ABSPATH' ) )
     function set_payment_token_params( &$token, $order ) {
       $token->money->setCurrency( $order->get_currency() );
       $token->money->setAmount( $order->get_total() );
-      $token->setDescription( __( 'Order', 'woocommerce' ) . ' # ' .$order->get_order_number() );
+      $token->setDescription( __( 'Order', 'woocommerce' ) . ' # ' . $order->get_order_number() );
     }
 
     function process_payment( $order_id ) {
@@ -200,7 +200,7 @@ if ( ! defined( 'ABSPATH' ) )
 
     function thankyou_page()
     {
-      if ($this->description) echo wpautop(wptexturize($this->description));
+      if ($this->description) wpautop( wptexturize( esc_html( $this->description ) ) );
     } // end thankyou_page
 
     private function plugin_url()
