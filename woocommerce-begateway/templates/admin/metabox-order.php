@@ -29,7 +29,7 @@ if ($gateway->get_transaction_id($order)):
                     <span class='begateway-balance__currency'>
                         &nbsp;
                     </span>
-                    <?php esc_html_e( wc_price( $order_data['authorized_amount'] - $order_data['settled_amount'] ) ); ?>
+                    <?php echo(wc_price( $order_data['authorized_amount'] - $order_data['settled_amount'] ) ); ?>
                 </span>
             </li>
             <li class="begateway-admin-section-li">
@@ -40,7 +40,7 @@ if ($gateway->get_transaction_id($order)):
                     <span class='begateway-balance__currency'>
                         &nbsp;
                     </span>
-                    <?php esc_html_e( wc_price( $order_data['authorized_amount'] ) ); ?>
+                    <?php echo( wc_price( $order_data['authorized_amount'] ) ); ?>
                 </span>
             </li>
             <li class="begateway-admin-section-li">
@@ -51,7 +51,7 @@ if ($gateway->get_transaction_id($order)):
                     <span class='begateway-balance__currency'>
                         &nbsp;
                     </span>
-                    <?php esc_html_e( wc_price( $order_data['settled_amount'] ) ); ?>
+                    <?php echo( wc_price( $order_data['settled_amount'] ) ); ?>
                 </span>
             </li>
             <li class="begateway-admin-section-li">
@@ -62,7 +62,7 @@ if ($gateway->get_transaction_id($order)):
                     <span class='begateway-balance__currency'>
                         &nbsp;
                     </span>
-                    <?php esc_html_e( wc_price( $order_data['refunded_amount'] ) ); ?>
+                    <?php echo( wc_price( $order_data['refunded_amount'] ) ); ?>
                 </span>
             </li>
             <li style='font-size: xx-small'>&nbsp;</li>
