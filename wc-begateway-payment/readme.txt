@@ -81,7 +81,7 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 = Using The WordPress Dashboard =
 
 1. Navigate to the 'Add New' in the plugins dashboard
-2. Search for __WooCommerce BeGateway Payment Gateway__
+2. Search for __BeGateway Payment Gateway for WooCommerce__
 3. Click _Install Now_
 4. Activate the plugin on the Plugin dashboard
 
@@ -89,15 +89,15 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 
 1. Navigate to the 'Add New' in the plugins dashboard
 2. Navigate to the 'Upload' area
-3. Select `woocommerce-begateway.zip` from your computer
+3. Select `wc-begateway-payment.zip` from your computer
 4. Click _Install Now_
 5. Activate the plugin in the Plugin dashboard
 
 = Using FTP =
 
-1. Download `woocommerce-begateway.zip`
-2. Extract the woocommerce-begateway.zip-begateway` directory to your computer
-3. Upload the `woocommerce-begateway.zip` directory to the `/wp-content/plugins/` directory
+1. Download `wc-begateway-payment.zip`
+2. Extract `wc-begateway-payment.zip` to a directory to your computer
+3. Upload the extracted directory `wc-begateway-payment` directory to the `/wp-content/plugins/` directory
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
