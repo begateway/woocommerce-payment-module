@@ -11,7 +11,7 @@ Text Domain: wc-begateway-payment
 Domain Path: /languages
 
 WC requires at least: 3.2.0
-WC tested up to: 6.5.1
+WC tested up to: 7.1.1
 */
 
 if ( ! defined( 'ABSPATH' ) )
