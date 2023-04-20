@@ -108,17 +108,20 @@ if ( ! defined( 'ABSPATH' ) )
       $token->setLanguage($lang);
       $this->save_locale($lang, $order);
 
-      if (in_array('bankcard', $this->get_option('payment_methods'))) {
+      $payment_methods = $this->get_option('payment_methods');
+      $payment_methods = (is_array($payment_methods)) ? $payment_methods : [];
+
+      if (in_array('bankcard', $payment_methods)) {
         $cc = new \BeGateway\PaymentMethod\CreditCard;
         $token->addPaymentMethod($cc);
       }
 
-      if (in_array('halva', $this->get_option('payment_methods'))) {
+      if (in_array('halva', $payment_methods)) {
         $halva = new \BeGateway\PaymentMethod\CreditCardHalva;
         $token->addPaymentMethod($halva);
       }
 
-      if (in_array('erip', $this->get_option('payment_methods'))) {
+      if (in_array('erip', $payment_methods)) {
         $erip = new \BeGateway\PaymentMethod\Erip(array(
           'order_id' => $order_id,
           'account_number' => ltrim($order->get_order_number()),
