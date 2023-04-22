@@ -684,6 +684,7 @@ if ( ! defined( 'ABSPATH' ) )
      * @return boolean
   	 */
     public function can_payment_method_refund( $order ) {
+      $pm = $this->getPaymentMethod( $order );
       return !in_array( $pm, self::NO_REFUND);
     }
 
