@@ -1,0 +1,13 @@
+/.wordpress-org
+/.git
+/.github
+.distignore
+.gitignore
+/Dockerfile
+/Makefile
+/README.md
+/doc
+/docker
+/docker-compose.yml
+/wc-begateway-payment.zip
+/LICENSE.md

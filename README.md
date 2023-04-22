@@ -1,4 +1,4 @@
-# WooCommerce payment plugin
+# WooCommerce BeGateway Payment Gateway
 
 It supports [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 
@@ -81,7 +81,7 @@ Use the following test card to make failed test payment:
 
 Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal-payments/ to test subscription renewal payments.
 
-# Модуль оплаты WooCommerce
+# Модуль оплаты WooCommerce beGateway Payment Gateway
 
 Модуль поддерживает работу с плагином подписок [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 

@@ -68,7 +68,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$result = $this->process_subscription_payment( $renewal_order, $amount_to_charge );
 		if ( is_wp_error( $result ) ) {
 			/* translators: %1$s is replaced with the error message */
-			$renewal_order->update_status( 'failed', sprintf( __( 'Error to process subscription payment with the error: %s', 'woocommerce-begateway' ), $result->get_error_message() ) );
+			$renewal_order->update_status( 'failed', sprintf( __( 'Error to process subscription payment with the error: %s', 'wc-begateway-payment' ), $result->get_error_message() ) );
 		}
 	}
 
@@ -91,7 +91,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$result              = null;
 		if ( !$last_card_id ) {
   		$this->log( "Info: Card token {$last_card_id} not found for order {$order->get_id()}" );
-			return new WP_Error( 'begateway_error', __( 'Card token not found', 'woocommerce-begateway' ) );
+			return new WP_Error( 'begateway_error', __( 'Card token not found', 'wc-begateway-payment' ) );
 		}
 		$order_id = $order->get_id();
 
@@ -105,15 +105,15 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		if ( is_wp_error( $result ) ) {
 			$this->log( "Issue: Subscription payment for order {$order_id} has failed with error: " . $result->get_error_message() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
 			$order->add_order_note(
-				__( 'Error to process subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
+				__( 'Error to process subscription payment', 'wc-begateway-payment' ) . PHP_EOL .
 				$result->get_error_message()
 			);
 			return $result;
 		}
 
 		$order->add_order_note(
-      		__( 'Successfully processed subscription payment', 'woocommerce-begateway' ) . PHP_EOL .
-			__( 'Transaction UID: ', 'woocommerce-begateway' ) . $result->getUid() . PHP_EOL
+      		__( 'Successfully processed subscription payment', 'wc-begateway-payment' ) . PHP_EOL .
+			__( 'Transaction UID: ', 'wc-begateway-payment' ) . $result->getUid() . PHP_EOL
 		);
 
 		$this->save_transaction_id( $result, $order );
@@ -184,7 +184,7 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		}
 
 		$payment_method_to_display = sprintf(
-      __( 'Via %s card ending in %s (%s)', 'woocommerce-begateway' ),
+      __( 'Via %s card ending in %s (%s)', 'wc-begateway-payment' ),
       ucfirst( $subscription->get_meta( '_begateway_card_brand', true ) ),
       $subscription->get_meta( '_begateway_card_last_4', true ),
       ucfirst( $this->title )

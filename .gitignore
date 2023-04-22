@@ -3,6 +3,8 @@ docker/src/languages/*.json
 docker/src/languages/continents*
 docker/src/languages/admin-network*
 docker/src/languages/plugins/*.json
+docker/src/languages/plugins/*.mo
+docker/src/languages/plugins/*.po
 docker/src/languages/plugins/akismet*
 docker/src/languages/plugins/hello*
 docker/src/languages/themes

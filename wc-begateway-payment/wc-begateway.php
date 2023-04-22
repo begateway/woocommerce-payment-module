@@ -1,16 +1,17 @@
 <?php
 /*
-Plugin Name: WooCommerce BeGateway Payment Gateway
-Plugin URI: https://github.com/begateway/woocommerce-payment-module
+Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 2.0.4
-Author: BeGateway development team
+Version: 2.0.5
+Author: BeGateway
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Text Domain: woocommerce-begateway
+Text Domain: wc-begateway-payment
 Domain Path: /languages
 
 WC requires at least: 3.2.0
-WC tested up to: 6.5.1
+WC tested up to: 7.1.1
 */
 
 if ( ! defined( 'ABSPATH' ) )
@@ -76,7 +77,7 @@ class WC_BeGateway
 	public static function load_plugin_textdomain() {
 
 		$plugin_rel_path = apply_filters( 'woocommerce_begateway_translation_file_rel_path', dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-		load_plugin_textdomain('woocommerce-begateway', false, $plugin_rel_path);
+		load_plugin_textdomain('wc-begateway-payment', false, $plugin_rel_path);
 	}
 
   /**
@@ -159,7 +160,7 @@ class WC_BeGateway
 			if ( $order = wc_get_order( $post->ID ) ) {
 				$payment_method = $order->get_payment_method();
 				if ( $this->id == $payment_method ) {
-					add_meta_box( 'begateway-payment-actions', __( 'Transactions', 'woocommerce-begateway' ), [
+					add_meta_box( 'begateway-payment-actions', __( 'Transactions', 'wc-begateway-payment' ), [
 						&$this,
 						'meta_box_payment',
 					], $post_type, 'side', 'high', [
@@ -244,7 +245,7 @@ class WC_BeGateway
 			// Localize the script
 			$translation_array = array(
 				'ajax_url'  => admin_url( 'admin-ajax.php' ),
-				'text_wait' => __( 'Please wait...', 'woocommerce-begateway' ),
+				'text_wait' => __( 'Please wait...', 'wc-begateway-payment' ),
 			);
 			wp_localize_script( 'begateway-admin-js', 'BeGateway_Admin', $translation_array );
 
@@ -261,7 +262,7 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$order_id = (int) $_REQUEST['order_id'];
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
 		// Get Payment Gateway
@@ -273,7 +274,7 @@ class WC_BeGateway
 		$result = $gateway->capture_payment( $order_id, $order->get_total() );
 
     	if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Capture success', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Capture success', 'wc-begateway-payment' ) );
     	} else {
 			wp_send_json_error( $result->get_error_message() );
     	}
@@ -288,7 +289,7 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$order_id = (int) $_REQUEST['order_id'];
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
 		//
@@ -296,7 +297,7 @@ class WC_BeGateway
 		// ensure no more actions are made
 		//
 		if ( $order->get_meta( '_begateway_transaction_voided', true ) === "yes" ) {
-			wp_send_json_success( __( 'Order already cancelled', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Order already cancelled', 'wc-begateway-payment' ) );
 			return;
 		}
 
@@ -310,7 +311,7 @@ class WC_BeGateway
 		$result = $gateway->cancel_payment( $order_id, $order->get_total() );
 
     	if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Cancel success', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Cancel success', 'wc-begateway-payment' ) );
     	} else {
 			wp_send_json_error( $result->get_error_message() );
     	}
@@ -324,8 +325,8 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$amount = $_REQUEST['amount'];
-		$order_id = (int) $_REQUEST['order_id'];
+		$amount = sanitize_text_field( $_REQUEST['amount'] );
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
     	$amount = str_replace(",", ".", $amount);
@@ -339,7 +340,7 @@ class WC_BeGateway
 		$result = $gateway->refund_payment( $order_id, $amount );
 
     if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Refund success', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Refund success', 'wc-begateway-payment' ) );
     } else {
 			wp_send_json_error( $result->get_error_message() );
     }
@@ -354,8 +355,8 @@ class WC_BeGateway
 			exit( 'Invalid nonce' );
 		}
 
-		$amount = $_REQUEST['amount'];
-		$order_id = (int) $_REQUEST['order_id'];
+		$amount = sanitize_text_field( $_REQUEST['amount'] );
+		$order_id = (int) sanitize_text_field( $_REQUEST['order_id'] );
 		$order = wc_get_order( $order_id );
 
     	$amount = str_replace(",", ".", $amount);
@@ -370,7 +371,7 @@ class WC_BeGateway
 		$result = $gateway->capture_payment( $order_id, $amount );
 
     	if (!is_wp_error($result)) {
-			wp_send_json_success( __( 'Capture partly success', 'woocommerce-begateway' ) );
+			wp_send_json_success( __( 'Capture partly success', 'wc-begateway-payment' ) );
     	} else {
 			wp_send_json_error( $result->get_error_message() );
     	}

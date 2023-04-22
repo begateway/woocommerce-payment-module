@@ -5,15 +5,15 @@ services:
     build: &build
       context: .
       args:
-        version: "5.9.3"
-        wc_version: "6.5.1"
+        version: "6.1.1"
+        wc_version: "7.1.1"
     ports:
       - 80:80
     depends_on:
       - mysql
     volumes:
       - /var/www/html
-      - ./woocommerce-begateway:/var/www/html/wp-content/plugins/woocommerce-begateway
+      - ./wc-begateway-payment:/var/www/html/wp-content/plugins/wc-begateway-payment
       - ./docker/src/languages:/var/www/html/wp-content/languages
     networks:
       - default
