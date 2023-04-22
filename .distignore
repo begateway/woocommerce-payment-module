@@ -3,6 +3,8 @@
 /.github
 .distignore
 .gitignore
+.gitattributes
+.gitmodules
 /Dockerfile
 /Makefile
 /README.md
