@@ -2,8 +2,8 @@
 Contributors: begateway
 Author URI: https://begateway.com
 Requires at least: 4.7
-Tested up to: 6.1
-Stable tag: 2.0.5
+Tested up to: 6.2
+Stable tag: 2.0.6
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ Start accepting card and non-card payments on your WooCommerce by using the BeGa
 
   * Accepting debit and credit card payments.
   * Accepting non-card payments.
-  * Automatically updating Order statuses using beGateway webhooks notifications.
+  * Automatically updating Order statuses using BeGateway webhooks notifications.
   * Capture/Cancel/Refund payments in WooCommerce.
   * It supports [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 
@@ -30,12 +30,12 @@ At the top of the page you will see a link entitled `BeGateway` – click on tha
 This will bring up a page displaying all the options that you can select to administer the payment module – these are all fairly self-explanatory.
 
 * set _Title_ e.g. _Credit or debit card_
-* set _Admin Title_ e.g. _beGateway_
+* set _Admin Title_ e.g. _BeGateway_
 * set _Description_ e.g. _Visa, Mastercard_. You are free to put all payment cards supported by your acquiring payment agreement.
 * Transaction type: _Authorization_ or _Payment_
 * Check _Enable admin capture etc_ if you want to allow administrators
   to issue refunds or captures from WooCommerce backend
-* Check _Debug Log_ if you want to log messages between _beGateway_
+* Check _Debug Log_ if you want to log messages between _BeGateway_
   and WooCommerce
 
 Enter in fields as follows:
@@ -56,9 +56,10 @@ Now the plugin is configured.
 
 You can use the following information to adjust the payment method in test mode:
 
-* __Shop ID:__ 361
-* __Shop Key:__ b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d
-* __Checkout page domain:__ checkout.begateway.com
+* __Shop ID:__ `361`
+* __Shop Key:__ `b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d`
+* __Payment page domain:__ `checkout.begateway.com`
+* __Payment gateway domain:__ `demo-gateway.begateway.com`
 
 Use the following test card to make successful test payment:
 
@@ -78,14 +79,14 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 
 == Installation ==
 
-= Using The WordPress Dashboard =
+= Using WordPress dashboard =
 
 1. Navigate to the 'Add New' in the plugins dashboard
 2. Search for __BeGateway Payment Gateway for WooCommerce__
 3. Click _Install Now_
 4. Activate the plugin on the Plugin dashboard
 
-= Uploading in WordPress Dashboard =
+= Uploading via WordPress dashboard =
 
 1. Navigate to the 'Add New' in the plugins dashboard
 2. Navigate to the 'Upload' area
@@ -106,6 +107,12 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 2. Setup step 2 - Configure plugin.
 
 == Changelog ==
+
+= 2.0.6 =
+* add support of WordPress 6.2
+
+= 2.0.5 =
+* code fixes
 
 = 2.0.2 =
 * official release
