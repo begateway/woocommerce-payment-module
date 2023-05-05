@@ -75,7 +75,7 @@ Use the following test card to make failed test payment:
 * Card expiry date: `01/30`
 * CVC: `123`
 
-Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal-payments/ to test subscription renewal payments.
+Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renewal-payments/) to test subscription renewal payments.
 
 == Installation ==
 
