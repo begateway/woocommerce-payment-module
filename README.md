@@ -7,7 +7,7 @@ It supports [WooCommerce™ Subscriptions](https://woocommerce.com/products/wooc
 ## Installation
 
   * Backup your webstore and database
-  * Download [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
+  * [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
   * Start up the administrative panel for Wordpress (www.yourshop.com/wp-admin/)
   * Choose _Plugins → Add New_
   * Upload the payment module archive via **Upload Plugin**.
@@ -79,7 +79,7 @@ Use the following test card to make failed test payment:
   * Card expiry date: 01/30
   * CVC: 123
 
-Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal-payments/ to test subscription renewal payments.
+Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renewal-payments/) to test subscription renewal payments.
 
 # Модуль оплаты WooCommerce beGateway Payment Gateway
 
@@ -90,7 +90,7 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 ## Установка
 
   * Создайте резервную копию вашего магазина и базы данных
-  * Загрузите [woocommerce-begateway.zip](https://github.com/beGateway/woocommerce-payment-module/blob/master/woocommerce-begateway.zip?raw=true)
+  * Загрузите [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
   * Зайдите в панель администратора Wordpress (www.yourshop.com/wp-admin/)
   * Выберите _Плагины → Добавить новый_
   * Загрузите модуль через **Добавить новый**
@@ -136,8 +136,8 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
 
 Разработанно и протестированно с:
 
-  * Wordress 4.9.5/5.2.4
-  * WooCommerce 3.2.x/4.0.x
+  * Wordress 4.x/5.x/6.x
+  * WooCommerce 3.x/4.x
   * PHP 5.x/7.x
 
 ## Тестирование
@@ -164,8 +164,4 @@ Use the guide https://docs.woocommerce.com/document/testing-subscription-renewal
   * Месяц срока действия карты: 01/30
   * CVC: 123
 
-Для тестирования продления подписок следуйте инструкции https://docs.woocommerce.com/document/testing-subscription-renewal-payments/
-
-# TODO
-
-Добавить https://github.com/YahnisElsts/plugin-update-checker
+Для тестирования продления подписок следуйте [инструкции](https://docs.woocommerce.com/document/testing-subscription-renewal-payments/)

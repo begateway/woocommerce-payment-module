@@ -88,15 +88,16 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 
 = Uploading via WordPress dashboard =
 
-1. Navigate to the 'Add New' in the plugins dashboard
-2. Navigate to the 'Upload' area
-3. Select `wc-begateway-payment.zip` from your computer
-4. Click _Install Now_
-5. Activate the plugin in the Plugin dashboard
+1. Download [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
+2. Navigate to the 'Add New' in the plugins dashboard
+3. Navigate to the 'Upload' area
+4. Select `wc-begateway-payment.zip` from your computer
+5. Click _Install Now_
+6. Activate the plugin in the Plugin dashboard
 
 = Using FTP =
 
-1. Download `wc-begateway-payment.zip`
+1. Download [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
 2. Extract `wc-begateway-payment.zip` to a directory to your computer
 3. Upload the extracted directory `wc-begateway-payment` directory to the `/wp-content/plugins/` directory
 4. Activate the plugin in the Plugin dashboard
@@ -107,6 +108,12 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 2. Setup step 2 - Configure plugin.
 
 == Changelog ==
+
+= 2.0.8 =
+* fix readme links
+
+= 2.0.7 =
+* update beGateway PHP API library use
 
 = 2.0.6 =
 * add support of WordPress 6.2
