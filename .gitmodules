@@ -1,3 +1,0 @@
-[submodule "woocommerce-begateway/begateway-api-php"]
-	path = wc-begateway-payment/begateway-api-php
-	url = https://github.com/beGateway/begateway-api-php.git
