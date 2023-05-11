@@ -240,7 +240,9 @@ if ( ! defined( 'ABSPATH' ) )
           '--------------------------------------------'
         );
 
-        $this->process_ipn_request($webhook);
+        if (!$this->process_ipn_request($webhook)) {
+          wp_die( "beGateway Process Notify Failure" );
+        }
 
       } else {
         $this->log(
@@ -291,7 +293,12 @@ if ( ! defined( 'ABSPATH' ) )
         );
 
         if ($webhook->isSuccess()) {
-          $order->payment_complete($webhook->getUid());
+          if (!$order->payment_complete($webhook->getUid() ) ) {
+            $this->log(
+              sprintf('Error to change order #%d status from %s to paid', $order_id, $order->get_status() )
+            );
+            return false;
+          }
 
           if ( 'authorization' == $type ) {
             update_post_meta($order_id, '_begateway_transaction_captured', 'no' );
@@ -318,9 +325,15 @@ if ( ! defined( 'ABSPATH' ) )
           $this->save_transaction_id($webhook, $order);
 
         } elseif ($webhook->isFailed()) {
-          $order->update_status( 'failed', $webhook->getMessage() );
+          if (!$order->update_status( 'failed', $webhook->getMessage() ) ) {
+            $this->log(
+              sprintf('Error to change order #%d status from %s to failed', $order_id, $order->get_status())
+            );
+            return false;
+          }
         }
       }
+      return true;
     }//end function
 
 		/**
