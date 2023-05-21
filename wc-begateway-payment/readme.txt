@@ -3,7 +3,7 @@ Contributors: begateway
 Author URI: https://begateway.com
 Requires at least: 4.7
 Tested up to: 6.2
-Stable tag: 2.0.10
+Stable tag: 2.0.11
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 2. Setup step 2 - Configure plugin.
 
 == Changelog ==
+
+= 2.0.11 =
+* webhook with "failed" status doesn't change an order status in "processing"/"completed" statuses
 
 = 2.0.10 =
 * force to retry webhook if order status can not be changed to "processing" or "completed"

@@ -324,12 +324,14 @@ if ( ! defined( 'ABSPATH' ) )
 
           $this->save_transaction_id($webhook, $order);
 
-        } elseif ($webhook->isFailed()) {
-          if (!$order->update_status( 'failed', $webhook->getMessage() ) ) {
-            $this->log(
-              sprintf('Error to change order #%d status from %s to failed', $order_id, $order->get_status())
-            );
-            return false;
+        } elseif ( $webhook->isFailed() ) {
+          if ( ! $order->has_status( array( 'processing', 'completed' ) ) )  {
+            if ( ! $order->update_status( 'failed', $webhook->getMessage() ) ) {
+              $this->log(
+                sprintf('Error to change order #%d status from %s to failed', $order_id, $order->get_status())
+              );
+              return false;
+            }
           }
         }
       }
