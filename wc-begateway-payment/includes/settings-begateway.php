@@ -89,6 +89,14 @@ $settings = array(
     'default' => '99999999',
     'desc_tip'    => true
   ),
+  'save_payment_method' => array(
+    'title' => __( 'Save payment method', 'wc-begateway-payment' ),
+    'type' => 'checkbox',
+    'label' => __( 'Enable one-click payments', 'wc-begateway-payment' ),
+    'default' => 'no',
+    'description' =>  __( 'Save payment method details for one-click payments. Check with your payment provider if the feature is supported by it', 'wc-begateway-payment' ),
+    'desc_tip'    => true
+  ),
   'payment_valid' => array(
     'title' => __( 'Payment valid (minutes)', 'wc-begateway-payment' ),
     'type' => 'text',
