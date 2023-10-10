@@ -396,4 +396,14 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 			}
 		}
 	}
+
+	/**
+     * get values for additional_data.contract param
+     * @param null
+     * @return array
+    */
+    protected function get_contract_data()
+    {
+        return ['recurring', 'card_on_file'];
+    }
 }
