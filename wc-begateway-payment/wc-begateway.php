@@ -2,7 +2,7 @@
 /*
 Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 2.0.11
+Version: 2.0.2
 Author: BeGateway
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -85,7 +85,7 @@ class WC_BeGateway
 	* @return void
 	*/
   public function woocommerce_loaded() {
-    require_once( dirname( __FILE__ ) . '/begateway-api-php/lib/BeGateway.php' );
+    require_once( dirname( __FILE__ ) . '/begateway-api-php/BeGateway.php' );
     include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway.php' );
 
     if ($this->is_woocommerce_subscription_support_enabled()) {

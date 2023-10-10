@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) )
       }
 
       $this->log('Requesting token for order ' . $order->get_order_number());
-      $token->additional_data->setContract(['recurring', 'card_on_file']);
+      $token->additional_data->setContract($this->get_contract_data());
 
       $response = $token->submit();
 
@@ -586,6 +586,7 @@ if ( ! defined( 'ABSPATH' ) )
       \BeGateway\Settings::$checkoutBase = 'https://' . $this->settings['domain-checkout'];
       \BeGateway\Settings::$shopId = $this->settings['shop-id'];
       \BeGateway\Settings::$shopKey = $this->settings['secret-key'];
+      \BeGateway\Settings::$shopPubKey = $this->settings['public-key'];
     }
 
   	public function get_order_currency( $order ) {
@@ -754,5 +755,15 @@ if ( ! defined( 'ABSPATH' ) )
     protected function get_locale($order)
     {
         return get_post_meta($order->get_id(), '_begateway_transaction_language', true) ?: 'en';
+    }
+
+    /**
+     * get values for additional_data.contract param
+     * @param null
+     * @return array
+    */
+    protected function get_contract_data()
+    {
+        return [];
     }
   } //end of class
