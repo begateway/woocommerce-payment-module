@@ -85,7 +85,7 @@ class WC_BeGateway
 	* @return void
 	*/
   public function woocommerce_loaded() {
-    require_once( dirname( __FILE__ ) . '/begateway-api-php/BeGateway.php' );
+    require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
     include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-begateway.php' );
 
     if ($this->is_woocommerce_subscription_support_enabled()) {
