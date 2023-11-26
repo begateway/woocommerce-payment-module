@@ -1,0 +1,20 @@
+{
+    "name": "begateway/wc-begateway-payment",
+    "description": "BeGateway Payment Gateway for WooCommerce",
+    "keywords": [
+        "bepaid",
+        "begateway",
+        "payment processing",
+        "api"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "BeGateway",
+            "email": "admin@begateway.com"
+        }
+    ],
+    "require": {
+        "begateway/begateway-api-php": ">=5.1.0"
+    }
+}
