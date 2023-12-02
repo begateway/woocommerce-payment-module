@@ -2,7 +2,7 @@
 /*
 Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 2.0.25
+Version: 3.0.0
 Author: BeGateway
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -10,8 +10,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wc-begateway-payment
 Domain Path: /languages
 
-WC requires at least: 3.2.0
-WC tested up to: 7.1.1
+WC requires at least: 7.0.0
+WC tested up to: 8.3.1
 */
 
 if ( ! defined( 'ABSPATH' ) )
@@ -19,13 +19,20 @@ if ( ! defined( 'ABSPATH' ) )
     exit; // Exit if accessed directly
 }
 
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
+
 class WC_BeGateway
 {
+	public static $version = '3.0.0';
   function __construct()
   {
     $this->id = 'begateway';
 
+	add_action( 'before_woocommerce_init', array( $this, 'woocommerce_begateway_declare_hpos_compatibility') );
+
     add_action( 'woocommerce_loaded', array( $this, 'woocommerce_loaded' ), 40 );
+
+	add_action( 'woocommerce_blocks_loaded', array( $this, 'woocommerce_begateway_woocommerce_blocks_support' ) );
 
 	// Load translation files
 	add_action( 'init', __CLASS__ . '::load_plugin_textdomain', 3 );
@@ -62,11 +69,16 @@ class WC_BeGateway
       'ajax_begateway_refund'
     ) );
 
-		// add meta boxes
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
+	add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
 
     // Add scripts and styles for admin
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	
+	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array(
+		$this,
+		'woocommerce_begateway_plugin_links'
+	) );
+
   } // end __construct
 
   	/**
@@ -124,6 +136,59 @@ class WC_BeGateway
 		}
   }
 
+   /**
+  * Declare blocks support
+  *
+  * @param 
+  */
+  function woocommerce_begateway_woocommerce_blocks_support() {
+	
+	  if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+		  require_once dirname( __FILE__ ) . '/includes/blocks/class-wc-gateway-begateway-blocks-support.php';
+		  add_action(
+			  'woocommerce_blocks_payment_method_type_registration',
+			  function( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+				  $payment_method_registry->register( new WC_BeGateway_Blocks_Support );
+			  }
+		  );
+	  }
+  }
+
+     /**
+  * Add links to plugin description
+  *
+  * @param array $links
+  * @return array
+  */
+  	function woocommerce_begateway_plugin_links( $links ) {
+		
+  		$settings_url = add_query_arg(
+			array(
+				'page' => 'wc-settings',
+				'tab' => 'checkout',
+				'section' => 'wc_gateway_begateway',
+			),
+			admin_url( 'admin.php' )
+		);
+
+		$plugin_links = array(
+			'<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'Settings', 'wc-begateway-payment' ) . '</a>',
+			'<a href="https://wordpress.org/support/plugin/wc-begateway-payment/">' . esc_html__( 'Support', 'wc-begateway-payment' ) . '</a>',
+			'<a href="https://wordpress.org/plugins/wc-begateway-payment/#description">' . esc_html__( 'Docs', 'wc-begateway-payment' ) . '</a>',
+		);
+
+		return array_merge( $plugin_links, $links );
+	}
+
+	/**
+  * Declare HPOS support
+  *
+  */
+	function woocommerce_begateway_declare_hpos_compatibility() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
   /**
  * Allow processing/completed statuses for capture
  *
@@ -381,6 +446,34 @@ class WC_BeGateway
   {
 	return class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' );
   }
+
+  	/**
+	 * Plugin url.
+	 *
+	 * @return string
+	 */
+	public static function plugin_url() {
+		return untrailingslashit( plugins_url( '/', __FILE__ ) );
+	}
+
+	/**
+	 * Plugin url.
+	 *
+	 * @return string
+	 */
+	public static function plugin_abspath() {
+		return trailingslashit( plugin_dir_path( __FILE__ ) );
+	}
+
+	/**
+	 * Plugin version.
+	 *
+	 * @return string
+	 */
+	public static function plugin_version() {
+		return self::$version;
+	}
+
 } //end of class
 
 new WC_BeGateway();

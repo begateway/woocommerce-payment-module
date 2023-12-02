@@ -4,13 +4,6 @@ if ( ! defined( 'ABSPATH' ) )
     exit; // Exit if accessed directly
 }
 
-//require_once dirname(  __FILE__  ) . '/begateway-api-php/lib/BeGateway.php';
-// require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-// if (!class_exists('WC_Payment_Gateway')) {
-//   exit;
-// }
-
   class WC_Gateway_BeGateway extends WC_Payment_Gateway
   {
     const NO_REFUND  = [ 'erip' ];
@@ -148,7 +141,8 @@ if ( ! defined( 'ABSPATH' ) )
       } else {
       //now look to the result array for the token
         $payment_url=$response->getRedirectUrlScriptName();
-        update_post_meta( ltrim( $order->get_order_number(), '#' ), '_Token', $token );
+        $order->update_meta_data( ltrim( $order->get_order_number(), '#' ), '_Token', $token );
+        $order->save();
 
         $this->log('Token received, forwarding customer to: '.$payment_url);
 
@@ -301,15 +295,15 @@ if ( ! defined( 'ABSPATH' ) )
           }
 
           if ( 'authorization' == $type ) {
-            update_post_meta($order_id, '_begateway_transaction_captured', 'no' );
-            update_post_meta($order_id, '_begateway_transaction_captured_amount', 0 );
+            $order->update_meta_data( '_begateway_transaction_captured', 'no' );
+            $order->update_meta_data( '_begateway_transaction_captured_amount', 0 );
           } else {
-            update_post_meta($order_id, '_begateway_transaction_captured', 'yes' );
-            update_post_meta($order_id, '_begateway_transaction_captured_amount', $order->get_total() );
+            $order->update_meta_data( '_begateway_transaction_captured', 'yes' );
+            $order->update_meta_data( '_begateway_transaction_captured_amount', $order->get_total() );
           }
-          update_post_meta($order_id, '_begateway_transaction_refunded_amount', 0 );
-
-          update_post_meta($order_id, '_begateway_transaction_payment_method', $webhook->getPaymentMethod() );
+          $order->update_meta_data( '_begateway_transaction_refunded_amount', 0 );
+          $order->update_meta_data( '_begateway_transaction_payment_method', $webhook->getPaymentMethod() );
+          $order->save();
 
           if ($webhook->hasTransactionSection() && isset($webhook->getResponse()->transaction->language)) {
             $lang = $webhook->getResponse()->transaction->language;
@@ -349,7 +343,7 @@ if ( ! defined( 'ABSPATH' ) )
 				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'wc-begateway-payment' ) );
 			}
 			$transaction_uid = $this->get_transaction_id($order);
-			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
+			$captured = $order->get_meta( '_begateway_transaction_captured', true );
 
 			if ( ! $transaction_uid ) {
 				return new WP_Error( 'begateway_error', __( 'No transaction reference UID to capture' , 'wc-begateway-payment' ) );
@@ -371,8 +365,10 @@ if ( ! defined( 'ABSPATH' ) )
 
   			$this->log('Info: Capture was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
   			$this->save_transaction_id( $response, $order );
-  			update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
-  			update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
+
+        $order->update_meta_data( '_begateway_transaction_captured', 'yes' );
+        $order->update_meta_data( '_begateway_transaction_captured_amount', $amount );
+        $order->save();
         $order->payment_complete( $response->getUid() );
 
         return true;
@@ -398,7 +394,8 @@ if ( ! defined( 'ABSPATH' ) )
 				return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'wc-begateway-payment' ) );
 			}
 			$transaction_uid = $this->get_transaction_id($order);
-			$captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
+
+			$captured = $order->get_meta( '_begateway_transaction_captured', true );
 			if ( ! $transaction_uid ) {
 				return new WP_Error( 'begateway_error', __( 'No transaction reference UID to cancel' , 'wc-begateway-payment' ) );
 			}
@@ -414,7 +411,10 @@ if ( ! defined( 'ABSPATH' ) )
   			$order->add_order_note($note);
 
   			$this->log('Info: Void was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-  			update_post_meta( $order->get_id(), '_begateway_transaction_voided', 'yes' );
+
+        $order->update_meta_data( '_begateway_transaction_voided', 'yes' );
+        $order->save();
+
         return true;
       } else {
   			$order->add_order_note(
@@ -438,7 +438,8 @@ if ( ! defined( 'ABSPATH' ) )
         return new WP_Error( 'begateway_error', __( 'Invalid payment method' , 'wc-begateway-payment' ) );
       }
       $transaction_uid = $this->get_transaction_id($order);
-      $captured = get_post_meta( $order_id, '_begateway_transaction_captured', true );
+
+      $captured = $order->get_meta( '_begateway_transaction_captured', true );
       if ( ! $transaction_uid ) {
         return new WP_Error( 'begateway_error', __( 'No transaction reference UID to refund' , 'wc-begateway-payment' ) );
       }
@@ -457,11 +458,13 @@ if ( ! defined( 'ABSPATH' ) )
 
         $refund_amount = $order->get_meta( '_begateway_transaction_refunded_amount', true ) ?: 0;
         $refund_amount += $amount;
-        update_post_meta( $order->get_id(), '_begateway_transaction_refunded_amount', $refund_amount );
+        $order->update_meta_data( '_begateway_transaction_refunded_amount', $refund_amount );
 
         if ( $refund_amount >= $order->get_total() ) {
-          update_post_meta( $order->get_id(), '_begateway_transaction_refunded', 'yes' );
+          $order->update_meta_data( '_begateway_transaction_refunded', 'yes' );
         }
+
+        $order->save();
         return true;
 
       } else {
@@ -482,11 +485,13 @@ if ( ! defined( 'ABSPATH' ) )
   	 * @param WC_Order $order The order object related to the transaction.
   	 */
   	protected function save_transaction_id( $transaction, $order ) {
-  		update_post_meta( $order->get_id(), '_transaction_id', $transaction->getUid());
-  		update_post_meta( $order->get_id(), '_begateway_transaction_id', $transaction->getUid());
+      $order->update_meta_data( '_transaction_id', $transaction->getUid() );
+      $order->update_meta_data( '_begateway_transaction_id', $transaction->getUid() );
+      
       if ( method_exists($transaction, 'getPaymentMethod') ) {
-        update_post_meta( $order->get_id(), '_begateway_transaction_payment_method', $transaction->getPaymentMethod() );
+        $order->update_meta_data( '_begateway_transaction_payment_method', $transaction->getPaymentMethod() );
       }
+      $order->save();
   	}
 
     /**
@@ -496,8 +501,8 @@ if ( ! defined( 'ABSPATH' ) )
      * @return string uid of a transaction
      * 
   	 */
-  	public function get_transaction_id($order) {
-      return get_post_meta( $order->get_id(), '_begateway_transaction_id', true );
+  	public function get_transaction_id( $order ) {
+      return $order->get_meta( '_begateway_transaction_id', true );
   	}
 
     function child_transaction($type, $uid, $order_id, $amount, $reason = ''){
@@ -675,9 +680,10 @@ if ( ! defined( 'ABSPATH' ) )
   	 * @param WC_Order $order The order object related to the transaction.
   	 */
   	protected function save_card_id( $card, $order ) {
-  		update_post_meta( $order->get_id(), '_begateway_card_id', $card->token );
-  		update_post_meta( $order->get_id(), '_begateway_card_last_4', $card->last_4 );
-  		update_post_meta( $order->get_id(), '_begateway_card_brand', $card->brand != 'master' ? $card->brand : 'mastercard' );
+      $order->update_meta_data( '_begateway_card_id', $card->token );
+      $order->update_meta_data( '_begateway_card_last_4', $card->last_4 );
+      $order->update_meta_data( '_begateway_card_brand', $card->brand != 'master' ? $card->brand : 'mastercard' );
+      $order->save();
   	}
 
     /**
@@ -686,7 +692,7 @@ if ( ! defined( 'ABSPATH' ) )
     * @return mixed
     */
     protected function get_card_id( $order ) {
-      $card_id = get_post_meta( $order->get_id(), '_begateway_card_id', true );
+      $card_id = $order->get_meta( '_begateway_card_id', true );
       if ( $card_id ) {
         return $card_id;
       }
@@ -741,10 +747,10 @@ if ( ! defined( 'ABSPATH' ) )
      * @param WC_Order $order The order object related to the transaction.
      * @param string $lang Locale code
      */
-    protected function save_locale($locale, $order)
+    protected function save_locale( $locale, $order )
     {
-        $lang = get_post_meta($order->get_id(), '_begateway_transaction_language', true ) ?: $locale;
-        update_post_meta($order->get_id(), '_begateway_transaction_language', $lang);
+        $lang = $order->get_meta( '_begateway_transaction_language', true ) ?: $locale;
+        $order->get_meta( '_begateway_transaction_language', $lang );
     }
 
     /**
@@ -752,9 +758,9 @@ if ( ! defined( 'ABSPATH' ) )
      * @param WC_Order $order The order object related to the transaction.
      * @return string
      */
-    protected function get_locale($order)
+    protected function get_locale( $order )
     {
-        return get_post_meta($order->get_id(), '_begateway_transaction_language', true) ?: 'en';
+        return $order->get_meta( '_begateway_transaction_language', true) ?: 'en';
     }
 
     /**

@@ -119,14 +119,15 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$this->save_transaction_id( $result, $order );
 
 		$this->log( 'Info: Subscription payment was successful' . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__ );
-	  	update_post_meta( $order->get_id(), '_begateway_transaction_captured',
+		$order->update_meta_data( '_begateway_transaction_captured',
       		$this->settings['transaction_type'] == 'authorization' ? 'no' : 'yes'
     	);
 
     	if ( $this->settings['transaction_type'] != 'authorization' ) {
-  			update_post_meta( $order->get_id(), '_begateway_transaction_captured', 'yes' );
-  			update_post_meta( $order->get_id(), '_begateway_transaction_captured_amount', $amount );
+			$order->update_meta_data( '_begateway_transaction_captured', 'yes' );
+			$order->update_meta_data( '_begateway_transaction_captured_amount', $amount );
     	}
+		$order->save();
 
     	$order->payment_complete($result->getUid());
 	}
@@ -153,8 +154,12 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 * @return void
 	 */
 	public function update_failing_payment_method( $subscription, $renewal_order ) {
-		update_post_meta( $subscription->get_id(), '_begateway_transaction_id', get_post_meta( $renewal_order->get_id(), '_begateway_transaction_id', true ));
-		update_post_meta( $subscription->get_id(), '_begateway_card_id', get_post_meta( $renewal_order->get_id(), '_begateway_card_id', true ));
+		$transaction_id = $renewal_order->get_meta( '_begateway_transaction_id', true );
+		$card_id = $renewal_order->get_meta( '_begateway_card_id', true );
+
+		$subscription->update_meta_data( '_begateway_transaction_id', $transaction_id );
+		$subscription->update_meta_data( '_begateway_card_id', $card_id );
+		$subscription->save();
 	
 		parent::save_locale(parent::get_locale($renewal_order), $subscription);
 	}
@@ -165,8 +170,9 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 	 * @param WC_Order $resubscribe_order The order created for the customer to resubscribe to the old expired/cancelled subscription.
 	 */
 	public function delete_resubscribe_meta( $resubscribe_order ) {
-		delete_post_meta( $resubscribe_order->get_id(), '_begateway_transaction_id' );
-		delete_post_meta( $resubscribe_order->get_id(), '_begateway_card_id' );
+		$resubscribe_order->detele_meta_data( '_begateway_transaction_id' );
+		$resubscribe_order->detele_meta_data( '_begateway_card_id' );
+		$resubscribe_order->save();
 	}
 
 	/**
@@ -206,11 +212,11 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 		$payment_meta[ $this->id ] = array(
 			'post_meta' => array(
 				'_begateway_transaction_id' => array(
-					'value' => get_post_meta( $subscription->get_id(), '_begateway_transaction_id', true ),
+					'value' => $subscription->get_meta( '_begateway_transaction_id', true ),
 					'label' => 'A previous transaction ID',
 				),
 				'begateway_card_id'         => array(
-					'value' => get_post_meta( $subscription->get_id(), '_begateway_card_id', true ),
+					'value' => $subscription->get_meta( '_begateway_card_id', true ),
 					'label' => 'A previous card ID',
 				),
 			),
@@ -387,7 +393,8 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway {
 
 				if ($pm && isset($webhook->getResponse()->transaction->$pm->token)) 
 				{
-					update_post_meta($order_id, '_begateway_transaction_payment_method', $pm);
+					$order->update_meta_data( '_begateway_transaction_payment_method', $pm);
+					$order->save();
 					$this->save_card_id( $webhook->getResponse()->transaction->$pm, $order);
 				}
 				if (isset($webhook->getResponse()->transaction->language)) {
