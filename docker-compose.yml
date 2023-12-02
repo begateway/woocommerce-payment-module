@@ -6,7 +6,8 @@ services:
       context: .
       args:
         version: "6.4.1"
-        wc_version: "7.9.0"
+        wc_version: "8.3.1"
+    user: "33:33"
     ports:
       - 80:80
     depends_on:
