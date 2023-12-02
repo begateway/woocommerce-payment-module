@@ -53,9 +53,8 @@ Now the module is configured.
 
 Tested and developed with:
 
-  * Wordress 4.9.5/5.2.4
-  * WooCommerce 3.2.x/4.0.x
-  * PHP 5.x/7.x
+  * WooCommerce 7.x/8.x
+  * PHP 7.x/8.x
 
 ## Testing
 
@@ -136,9 +135,8 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 
 Разработанно и протестированно с:
 
-  * Wordress 4.x/5.x/6.x
-  * WooCommerce 3.x/4.x
-  * PHP 5.x/7.x
+  * WooCommerce 7.x/8.x
+  * PHP 7.x/8.x
 
 ## Тестирование
 
