@@ -19,7 +19,7 @@
 		"build": "wp-scripts build && npm run i18n:build",
 		"i18n": "npm run i18n:build",
 		"i18n:build": "npm run i18n:pot && ./bin/build_i18n.sh",
-		"i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/create-a-ticket/\", \"language-team\":\"LANGUAGE <EMAIL@ADDRESS>\"}' . languages/wc-begateway-payment.pot",
+		"i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://wordpress.org/support/plugin/wc-begateway-payment/\", \"Language-Team\":\"admin@ecomcharge.com\", \"Last-Translator\":\"admin@ecomcharge.com\"}' . languages/wc-begateway-payment.pot",
 		"i18n:json": "$(which wp) i18n make-json languages --no-purge",
 		"check-engines": "wp-scripts check-engines"
 	}

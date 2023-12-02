@@ -1,29 +1,34 @@
-#, fuzzy
+# Copyright (C) 2023 BeGateway
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
-"POT-Creation-Date: 2023-10-10 11:57+0300\n"
-"PO-Revision-Date: 2022-09-03 10:51+0300\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: BeGateway Payment Gateway for WooCommerce 3.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-begateway-payment/\n"
+"Last-Translator: admin@ecomcharge.com\n"
+"Language-Team: admin@ecomcharge.com\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.4\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: wc-begateway.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"POT-Creation-Date: 2023-12-02T13:26:43+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.9.0\n"
+"X-Domain: wc-begateway-payment\n"
+
+#. Plugin Name of the plugin
+msgid "BeGateway Payment Gateway for WooCommerce"
+msgstr ""
+
+#. Description of the plugin
+msgid "Extends WooCommerce with BeGateway payment gateway."
+msgstr ""
+
+#. Author of the plugin
+#: includes/class-wc-gateway-begateway.php:50
+msgid "BeGateway"
+msgstr ""
 
 #. translators: %1$s is replaced with the error message
 #: includes/class-wc-gateway-begateway-subscriptions.php:71
-#, php-format
 msgid "Error to process subscription payment with the error: %s"
 msgstr ""
 
@@ -40,81 +45,66 @@ msgid "Successfully processed subscription payment"
 msgstr ""
 
 #: includes/class-wc-gateway-begateway-subscriptions.php:116
-#: includes/class-wc-gateway-begateway.php:368
-#: includes/class-wc-gateway-begateway.php:412
-#: includes/class-wc-gateway-begateway.php:452
+#: includes/class-wc-gateway-begateway.php:362
+#: includes/class-wc-gateway-begateway.php:409
+#: includes/class-wc-gateway-begateway.php:453
 msgid "Transaction UID: "
 msgstr ""
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:187
-#, php-format
+#: includes/class-wc-gateway-begateway-subscriptions.php:193
 msgid "Via %s card ending in %s (%s)"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:359
-msgid "Subscription payment method update of order"
-msgstr ""
-
-#. Author of the plugin/theme
-#: includes/class-wc-gateway-begateway.php:57
-msgid "BeGateway"
-msgstr ""
-
-#: includes/class-wc-gateway-begateway.php:58
+#: includes/class-wc-gateway-begateway.php:51
 msgid "BeGateway payment gateway solution"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:146
+#: includes/class-wc-gateway-begateway.php:139
 msgid "Error to get a payment token"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:175
+#: includes/class-wc-gateway-begateway.php:169
 msgid "Make payment"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:176
+#: includes/class-wc-gateway-begateway.php:170
 msgid "Cancel order"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:184
-#: includes/class-wc-gateway-begateway.php:544
-msgid "Order"
-msgstr ""
-
-#: includes/class-wc-gateway-begateway.php:349
-#: includes/class-wc-gateway-begateway.php:398
+#: includes/class-wc-gateway-begateway.php:343
+#: includes/class-wc-gateway-begateway.php:394
 #: includes/class-wc-gateway-begateway.php:438
 msgid "Invalid payment method"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:355
+#: includes/class-wc-gateway-begateway.php:349
 msgid "No transaction reference UID to capture"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:359
+#: includes/class-wc-gateway-begateway.php:353
 msgid "Transaction is already captured"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:367
+#: includes/class-wc-gateway-begateway.php:361
 msgid "Capture completed"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:381
-#: includes/class-wc-gateway-begateway.php:386
+#: includes/class-wc-gateway-begateway.php:377
+#: includes/class-wc-gateway-begateway.php:382
 msgid "Error to capture transaction"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:382
+#: includes/class-wc-gateway-begateway.php:378
 #: includes/class-wc-gateway-begateway.php:422
-#: includes/class-wc-gateway-begateway.php:470
+#: includes/class-wc-gateway-begateway.php:473
 msgid "Error: "
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:403
+#: includes/class-wc-gateway-begateway.php:400
 msgid "No transaction reference UID to cancel"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:411
+#: includes/class-wc-gateway-begateway.php:408
 msgid "Void complete"
 msgstr ""
 
@@ -123,28 +113,24 @@ msgstr ""
 msgid "Error to void transaction"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:443
+#: includes/class-wc-gateway-begateway.php:444
 msgid "No transaction reference UID to refund"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:448
+#: includes/class-wc-gateway-begateway.php:449
 msgid "Refunded from Woocommerce"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:451
+#: includes/class-wc-gateway-begateway.php:452
 msgid "Refund completed"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:469
-#: includes/class-wc-gateway-begateway.php:474
+#: includes/class-wc-gateway-begateway.php:472
+#: includes/class-wc-gateway-begateway.php:477
 msgid "Error to refund transaction"
 msgstr ""
 
-#: includes/class-wc-gateway-begateway.php:575
-msgid "Issue: Creating the transaction failed!"
-msgstr ""
-
-#: includes/class-wc-gateway-begateway.php:577
+#: includes/class-wc-gateway-begateway.php:582
 msgid "There was a problem creating the transaction!"
 msgstr ""
 
@@ -325,7 +311,6 @@ msgid "You are about to CAPTURE this payment"
 msgstr ""
 
 #: templates/admin/metabox-order.php:78
-#, php-format
 msgid "Capture full amount (%s)"
 msgstr ""
 
@@ -373,46 +358,46 @@ msgstr ""
 msgid "Card number"
 msgstr ""
 
-#: templates/admin/metabox-order.php:165
-msgid "xxxx "
-msgstr ""
-
 #: templates/admin/metabox-order.php:168
 msgid "Card brand"
 msgstr ""
 
-#: wc-begateway.php:163
+#: wc-begateway.php:175
+msgid "Settings"
+msgstr ""
+
+#: wc-begateway.php:176
+msgid "Support"
+msgstr ""
+
+#: wc-begateway.php:177
+msgid "Docs"
+msgstr ""
+
+#: wc-begateway.php:228
 msgid "Transactions"
 msgstr ""
 
-#: wc-begateway.php:248
+#: wc-begateway.php:313
 msgid "Please wait..."
 msgstr ""
 
-#: wc-begateway.php:277
+#: wc-begateway.php:342
 msgid "Capture success"
 msgstr ""
 
-#: wc-begateway.php:300
+#: wc-begateway.php:365
 msgid "Order already cancelled"
 msgstr ""
 
-#: wc-begateway.php:314
+#: wc-begateway.php:379
 msgid "Cancel success"
 msgstr ""
 
-#: wc-begateway.php:343
+#: wc-begateway.php:408
 msgid "Refund success"
 msgstr ""
 
-#: wc-begateway.php:374
+#: wc-begateway.php:439
 msgid "Capture partly success"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "BeGateway Payment Gateway for WooCommerce"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Extends WooCommerce with BeGateway payment gateway."
 msgstr ""

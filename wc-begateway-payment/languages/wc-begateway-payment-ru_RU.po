@@ -1,8 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
-"POT-Creation-Date: 2023-10-10 11:57+0300\n"
-"PO-Revision-Date: 2023-10-10 11:58+0300\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-begateway-"
+"payment/\n"
+"POT-Creation-Date: 2023-12-02T13:26:43+00:00\n"
+"PO-Revision-Date: 2023-12-02 16:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -11,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wc-begateway.php\n"
@@ -22,9 +24,21 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
+#. Plugin Name of the plugin
+msgid "BeGateway Payment Gateway for WooCommerce"
+msgstr "Платёжный шлюз WooCommerce BeGateway"
+
+#. Description of the plugin
+msgid "Extends WooCommerce with BeGateway payment gateway."
+msgstr "Расширение WooCommerce для платежного шлюза BeGateway"
+
+#. Author of the plugin
+#: includes/class-wc-gateway-begateway.php:50
+msgid "BeGateway"
+msgstr "BeGateway"
+
 #. translators: %1$s is replaced with the error message
 #: includes/class-wc-gateway-begateway-subscriptions.php:71
-#, php-format
 msgid "Error to process subscription payment with the error: %s"
 msgstr "Ошибка обработки оплаты подписки с ошибкой: %s"
 
@@ -41,81 +55,66 @@ msgid "Successfully processed subscription payment"
 msgstr "Оплата подписки успешно обработана"
 
 #: includes/class-wc-gateway-begateway-subscriptions.php:116
-#: includes/class-wc-gateway-begateway.php:368
-#: includes/class-wc-gateway-begateway.php:412
-#: includes/class-wc-gateway-begateway.php:452
+#: includes/class-wc-gateway-begateway.php:362
+#: includes/class-wc-gateway-begateway.php:409
+#: includes/class-wc-gateway-begateway.php:453
 msgid "Transaction UID: "
 msgstr "Номер операции:"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:187
-#, php-format
+#: includes/class-wc-gateway-begateway-subscriptions.php:193
 msgid "Via %s card ending in %s (%s)"
 msgstr "С карты %s, заканчивающейся на %s (%s)"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:359
-msgid "Subscription payment method update of order"
-msgstr "Обновление способа оплаты подписки по заказу"
-
-#. Author of the plugin/theme
-#: includes/class-wc-gateway-begateway.php:57
-msgid "BeGateway"
-msgstr "BeGateway"
-
-#: includes/class-wc-gateway-begateway.php:58
+#: includes/class-wc-gateway-begateway.php:51
 msgid "BeGateway payment gateway solution"
 msgstr "Платёжный шлюз WooCommerce BeGateway"
 
-#: includes/class-wc-gateway-begateway.php:146
+#: includes/class-wc-gateway-begateway.php:139
 msgid "Error to get a payment token"
 msgstr "Ошибка получения токена платежа"
 
-#: includes/class-wc-gateway-begateway.php:175
+#: includes/class-wc-gateway-begateway.php:169
 msgid "Make payment"
 msgstr "Оплатить"
 
-#: includes/class-wc-gateway-begateway.php:176
+#: includes/class-wc-gateway-begateway.php:170
 msgid "Cancel order"
 msgstr "Отменить заказ"
 
-#: includes/class-wc-gateway-begateway.php:184
-#: includes/class-wc-gateway-begateway.php:544
-msgid "Order"
-msgstr "Заказ"
-
-#: includes/class-wc-gateway-begateway.php:349
-#: includes/class-wc-gateway-begateway.php:398
+#: includes/class-wc-gateway-begateway.php:343
+#: includes/class-wc-gateway-begateway.php:394
 #: includes/class-wc-gateway-begateway.php:438
 msgid "Invalid payment method"
 msgstr "Некорректный способ оплаты"
 
-#: includes/class-wc-gateway-begateway.php:355
+#: includes/class-wc-gateway-begateway.php:349
 msgid "No transaction reference UID to capture"
 msgstr "Номер операции авторизации не найден"
 
-#: includes/class-wc-gateway-begateway.php:359
+#: includes/class-wc-gateway-begateway.php:353
 msgid "Transaction is already captured"
 msgstr "Деньги по операции уже списаны"
 
-#: includes/class-wc-gateway-begateway.php:367
+#: includes/class-wc-gateway-begateway.php:361
 msgid "Capture completed"
 msgstr "Списание успешно"
 
-#: includes/class-wc-gateway-begateway.php:381
-#: includes/class-wc-gateway-begateway.php:386
+#: includes/class-wc-gateway-begateway.php:377
+#: includes/class-wc-gateway-begateway.php:382
 msgid "Error to capture transaction"
 msgstr "Ошибка списания денег по операции"
 
-#: includes/class-wc-gateway-begateway.php:382
+#: includes/class-wc-gateway-begateway.php:378
 #: includes/class-wc-gateway-begateway.php:422
-#: includes/class-wc-gateway-begateway.php:470
+#: includes/class-wc-gateway-begateway.php:473
 msgid "Error: "
 msgstr "Ошибка:"
 
-#: includes/class-wc-gateway-begateway.php:403
+#: includes/class-wc-gateway-begateway.php:400
 msgid "No transaction reference UID to cancel"
 msgstr "Номер операции авторизации не найден"
 
-#: includes/class-wc-gateway-begateway.php:411
+#: includes/class-wc-gateway-begateway.php:408
 msgid "Void complete"
 msgstr "Отмена успешна"
 
@@ -124,28 +123,24 @@ msgstr "Отмена успешна"
 msgid "Error to void transaction"
 msgstr "Ошибка отмены операции"
 
-#: includes/class-wc-gateway-begateway.php:443
+#: includes/class-wc-gateway-begateway.php:444
 msgid "No transaction reference UID to refund"
 msgstr "Номер операции оплаты не найден"
 
-#: includes/class-wc-gateway-begateway.php:448
+#: includes/class-wc-gateway-begateway.php:449
 msgid "Refunded from Woocommerce"
 msgstr "Возвращено из WooCommerce"
 
-#: includes/class-wc-gateway-begateway.php:451
+#: includes/class-wc-gateway-begateway.php:452
 msgid "Refund completed"
 msgstr "Возврат успешен"
 
-#: includes/class-wc-gateway-begateway.php:469
-#: includes/class-wc-gateway-begateway.php:474
+#: includes/class-wc-gateway-begateway.php:472
+#: includes/class-wc-gateway-begateway.php:477
 msgid "Error to refund transaction"
 msgstr "Ошибка возврата денег по операции"
 
-#: includes/class-wc-gateway-begateway.php:575
-msgid "Issue: Creating the transaction failed!"
-msgstr "Ошибка создания операции"
-
-#: includes/class-wc-gateway-begateway.php:577
+#: includes/class-wc-gateway-begateway.php:582
 msgid "There was a problem creating the transaction!"
 msgstr "Возникла проблема с созданием транзакции!"
 
@@ -326,7 +321,6 @@ msgid "You are about to CAPTURE this payment"
 msgstr "Вы осуществляете списание данной операции"
 
 #: templates/admin/metabox-order.php:78
-#, php-format
 msgid "Capture full amount (%s)"
 msgstr "Списать всю сумму (%s)"
 
@@ -374,49 +368,58 @@ msgstr "Номер операции:"
 msgid "Card number"
 msgstr "Номер карты"
 
-#: templates/admin/metabox-order.php:165
-msgid "xxxx "
-msgstr ""
-
 #: templates/admin/metabox-order.php:168
 msgid "Card brand"
 msgstr "Тип карты"
 
-#: wc-begateway.php:163
+#: wc-begateway.php:175
+msgid "Settings"
+msgstr "Настройки"
+
+#: wc-begateway.php:176
+msgid "Support"
+msgstr "Помощь"
+
+#: wc-begateway.php:177
+msgid "Docs"
+msgstr "Документация"
+
+#: wc-begateway.php:228
 msgid "Transactions"
 msgstr "Операции"
 
-#: wc-begateway.php:248
+#: wc-begateway.php:313
 msgid "Please wait..."
 msgstr "Пожалуйста, подождите..."
 
-#: wc-begateway.php:277
+#: wc-begateway.php:342
 msgid "Capture success"
 msgstr "Списание успешно"
 
-#: wc-begateway.php:300
+#: wc-begateway.php:365
 msgid "Order already cancelled"
 msgstr "Заказ уже отменен"
 
-#: wc-begateway.php:314
+#: wc-begateway.php:379
 msgid "Cancel success"
 msgstr "Отмена успешна"
 
-#: wc-begateway.php:343
+#: wc-begateway.php:408
 msgid "Refund success"
 msgstr "Возврат успешен"
 
-#: wc-begateway.php:374
+#: wc-begateway.php:439
 msgid "Capture partly success"
 msgstr "Списание успешно"
 
-#. Plugin Name of the plugin/theme
-msgid "BeGateway Payment Gateway for WooCommerce"
-msgstr "Платёжный шлюз WooCommerce BeGateway"
+#~ msgid "Subscription payment method update of order"
+#~ msgstr "Обновление способа оплаты подписки по заказу"
 
-#. Description of the plugin/theme
-msgid "Extends WooCommerce with BeGateway payment gateway."
-msgstr "Расширение WooCommerce для платежного шлюза BeGateway"
+#~ msgid "Order"
+#~ msgstr "Заказ"
+
+#~ msgid "Issue: Creating the transaction failed!"
+#~ msgstr "Ошибка создания операции"
 
 #~ msgid "WooCommerce BeGateway Payment Gateway"
 #~ msgstr "Платежный шлюз WooCommerce BeGateway"
