@@ -2,8 +2,8 @@
 Contributors: begateway
 Author URI: https://begateway.com
 Requires at least: 4.7
-Tested up to: 6.2
-Stable tag: 2.0.25
+Tested up to: 6.4
+Stable tag: 3.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,13 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 2. Setup step 2 - Configure plugin.
 
 == Changelog ==
+
+= 3.0.0 =
+* add Blocks support
+* add support of High-Performance Order Storage for WooCommerce
+
+= 2.0.25 =
+* use composer to add beGateway PHP API library to the plugin
 
 = 2.0.11 =
 * webhook with "failed" status doesn't change an order status in "processing"/"completed" statuses
