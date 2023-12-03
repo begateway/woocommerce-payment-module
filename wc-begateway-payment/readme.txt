@@ -110,11 +110,11 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 == Changelog ==
 
 = 3.0.0 =
-* add Blocks support
-* add support of High-Performance Order Storage for WooCommerce
+* Add - Blocks support
+* Add - Support of High-Performance Order Storage of WooCommerce
 
 = 2.0.25 =
-* use composer to add beGateway PHP API library to the plugin
+* Add - Use composer to add beGateway PHP API library to the plugin
 
 = 2.0.11 =
 * webhook with "failed" status doesn't change an order status in "processing"/"completed" statuses
