@@ -2,7 +2,7 @@
 /*
 Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 3.0.0
+Version: 3.1.2
 Author: BeGateway
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,7 @@ use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableControlle
 
 class WC_BeGateway
 {
-    public static $version = '3.0.0';
+    public static $version = '3.1.2';
     function __construct()
     {
         $this->id = 'begateway';
