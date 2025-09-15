@@ -65,10 +65,8 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
 
         // Order number & Cart Contents for description field - may change
         $item_loop = 0;
-        //grab the langauge
-
-        $lang = explode('_', get_locale());
-        $lang = $lang[0];
+        //grab the language
+        $lang = $this->getLanguage();
 
         $token = new \BeGateway\GetPaymentToken;
         $this->_init();
@@ -804,5 +802,100 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
     protected function get_contract_data()
     {
         return [];
+    }
+
+    /**
+     * Mapping wordpress languages to begateway locales
+     * @return string
+     */
+    function getLanguage()
+    {
+        // Old version
+        // $lang = explode('_', get_locale());
+        // return $lang[0];
+
+        switch (get_locale()) {
+            case 'az':
+            case 'azb':
+                return 'az';
+            case 'bel':
+                return 'be';
+            case 'bn_BD':
+            case 'bn_IN':
+                return 'bn';
+            case 'da_DK':
+                return 'da';
+            case 'de_AT':
+            case 'de_CH':
+            case 'de_CH_informal':
+            case 'de_DE':
+            case 'de_DE_formal':
+                return 'de';
+            case 'en_AU':
+            case 'en_CA':
+            case 'en_GB':
+            case 'en_NZ':
+            case 'en_US':
+            case 'en_ZA':
+                return 'en';
+            case 'ca':
+            case 'es_AR':
+            case 'es_CL':
+            case 'es_CO':
+            case 'es_CR':
+            case 'es_ES':
+            case 'es_GT':
+            case 'es_MX':
+            case 'es_PE':
+            case 'es_UY':
+            case 'es_VE':
+                return 'es';
+            case 'et':
+                return 'et';
+            case 'fi':
+                return 'fi';
+            case 'fr_BE':
+            case 'fr_CA':
+            case 'fr_FR':
+                return 'fr';
+            case 'it_IT':
+                return 'it';
+            case 'ja':
+                return 'ja';
+            case 'ka_GE':
+                return 'ka';
+            case 'kk':
+                return 'kk';
+            case 'lv':
+                return 'lv';
+            case 'nn_NO':
+                return 'no';
+            case 'pl_PL':
+                return 'pl';
+            case 'pt_AO':
+            case 'pt_BR':
+                return 'pt';
+            case 'pt_PT':
+            case 'pt_PT_ao90':
+                return 'pt-PT';
+            case 'ro_RO':
+                return 'ro';
+            case 'ru_RU':
+                return 'ru';
+            case 'sr_RS':
+                return 'sr';
+            case 'sv_SE':
+                return 'sv';
+            case 'tr_TR':
+                return 'tr';
+            case 'uk':
+                return 'uk';
+            case 'zh_CN':
+            case 'zh_HK':
+            case 'zh_TW':
+                return 'zh';
+            default:
+                return 'en';
+        }
     }
 }
