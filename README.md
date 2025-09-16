@@ -7,7 +7,7 @@ It supports [WooCommerce™ Subscriptions](https://woocommerce.com/products/wooc
 ## Installation
 
   * Backup your webstore and database
-  * [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
+  * Download [the latest payment plugin](https://github.com/begateway/woocommerce-payment-module/releases)
   * Start up the administrative panel for Wordpress (www.yourshop.com/wp-admin/)
   * Choose _Plugins → Add New_
   * Upload the payment module archive via **Upload Plugin**.
@@ -80,7 +80,7 @@ Use the following test card to make failed test payment:
 
 Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renewal-payments/) to test subscription renewal payments.
 
-# Модуль оплаты WooCommerce beGateway Payment Gateway
+# Плагин оплаты WooCommerce beGateway Payment Gateway
 
 Модуль поддерживает работу с плагином подписок [WooCommerce™ Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 
@@ -89,7 +89,7 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 ## Установка
 
   * Создайте резервную копию вашего магазина и базы данных
-  * Загрузите [wc-begateway-payment.zip](https://github.com/begateway/woocommerce-payment-module/raw/master/wc-begateway-payment.zip)
+  * Загрузите [последнию версию плагина оплаты](https://github.com/begateway/woocommerce-payment-module/releases)
   * Зайдите в панель администратора Wordpress (www.yourshop.com/wp-admin/)
   * Выберите _Плагины → Добавить новый_
   * Загрузите модуль через **Добавить новый**
