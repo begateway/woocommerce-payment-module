@@ -15,7 +15,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'wc-begateway-payment.zip'
-        exclusions: '*.git* docker* LICENSE* Makefile DEVELOPMENT* composer* README* *.zip /*docker/* .wordpress-org/* .distignore Dockerfile /doc/* '
+        exclusions: '*.git* docker* LICENSE* Makefile DEVELOPMENT* composer* README* *.zip /*docker/* /*.wordpress-org/* .distignore Dockerfile /doc/* '
 
     - name: Upload Release
       uses: ncipollo/release-action@v1.12.0
