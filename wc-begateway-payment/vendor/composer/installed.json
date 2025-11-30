@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "begateway/begateway-api-php",
-            "version": "5.1.0",
-            "version_normalized": "5.1.0.0",
+            "version": "5.1.1",
+            "version_normalized": "5.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/begateway/begateway-api-php.git",
-                "reference": "a58aa709182710f8eab692333131995e76beb808"
+                "reference": "0238d5d45ee78cd02470fc22b75def380da345e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/begateway/begateway-api-php/zipball/a58aa709182710f8eab692333131995e76beb808",
-                "reference": "a58aa709182710f8eab692333131995e76beb808",
+                "url": "https://api.github.com/repos/begateway/begateway-api-php/zipball/0238d5d45ee78cd02470fc22b75def380da345e3",
+                "reference": "0238d5d45ee78cd02470fc22b75def380da345e3",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "phpunit/phpunit": "^9.5",
                 "symfony/var-dumper": "^6.1"
             },
-            "time": "2022-08-29T08:27:36+00:00",
+            "time": "2024-05-21T18:22:07+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -54,7 +54,7 @@
             ],
             "support": {
                 "issues": "https://github.com/begateway/begateway-api-php/issues",
-                "source": "https://github.com/begateway/begateway-api-php/tree/5.1.0"
+                "source": "https://github.com/begateway/begateway-api-php/tree/5.1.1"
             },
             "install-path": "../begateway/begateway-api-php"
         }
