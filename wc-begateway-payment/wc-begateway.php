@@ -2,7 +2,7 @@
 /*
 Plugin Name: BeGateway Payment Gateway for WooCommerce
 Description: Extends WooCommerce with BeGateway payment gateway.
-Version: 3.1.2
+Version: 3.1.4
 Author: BeGateway
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,7 +11,7 @@ Text Domain: wc-begateway-payment
 Domain Path: /languages
 
 WC requires at least: 7.0.0
-WC tested up to: 8.3.1
+WC tested up to: 8.3.9
 */
 
 if (!defined('ABSPATH')) {
@@ -22,16 +22,44 @@ use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableControlle
 
 class WC_BeGateway
 {
-    public static $version = '3.1.2';
+    public static $version = '3.1.4';
+    public $id;
+
+    private static $instance;
+
+    /**
+     * Returns the *Singleton* instance of this class.
+     *
+     * @return WC_BeGateway The *Singleton* instance.
+     */
+    public static function get_instance() {
+        if ( null === self::$instance ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * The main  gateway instance. Use get_main_gateway() to access it.
+     *
+     * @var null|WC_Gateway_BeGateway_Subscriptions|WC_Gateway_BeGateway
+     */
+    protected $begateway_gateway = null;
+
     function __construct()
     {
+        require_once(dirname(__FILE__) . '/vendor/autoload.php');
+        include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway-utils.php');
+        include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway.php');
+        include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway-subscriptions.php');
+
         $this->id = 'begateway';
 
         add_action('before_woocommerce_init', array($this, 'woocommerce_begateway_declare_hpos_compatibility'));
 
-        add_action('woocommerce_loaded', array($this, 'woocommerce_loaded'), 40);
+        add_filter('woocommerce_payment_gateways', [ $this, 'add_gateways' ]);
 
-        add_action('woocommerce_blocks_loaded', array($this, 'woocommerce_begateway_woocommerce_blocks_support'));
+        add_action('woocommerce_blocks_loaded', [ __CLASS__ , 'woocommerce_begateway_woocommerce_blocks_support']);
 
         // Load translation files
         add_action('init', __CLASS__ . '::load_plugin_textdomain', 3);
@@ -99,69 +127,36 @@ class WC_BeGateway
     }
 
     /**
-     * WooCommerce Loaded: load classes
-     * @return void
+     * Add the gateways to WooCommerce.
+     *
+     * @since 1.0.0
+     * @version 5.6.0
      */
-    public function woocommerce_loaded()
-    {
-        require_once(dirname(__FILE__) . '/vendor/autoload.php');
-        include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway-utils.php');
-        include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway.php');
+    public function add_gateways( $methods ) {
+        $main_gateway = $this->get_main_gateway();
+        $methods[]    = $main_gateway;
+
+        return $methods;
+    }
+
+    /**
+     * Returns the main payment gateway class instance.
+     *
+     * @return WC_BeGateway
+    */
+    public function get_main_gateway(): WC_Gateway_BeGateway_Subscriptions|WC_Gateway_BeGateway {
+        if ( ! is_null( $this->begateway_gateway ) ) {
+            return $this->begateway_gateway;
+        }
 
         if ($this->is_woocommerce_subscription_support_enabled()) {
             // register gateway with subscription support
-            include_once(dirname(__FILE__) . '/includes/class-wc-gateway-begateway-subscriptions.php');
-            WC_BeGateway::register_gateway('WC_Gateway_BeGateway_Subscriptions');
+            $this->begateway_gateway = new WC_Gateway_BeGateway_Subscriptions();
         } else {
-            WC_BeGateway::register_gateway('WC_Gateway_BeGateway');
-        }
-    }
-
-    /**
-     * Register payment gateway
-     *
-     * @param string $class_name
-     */
-    public static function register_gateway($class_name)
-    {
-        global $gateways;
-
-        if (!$gateways) {
-            $gateways = array();
+            $this->begateway_gateway = new WC_Gateway_BeGateway();
         }
 
-        if (!isset($gateways[$class_name])) {
-            // Initialize instance
-            if ($gateway = new $class_name) {
-                $gateways[] = $class_name;
-
-                // Register gateway instance
-                add_filter('woocommerce_payment_gateways', function ($methods) use ($gateway) {
-                    $methods[] = $gateway;
-
-                    return $methods;
-                });
-            }
-        }
-    }
-
-    /**
-     * Declare blocks support
-     *
-     * @param 
-     */
-    function woocommerce_begateway_woocommerce_blocks_support()
-    {
-
-        if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
-            require_once dirname(__FILE__) . '/includes/blocks/class-wc-gateway-begateway-blocks-support.php';
-            add_action(
-                'woocommerce_blocks_payment_method_type_registration',
-                function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
-                    $payment_method_registry->register(new WC_BeGateway_Blocks_Support);
-                }
-            );
-        }
+        return $this->begateway_gateway;
     }
 
     /**
@@ -504,6 +499,66 @@ class WC_BeGateway
         return self::$version;
     }
 
+    /**
+     * Declare blocks support
+     *
+     * @param 
+     */
+    public static function  woocommerce_begateway_woocommerce_blocks_support()
+    {
+        if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
+            require_once dirname(__FILE__) . '/includes/blocks/class-wc-gateway-begateway-blocks-support.php';
+            add_action(
+                'woocommerce_blocks_payment_method_type_registration',
+                function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
+                    $payment_method_registry->register(new WC_BeGateway_Blocks_Support);
+                }
+            );
+        }
+    } 
+
 } //end of class
 
-new WC_BeGateway();
+/**
+ * WooCommerce fallback notice.
+ *
+ * @since 4.1.2
+ */
+function woocommerce_begateway_missing_wc_notice() {
+	$install_url = wp_nonce_url(
+		add_query_arg(
+			[
+				'action' => 'install-plugin',
+				'plugin' => 'woocommerce',
+			],
+			admin_url( 'update.php' )
+		),
+		'install-plugin_woocommerce'
+	);
+
+	$admin_notice_content = sprintf(
+		// translators: 1$-2$: opening and closing <strong> tags, 3$-4$: link tags, takes to woocommerce plugin on wp.org, 5$-6$: opening and closing link tags, leads to plugins.php in admin
+		esc_html__( '%1$sWooCommerce BeGateway Gateway is inactive.%2$s The %3$sWooCommerce plugin%4$s must be active for the BeGateway Gateway to work. Please %5$sinstall & activate WooCommerce &raquo;%6$s', 'wc-begateway-payment' ),
+		'<strong>',
+		'</strong>',
+		'<a href="http://wordpress.org/extend/plugins/woocommerce/">',
+		'</a>',
+		'<a href="' . esc_url( $install_url ) . '">',
+		'</a>'
+	);
+
+	echo '<div class="error">';
+	echo '<p>' . wp_kses_post( $admin_notice_content ) . '</p>';
+	echo '</div>';
+}
+
+function woocommerce_begateway_init() {
+	if ( ! class_exists( 'WooCommerce' ) ) {
+		add_action( 'admin_notices', 'woocommerce_begateway_missing_wc_notice' );
+		return;
+	}
+
+	WC_BeGateway::get_instance();
+}
+
+add_action( 'plugins_loaded', 'woocommerce_begateway_init' );

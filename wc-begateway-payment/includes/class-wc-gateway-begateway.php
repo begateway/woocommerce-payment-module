@@ -11,6 +11,8 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
 
     protected $log;
 
+    protected $notify_url;
+
     /**
      * constructor
      *
@@ -32,7 +34,6 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
 
         //callback URL - hooks into the WP/WooCommerce API and initiates the payment class for the bank server so it can access all functions
         $this->notify_url = WC()->api_request_url('WC_Gateway_BeGateway', is_ssl());
-        $this->notify_url = str_replace('0.0.0.0', 'webhook.begateway.com:8443', $this->notify_url);
 
         add_action('woocommerce_receipt_begateway', array($this, 'receipt_page'));
         add_action('woocommerce_api_wc_gateway_begateway', array($this, 'validate_ipn_request'));

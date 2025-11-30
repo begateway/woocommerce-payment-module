@@ -1,12 +1,10 @@
-version: '3.7'
-
 services:
   woocommerce: &woocommerce
     build: &build
       context: .
       args:
-        version: "6.4.1"
-        wc_version: "8.3.1"
+        version: "6.8.3"
+        wc_version: "8.9.3"
     user: "33:33"
     ports:
       - 80:80
@@ -23,9 +21,10 @@ services:
       WORDPRESS_DB_PASSWORD: root
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DEBUG: 1
 
   mysql:
-    image: mysql:5.6
+    image: mariadb:12
     networks:
       - default
     volumes:
