@@ -75,7 +75,9 @@ if ($gateway->get_transaction_id($order)):
                        data-nonce="<?php echo wp_create_nonce( 'begateway' ); ?>" 
                        data-order-id="<?php esc_attr_e( $order_id ); ?>" 
                        data-confirm="<?php _e( 'You are about to CAPTURE this payment', 'wc-begateway-payment' ); ?>">
-                       <?php esc_html( sprintf( __( 'Capture full amount (%s)', 'wc-begateway-payment' ), wc_price( $order_data['authorized_amount'] ) ) ); ?>
+                       <?php 
+                       # translators: %s - hint to let to know how much of order amount can be captured
+                       esc_html( sprintf( __( 'Capture full amount (%s)', 'wc-begateway-payment' ), wc_price( $order_data['authorized_amount'] ) ) ); ?>
                     </a>
                 </li>
             <?php endif; ?>

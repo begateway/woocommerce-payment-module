@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce BeGateway Payment Gateway\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-begateway-"
-"payment/\n"
-"POT-Creation-Date: 2023-12-02T13:26:43+00:00\n"
-"PO-Revision-Date: 2023-12-02 16:31+0300\n"
+"payment\n"
+"POT-Creation-Date: 2025-11-30T18:32:30+00:00\n"
+"PO-Revision-Date: 2025-12-01 10:07+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: be_BY\n"
@@ -13,134 +13,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wc-begateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
 #. Plugin Name of the plugin
+#: wc-begateway.php
 msgid "BeGateway Payment Gateway for WooCommerce"
 msgstr "WooCommerce BeGateway Payment Gateway"
 
 #. Description of the plugin
+#: wc-begateway.php
 msgid "Extends WooCommerce with BeGateway payment gateway."
 msgstr "Пашырае WooCommerce плацёжным шлюзам BeGateway."
 
 #. Author of the plugin
-#: includes/class-wc-gateway-begateway.php:50
+#: wc-begateway.php includes/class-wc-gateway-begateway.php:51
 msgid "BeGateway"
 msgstr "BeGateway"
 
 #. translators: %1$s is replaced with the error message
-#: includes/class-wc-gateway-begateway-subscriptions.php:71
+#: includes/class-wc-gateway-begateway-subscriptions.php:74
+#, php-format
 msgid "Error to process subscription payment with the error: %s"
 msgstr "Памылка апрацоўкі аплаты падпіскі: %s"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:94
+#: includes/class-wc-gateway-begateway-subscriptions.php:98
 msgid "Card token not found"
 msgstr "Токен карты не знойдзены"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:108
+#: includes/class-wc-gateway-begateway-subscriptions.php:112
 msgid "Error to process subscription payment"
 msgstr "Памылка апрацоўкі аплаты падпіскі"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:115
+#: includes/class-wc-gateway-begateway-subscriptions.php:119
 msgid "Successfully processed subscription payment"
 msgstr "Аплата падпіскі апрацавана"
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:116
-#: includes/class-wc-gateway-begateway.php:362
-#: includes/class-wc-gateway-begateway.php:409
-#: includes/class-wc-gateway-begateway.php:453
+#: includes/class-wc-gateway-begateway-subscriptions.php:120
+#: includes/class-wc-gateway-begateway.php:373
+#: includes/class-wc-gateway-begateway.php:421
+#: includes/class-wc-gateway-begateway.php:466
 msgid "Transaction UID: "
 msgstr "Нумар аперацыі: "
 
-#: includes/class-wc-gateway-begateway-subscriptions.php:193
-msgid "Via %s card ending in %s (%s)"
+#. translators: %1 - card brand, %2 - last 4 digits of card, %3 - payment method (e.g. begateway)
+#: includes/class-wc-gateway-begateway-subscriptions.php:203
+#, php-format
+msgid "Via %1$s card ending in %2$s (%3$s)"
 msgstr "Праз карту %s, якая заканчваецца на %s (%s)"
 
-#: includes/class-wc-gateway-begateway.php:51
+#: includes/class-wc-gateway-begateway.php:52
 msgid "BeGateway payment gateway solution"
 msgstr "Рашэнне шлюза аплаты BeGateway"
 
-#: includes/class-wc-gateway-begateway.php:139
+#: includes/class-wc-gateway-begateway.php:142
 msgid "Error to get a payment token"
 msgstr "Памылка ў атрыманні токена аплаты"
 
-#: includes/class-wc-gateway-begateway.php:169
+#: includes/class-wc-gateway-begateway.php:173
 msgid "Make payment"
 msgstr "Аплаціць"
 
-#: includes/class-wc-gateway-begateway.php:170
+#: includes/class-wc-gateway-begateway.php:174
 msgid "Cancel order"
 msgstr "Адмяніць замову"
 
-#: includes/class-wc-gateway-begateway.php:343
-#: includes/class-wc-gateway-begateway.php:394
-#: includes/class-wc-gateway-begateway.php:438
+#: includes/class-wc-gateway-begateway.php:354
+#: includes/class-wc-gateway-begateway.php:406
+#: includes/class-wc-gateway-begateway.php:451
 msgid "Invalid payment method"
 msgstr "Несапраўдны спосаб аплаты"
 
-#: includes/class-wc-gateway-begateway.php:349
+#: includes/class-wc-gateway-begateway.php:360
 msgid "No transaction reference UID to capture"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для спісання"
 
-#: includes/class-wc-gateway-begateway.php:353
+#: includes/class-wc-gateway-begateway.php:364
 msgid "Transaction is already captured"
 msgstr "Аплата ўжо спісана"
 
-#: includes/class-wc-gateway-begateway.php:361
+#: includes/class-wc-gateway-begateway.php:372
 msgid "Capture completed"
 msgstr "Спісанне паспяхова"
 
-#: includes/class-wc-gateway-begateway.php:377
-#: includes/class-wc-gateway-begateway.php:382
+#: includes/class-wc-gateway-begateway.php:388
+#: includes/class-wc-gateway-begateway.php:393
 msgid "Error to capture transaction"
 msgstr "Памылка спісання транзакцыі"
 
-#: includes/class-wc-gateway-begateway.php:378
-#: includes/class-wc-gateway-begateway.php:422
-#: includes/class-wc-gateway-begateway.php:473
+#: includes/class-wc-gateway-begateway.php:389
+#: includes/class-wc-gateway-begateway.php:434
+#: includes/class-wc-gateway-begateway.php:486
 msgid "Error: "
 msgstr "Памылка: "
 
-#: includes/class-wc-gateway-begateway.php:400
+#: includes/class-wc-gateway-begateway.php:412
 msgid "No transaction reference UID to cancel"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для адмены"
 
-#: includes/class-wc-gateway-begateway.php:408
+#: includes/class-wc-gateway-begateway.php:420
 msgid "Void complete"
 msgstr "Адмена паспяхова"
 
-#: includes/class-wc-gateway-begateway.php:421
-#: includes/class-wc-gateway-begateway.php:426
+#: includes/class-wc-gateway-begateway.php:433
+#: includes/class-wc-gateway-begateway.php:438
 msgid "Error to void transaction"
 msgstr "Памылка анулявання аперацыі"
 
-#: includes/class-wc-gateway-begateway.php:444
+#: includes/class-wc-gateway-begateway.php:457
 msgid "No transaction reference UID to refund"
 msgstr "Няма даведачнага ідэнтыфікатара аперацыі для вяртання сродкаў"
 
-#: includes/class-wc-gateway-begateway.php:449
+#: includes/class-wc-gateway-begateway.php:462
 msgid "Refunded from Woocommerce"
 msgstr "Вернута з WooCommerce"
 
-#: includes/class-wc-gateway-begateway.php:452
+#: includes/class-wc-gateway-begateway.php:465
 msgid "Refund completed"
 msgstr "Вяртанне завершана"
 
-#: includes/class-wc-gateway-begateway.php:472
-#: includes/class-wc-gateway-begateway.php:477
+#: includes/class-wc-gateway-begateway.php:485
+#: includes/class-wc-gateway-begateway.php:490
 msgid "Error to refund transaction"
 msgstr "Памылка вяртання сродкаў па аперацыі"
 
-#: includes/class-wc-gateway-begateway.php:582
+#: includes/class-wc-gateway-begateway.php:599
 msgid "There was a problem creating the transaction!"
 msgstr "Узнікла праблема са стварэннем транзакцыі!"
 
@@ -321,97 +325,111 @@ msgstr "Усяго вернута"
 msgid "You are about to CAPTURE this payment"
 msgstr "Вы збіраецеся спісаць гэтую суму"
 
-#: templates/admin/metabox-order.php:78
+#. translators: %s - hint to let to know how much of order amount can be captured
+#: templates/admin/metabox-order.php:80
+#, php-format
 msgid "Capture full amount (%s)"
 msgstr "Спісаць поўную суму (%s)"
 
-#: templates/admin/metabox-order.php:88
+#: templates/admin/metabox-order.php:90
 msgid "You are about to CANCEL this payment"
 msgstr "Вы збіраецеся адмяніць гэты плацеж"
 
-#: templates/admin/metabox-order.php:91
+#: templates/admin/metabox-order.php:93
 msgid "Cancel transaction"
 msgstr "Адмена аперацыі"
 
-#: templates/admin/metabox-order.php:101
+#: templates/admin/metabox-order.php:103
 msgid "Partly capture"
 msgstr "Спісанне сродкаў"
 
-#: templates/admin/metabox-order.php:105
+#: templates/admin/metabox-order.php:107
 msgid "Capture amount"
 msgstr "Сума спісання"
 
-#: templates/admin/metabox-order.php:115
+#: templates/admin/metabox-order.php:117
 msgid "Capture specified amount"
 msgstr "Спісаць сродкі"
 
-#: templates/admin/metabox-order.php:124
+#: templates/admin/metabox-order.php:126
 msgid "Partly refund"
 msgstr "Зварот сродкаў"
 
-#: templates/admin/metabox-order.php:128
+#: templates/admin/metabox-order.php:130
 msgid "Refund amount"
 msgstr "Сума звароту"
 
-#: templates/admin/metabox-order.php:141
+#: templates/admin/metabox-order.php:143
 msgid "Refund specified amount"
 msgstr "Вярнуць сродкі"
 
-#: templates/admin/metabox-order.php:149
+#: templates/admin/metabox-order.php:151
 msgid "Payment method"
 msgstr "Метад аплаты"
 
-#: templates/admin/metabox-order.php:155
+#: templates/admin/metabox-order.php:157
 msgid "Transaction UID"
 msgstr "Нумар аперацыі"
 
-#: templates/admin/metabox-order.php:162
+#: templates/admin/metabox-order.php:164
 msgid "Card number"
 msgstr "Нумар карты"
 
-#: templates/admin/metabox-order.php:168
+#: templates/admin/metabox-order.php:170
 msgid "Card brand"
 msgstr "Тып карткі"
 
-#: wc-begateway.php:175
+#: wc-begateway.php:181
 msgid "Settings"
 msgstr "Налады"
 
-#: wc-begateway.php:176
+#: wc-begateway.php:182
 msgid "Support"
 msgstr "Падтрымка"
 
-#: wc-begateway.php:177
+#: wc-begateway.php:183
 msgid "Docs"
 msgstr "Дакументацыя"
 
-#: wc-begateway.php:228
+#: wc-begateway.php:247
 msgid "Transactions"
 msgstr "Аперацыі"
 
-#: wc-begateway.php:313
+#: wc-begateway.php:333
 msgid "Please wait..."
 msgstr "Калі ласка, пачакайце…"
 
-#: wc-begateway.php:342
+#: wc-begateway.php:362
 msgid "Capture success"
 msgstr "Спісанне сродкаў паспяхова"
 
-#: wc-begateway.php:365
+#: wc-begateway.php:385
 msgid "Order already cancelled"
 msgstr "Заказ ужо адменены"
 
-#: wc-begateway.php:379
+#: wc-begateway.php:399
 msgid "Cancel success"
 msgstr "Адмена аперацыі паспяхова"
 
-#: wc-begateway.php:408
+#: wc-begateway.php:429
 msgid "Refund success"
 msgstr "Вяртанне сродкаў паспяхова"
 
-#: wc-begateway.php:439
+#: wc-begateway.php:461
 msgid "Capture partly success"
 msgstr "Спісанне паспяхова"
+
+#. translators: 1$-2$: opening and closing <strong> tags, 3$-4$: link tags, takes to woocommerce plugin on wp.org, 5$-6$: opening and closing link tags, leads to plugins.php in admin
+#: wc-begateway.php:541
+#, php-format
+msgid ""
+"%1$sWooCommerce BeGateway Gateway is inactive.%2$s The %3$sWooCommerce "
+"plugin%4$s must be active for the BeGateway Gateway to work. Please "
+"%5$sinstall & activate WooCommerce &raquo;%6$s"
+msgstr ""
+"%1$sШлюз WooCommerce BeGateway неактыўны.%2$s Плагін %3$sWooCommerce%4$s "
+"павінен быць актыўны для працы шлюза BeGateway. Калі ласка, %5$sусталюйце "
+"і актывуйце WooCommerce &raquo;%6$s"
 
 #~ msgid "Subscription payment method update of order"
 #~ msgstr "Абнаўленне спосабу аплаты падпіскі заказа"

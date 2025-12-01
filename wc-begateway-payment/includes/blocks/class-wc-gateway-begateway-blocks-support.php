@@ -27,11 +27,14 @@ final class WC_BeGateway_Blocks_Support extends AbstractPaymentMethodType {
 	 * @return boolean
 	 */
 	public function is_active() {
-		$payment_gateways_class   = WC()->payment_gateways();
-		$payment_gateways         = $payment_gateways_class->payment_gateways();
+        $payment_gateways_class   = WC()->payment_gateways();
+        $payment_gateways         = $payment_gateways_class->payment_gateways();
 
-		return $payment_gateways['begateway']->is_available();
-	}
+        if ( isset( $payment_gateways['begateway'] ) ) {
+            return $payment_gateways['begateway']->is_available();
+        }
+        return false;
+    }
 
 	/**
 	 * Returns an array of scripts/handles to be registered for this payment method.
