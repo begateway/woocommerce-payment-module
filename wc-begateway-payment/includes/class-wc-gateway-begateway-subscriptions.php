@@ -199,7 +199,8 @@ class WC_Gateway_BeGateway_Subscriptions extends WC_Gateway_BeGateway
         }
 
         $payment_method_to_display = sprintf(
-            __('Via %s card ending in %s (%s)', 'wc-begateway-payment'),
+            // translators: %1 - card brand, %2 - last 4 digits of card, %3 - payment method (e.g. begateway)
+            __('Via %1$s card ending in %2$s (%3$s)', 'wc-begateway-payment'),
             ucfirst($subscription->get_meta('_begateway_card_brand', true)),
             $subscription->get_meta('_begateway_card_last_4', true),
             ucfirst($this->title)

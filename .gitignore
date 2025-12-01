@@ -25,3 +25,5 @@ docker/src/languages/plugins/woocommerce-begateway-ru_RU.po
 node_modules
 docker/src/woocommerce-subscriptions-main-5.7.0.zip
 docker/src/woocommerce-subscriptions-4.7.0.zip
+docker/src/languages
+*.po~
