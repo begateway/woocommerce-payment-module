@@ -3,8 +3,8 @@ services:
     build: &build
       context: .
       args:
-        version: "6.8.3"
-        wc_version: "8.9.3"
+        version: "6.9.4"
+        wc_version: "10.6.2"
     user: "33:33"
     ports:
       - 80:80

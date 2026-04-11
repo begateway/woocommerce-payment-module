@@ -2,7 +2,7 @@ ARG version
 FROM wordpress:${version}
 
 ARG wc_version
-ARG NODE_MAJOR=16
+ARG NODE_MAJOR=20
 
 RUN apt-get clean && apt-get update
 RUN apt-get install -y --no-install-recommends unzip wget ca-certificates curl gnupg
