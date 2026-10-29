@@ -61,8 +61,21 @@ The root `wc-begateway-payment.zip` was rebuilt from the current plugin source
 (the previous committed ZIP still contained version 2.0.11). The new archive
 contains the patched 3.1.5 source, no obsolete SDK tree or test fixtures. All 80
 archive files were compared byte-for-byte with source. This ZIP was installed
-and activated on the local test site, then all 14 checks were rerun successfully
+and activated on the local test site, then all 15 checks were rerun successfully
 against that installed copy (HPOS enabled).
+
+## Refund validation localization
+
+`Invalid refund amount.` uses the plugin text domain (`wc-begateway-payment`),
+with bundled translations in both PO sources and compiled MO/PHP catalogs:
+
+- `ru_RU`: `Некорректная сумма возврата.`
+- `be_BY`: `Няправільная сума вяртання.`
+
+The localization regression case (WordPress 6.5+) executes both refund validation
+branches for each locale, explicitly loading each compiled format. No gateway
+requests are made. It failed before the translation change and passes afterward;
+the refund suite now contains 13 cases, plus 2 SDK transport cases.
 
 ## Scope and limitations
 

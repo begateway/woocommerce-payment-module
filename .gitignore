@@ -28,3 +28,4 @@ docker/src/woocommerce-subscriptions-4.7.0.zip
 docker/src/languages
 *.po~
 .omc
+.nvmrc

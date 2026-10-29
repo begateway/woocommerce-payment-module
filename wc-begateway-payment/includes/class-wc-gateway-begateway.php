@@ -471,7 +471,7 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
         }
 
         if (!is_numeric($amount) || !is_finite((float) $amount)) {
-            return new WP_Error('begateway_error', __('Invalid refund amount.', 'woocommerce'));
+            return new WP_Error('begateway_error', __('Invalid refund amount.', 'wc-begateway-payment'));
         }
 
         // Use gateway totals: WooCommerce has already saved the pending refund
@@ -486,7 +486,7 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
 
         if ($refund_cents <= 0 || $refund_cents > $captured_cents - $refunded_cents ||
             $order->get_meta('_begateway_transaction_voided', true) === 'yes') {
-            return new WP_Error('begateway_error', __('Invalid refund amount.', 'woocommerce'));
+            return new WP_Error('begateway_error', __('Invalid refund amount.', 'wc-begateway-payment'));
         }
 
         $this->log("Info: Starting to refund {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__);

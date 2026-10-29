@@ -123,6 +123,11 @@ msgstr ""
 msgid "No transaction reference UID to refund"
 msgstr ""
 
+#: includes/class-wc-gateway-begateway.php:474
+#: includes/class-wc-gateway-begateway.php:489
+msgid "Invalid refund amount."
+msgstr ""
+
 #: includes/class-wc-gateway-begateway.php:462
 msgid "Refunded from Woocommerce"
 msgstr ""

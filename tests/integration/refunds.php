@@ -148,6 +148,34 @@ $tests = array(
         begateway_assert($gateway->process_refund($order->get_id(), 6) === true, 'Captured amount refund failed');
         begateway_assert(wc_get_order($order->get_id())->get_meta('_begateway_transaction_refunded') === 'yes', 'Partial capture not fully refunded');
     },
+    'RU/BE validation errors load from bundled MO and PHP catalogs' => function ($gateway, $order) {
+        $domain = 'wc-begateway-payment';
+        $controller = WP_Translation_Controller::get_instance();
+        $original_locale = $controller->get_locale();
+        $languages = dirname((new ReflectionClass('WC_Gateway_BeGateway'))->getFileName(), 2) . '/languages/';
+        try {
+            foreach (array('ru_RU' => 'Некорректная сумма возврата.', 'be_BY' => 'Няправільная сума вяртання.') as $locale => $expected) {
+                foreach (array('mo', 'php') as $format) {
+                    $preferred_format = static function () use ($format) { return $format; };
+                    add_filter('translation_file_format', $preferred_format);
+                    try {
+                        unload_textdomain($domain, true);
+                        begateway_assert(load_textdomain($domain, $languages . $domain . '-' . $locale . '.mo', $locale), 'Cannot load ' . $locale . ' ' . $format);
+                        foreach (array('invalid', 11) as $amount) {
+                            $result = $gateway->process_refund($order->get_id(), $amount);
+                            begateway_assert(is_wp_error($result) && $result->get_error_message() === $expected, 'Untranslated validation error for ' . $locale . ' ' . $format);
+                        }
+                    } finally {
+                        remove_filter('translation_file_format', $preferred_format);
+                    }
+                }
+            }
+            begateway_assert(!$gateway->requests, 'Invalid amount reached API');
+        } finally {
+            unload_textdomain($domain, true);
+            $controller->set_locale($original_locale);
+        }
+    },
     'custom panel and native refund share remaining gateway balance' => function ($gateway, $order) {
         begateway_assert($gateway->refund_payment($order->get_id(), 4) === true, 'Panel refund failed');
         begateway_assert(is_wp_error($gateway->process_refund($order->get_id(), 7)), 'Mixed paths allowed over-refund');
