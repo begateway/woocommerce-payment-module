@@ -3,7 +3,7 @@ Contributors: begateway
 Author URI: https://begateway.com
 Requires at least: 4.7
 Tested up to: 6.4
-Stable tag: 3.1.4
+Stable tag: 3.1.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,11 @@ Use [the guide](https://docs.woocommerce.com/document/testing-subscription-renew
 2. Setup step 2 - Configure plugin.
 
 == Changelog ==
+
+= 3.1.5 =
+* Fix - Support refunds through the standard WooCommerce refund API
+* Fix - Validate captured refund balance and preserve gateway error details
+* Fix - Use order currency for capture, cancellation and refund amounts
 
 = 3.1.4 =
 * Fix - Load the plugin using WC hooks

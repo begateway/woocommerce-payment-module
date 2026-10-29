@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 WooCommerce payment gateway plugin for BeGateway payment processor. Supports card payments (Visa/Mastercard), Halva installment cards, and ERIP (Belarusian electronic invoicing). Optionally supports WooCommerce Subscriptions for recurring payments via card tokenization.
 
-**Current version:** 3.1.4 (defined in both `wc-begateway-payment/wc-begateway.php` header and `WC_BeGateway::$version`)
+**Current version:** 3.1.5 (defined in both `wc-begateway-payment/wc-begateway.php` header and `WC_BeGateway::$version`)
 
 ## Build & Package
 

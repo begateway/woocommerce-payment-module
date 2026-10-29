@@ -440,26 +440,58 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
     }
 
     /**
+     * Process refunds requested through the standard WooCommerce refund API.
+     * WooCommerce creates and rolls back its own refund record.
+     *
+     * @return bool|WP_Error
+     */
+    public function process_refund($order_id, $amount = null, $reason = '')
+    {
+        return $this->refund_payment($order_id, $amount, $reason);
+    }
+
+    /**
      * Refund payment
      *
      * @param int $order_id
      */
-    public function refund_payment($order_id, $amount)
+    public function refund_payment($order_id, $amount, $reason = '')
     {
         $order = wc_get_order($order_id);
-        if ($this->id != $order->get_payment_method()) {
+        if (!$order) {
+            return new WP_Error('begateway_error', __('Invalid order.', 'woocommerce'));
+        }
+        if ($this->id != $order->get_payment_method() || !$this->can_payment_method_refund($order)) {
             return new WP_Error('begateway_error', __('Invalid payment method', 'wc-begateway-payment'));
         }
         $transaction_uid = $this->get_transaction_id($order);
 
-        $captured = $order->get_meta('_begateway_transaction_captured', true);
         if (!$transaction_uid) {
             return new WP_Error('begateway_error', __('No transaction reference UID to refund', 'wc-begateway-payment'));
         }
 
+        if (!is_numeric($amount) || !is_finite((float) $amount)) {
+            return new WP_Error('begateway_error', __('Invalid refund amount.', 'wc-begateway-payment'));
+        }
+
+        // Use gateway totals: WooCommerce has already saved the pending refund
+        // before calling process_refund(), and panel refunds have no WC record.
+        $money = new \BeGateway\Money(0, $this->get_order_currency($order));
+        $money->setAmount($amount);
+        $refund_cents = $money->getCents();
+        $money->setAmount($order->get_meta('_begateway_transaction_captured_amount', true) ?: 0);
+        $captured_cents = $money->getCents();
+        $money->setAmount($order->get_meta('_begateway_transaction_refunded_amount', true) ?: 0);
+        $refunded_cents = $money->getCents();
+
+        if ($refund_cents <= 0 || $refund_cents > $captured_cents - $refunded_cents ||
+            $order->get_meta('_begateway_transaction_voided', true) === 'yes') {
+            return new WP_Error('begateway_error', __('Invalid refund amount.', 'wc-begateway-payment'));
+        }
+
         $this->log("Info: Starting to refund {$transaction_uid} of {$order_id}" . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__);
 
-        $response = $this->child_transaction('refund', $transaction_uid, $order_id, $amount, __('Refunded from Woocommerce', 'wc-begateway-payment'));
+        $response = $this->child_transaction('refund', $transaction_uid, $order_id, $amount, $reason ?: __('Refunded from Woocommerce', 'wc-begateway-payment'));
 
         if ($response->isSuccess()) {
             $note = __('Refund completed', 'wc-begateway-payment') . PHP_EOL .
@@ -473,7 +505,7 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
             $refund_amount += $amount;
             $order->update_meta_data('_begateway_transaction_refunded_amount', $refund_amount);
 
-            if ($refund_amount >= $order->get_total()) {
+            if ($refund_cents + $refunded_cents >= $captured_cents) {
                 $order->update_meta_data('_begateway_transaction_refunded', 'yes');
             }
 
@@ -487,7 +519,7 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
             );
             $this->log("Issue: Refund has failed there has been an issue with the transaction." . $response->getMessage() . PHP_EOL . ' -- ' . __FILE__ . ' - Line:' . __LINE__);
 
-            return new WP_Error('begateway_error', __('Error to refund transaction', 'wc-begateway-payment'));
+            return new WP_Error('begateway_error', __('Error to refund transaction', 'wc-begateway-payment') . ': ' . wc_clean($response->getMessage()));
         }
     }
 
@@ -528,7 +560,7 @@ class WC_Gateway_BeGateway extends WC_Payment_Gateway
         $klass = '\\BeGateway\\' . ucfirst($type) . 'Operation';
         $transaction = new $klass();
         $transaction->setParentUid($uid);
-        $transaction->money->setCurrency(get_woocommerce_currency());
+        $transaction->money->setCurrency($this->get_order_currency($order));
         $transaction->money->setAmount($amount);
         if (!empty($reason)) {
             $transaction->setReason($reason);

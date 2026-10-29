@@ -120,7 +120,7 @@ if ($gateway->get_transaction_id($order)):
                 <li style='font-size: xx-small'>&nbsp;</li>
             <?php endif; ?>
 
-        <?php $can_refund = $gateway->can_payment_method_capture( $order ); ?>
+        <?php $can_refund = $gateway->can_payment_method_refund( $order ); ?>
             <?php if ( $order_data['settled_amount'] > $order_data['refunded_amount'] && ! in_array( $order_data['state'], array( 'cancelled', 'created') ) && !$order_is_cancelled && $can_refund): ?>
                 <li class="begateway-admin-section-li-header">
                     <?php _e( 'Partly refund', 'wc-begateway-payment' ); ?>
